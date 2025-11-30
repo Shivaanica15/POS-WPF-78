@@ -149,7 +149,7 @@
             this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Column1.HeaderText = "#";
             this.Column1.Name = "Column1";
-            this.Column1.Width = 38;
+            this.Column1.Width = 37;
             // 
             // Column2
             // 
@@ -157,14 +157,14 @@
             this.Column2.HeaderText = "ID";
             this.Column2.Name = "Column2";
             this.Column2.Visible = false;
-            this.Column2.Width = 46;
+            this.Column2.Width = 45;
             // 
             // Column9
             // 
             this.Column9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Column9.HeaderText = "INVOICE #";
             this.Column9.Name = "Column9";
-            this.Column9.Width = 94;
+            this.Column9.Width = 93;
             // 
             // Column8
             // 
@@ -182,28 +182,27 @@
             this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Column4.HeaderText = "PRICE";
             this.Column4.Name = "Column4";
-            this.Column4.Width = 71;
+            this.Column4.Width = 70;
             // 
             // Column5
             // 
             this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Column5.HeaderText = "QTY";
             this.Column5.Name = "Column5";
-            this.Column5.Width = 59;
+            this.Column5.Width = 58;
             // 
             // Column7
             // 
             this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Column7.HeaderText = "DISCOUNT";
             this.Column7.Name = "Column7";
-            this.Column7.Width = 101;
             // 
             // Column6
             // 
             this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Column6.HeaderText = "TOTAL";
             this.Column6.Name = "Column6";
-            this.Column6.Width = 75;
+            this.Column6.Width = 74;
             // 
             // colCancel
             // 
@@ -218,7 +217,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 65);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 16);
+            this.label2.Size = new System.Drawing.Size(87, 16);
             this.label2.TabIndex = 5;
             this.label2.Text = "Filter By Date";
             // 
@@ -245,7 +244,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(258, 65);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(25, 16);
+            this.label3.Size = new System.Drawing.Size(24, 16);
             this.label3.TabIndex = 5;
             this.label3.Text = "To";
             // 
