@@ -41,7 +41,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.btnSearchProducts = new System.Windows.Forms.Button();
             this.txtContactPerson = new System.Windows.Forms.TextBox();
             this.txtstockinby = new System.Windows.Forms.TextBox();
             this.txtrefno = new System.Windows.Forms.TextBox();
@@ -173,7 +173,7 @@
             this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.btnSave);
             this.tabPage1.Controls.Add(this.linkLabel2);
-            this.tabPage1.Controls.Add(this.linkLabel1);
+            this.tabPage1.Controls.Add(this.btnSearchProducts);
             this.tabPage1.Controls.Add(this.stgrids);
             this.tabPage1.Controls.Add(this.txtAddresss);
             this.tabPage1.Controls.Add(this.txtContactPerson);
@@ -248,18 +248,19 @@
             this.linkLabel2.Text = "[ GENERATE ]";
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
-            // linkLabel1
+            // btnSearchProducts
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
-            this.linkLabel1.LinkColor = System.Drawing.SystemColors.GrayText;
-            this.linkLabel1.Location = new System.Drawing.Point(102, 116);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(333, 29);
-            this.linkLabel1.TabIndex = 3;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "//SEARCH ALL PRODUCTS //";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked_1);
+            this.btnSearchProducts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
+            this.btnSearchProducts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearchProducts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnSearchProducts.ForeColor = System.Drawing.Color.White;
+            this.btnSearchProducts.Location = new System.Drawing.Point(102, 110);
+            this.btnSearchProducts.Name = "btnSearchProducts";
+            this.btnSearchProducts.Size = new System.Drawing.Size(333, 40);
+            this.btnSearchProducts.TabIndex = 3;
+            this.btnSearchProducts.Text = "SEARCH ALL PRODUCTS";
+            this.btnSearchProducts.UseVisualStyleBackColor = false;
+            this.btnSearchProducts.Click += new System.EventHandler(this.btnSearchProducts_Click);
             // 
             // txtContactPerson
             // 
@@ -671,7 +672,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        public System.Windows.Forms.Button btnSearchProducts;
         public System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.DateTimePicker date1;
         private System.Windows.Forms.Label label5;
