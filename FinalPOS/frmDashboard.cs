@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms.DataVisualization.Charting;
 namespace FinalPOS
 {
     public partial class frmDashboard : Form
     {
-        SqlConnection cn;
-        SqlCommand cm;
+        MySqlConnection cn;
+        MySqlCommand cm;
         DBConnection db = new DBConnection();
         public frmDashboard()
         {
             InitializeComponent();
-            cn = new SqlConnection();
+            cn = new MySqlConnection();
             cn.ConnectionString = db.MyConnection();
             LoadChart();
         }
@@ -37,7 +37,7 @@ namespace FinalPOS
         public void LoadChart()
         {
             cn.Open();
-            SqlDataAdapter da = new SqlDataAdapter("select Year(sdate) as year, isnull(sum(total),0.0) as total from tbl_Cart where status like 'Sold' group by Year(sdate) ",cn);
+            MySqlDataAdapter da = new MySqlDataAdapter("SELECT YEAR(sdate) AS year, IFNULL(SUM(total), 0.0) AS total FROM tbl_cart WHERE status = 'Sold' GROUP BY YEAR(sdate)", cn);
             DataSet ds = new DataSet();
 
             da.Fill(ds, "Sales");

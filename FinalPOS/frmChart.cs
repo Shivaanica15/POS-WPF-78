@@ -7,21 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace FinalPOS
 {
     public partial class frmChart : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
+        MySqlDataReader dr;
         DBConnection dbcon = new DBConnection();
         public frmChart()
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
 
         }
 
@@ -32,9 +32,10 @@ namespace FinalPOS
 
         public void LoadChartSold(string sql)
         {
-            SqlDataAdapter da;
+            MySqlDataAdapter da;
             cn.Open();
-            da = new SqlDataAdapter(sql, cn);
+            cm = new MySqlCommand(sql, cn);
+            da = new MySqlDataAdapter(cm);
             DataSet ds = new DataSet();
             da.Fill(ds, "SOLD");
             chart1.DataSource = ds.Tables["SOLD"];

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace FinalPOS
@@ -14,14 +14,14 @@ namespace FinalPOS
     public partial class frmVendor : Form
     {
         frmVendorList f;
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
+        MySqlDataReader dr;
         DBConnection dbcon = new DBConnection();
         public frmVendor(frmVendorList f)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             this.f = f;
         }
 
@@ -37,7 +37,7 @@ namespace FinalPOS
                 if(MessageBox.Show("Save this record ?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("insert into tbl_Vendor (vendor, address, contactperson, phone, email) VALUES (@vendor, @address, @contactperson, @phone, @email)", cn);
+                    cm = new MySqlCommand("INSERT INTO tbl_vendor (vendor, address, contactperson, phone, email) VALUES (@vendor, @address, @contactperson, @phone, @email)", cn);
                     cm.Parameters.AddWithValue("@vendor", txtvendor.Text);
                     cm.Parameters.AddWithValue("@address", txtaddress.Text);
                     cm.Parameters.AddWithValue("@contactperson", txtContactPerson.Text);
@@ -75,7 +75,7 @@ namespace FinalPOS
                 if (MessageBox.Show("Update this record ?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("update tbl_Vendor set vendor = @vendor , address =@address , contactperson = @contactperson, phone = @phone, email = @email ", cn);
+                    cm = new MySqlCommand("UPDATE tbl_vendor SET vendor = @vendor, address = @address, contactperson = @contactperson, phone = @phone, email = @email WHERE id = @id", cn);
                     cm.Parameters.AddWithValue("@vendor", txtvendor.Text);
                     cm.Parameters.AddWithValue("@address", txtaddress.Text);
                     cm.Parameters.AddWithValue("@contactperson", txtContactPerson.Text);

@@ -7,20 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace FinalPOS
 {
     public partial class frmStore : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         public frmStore()
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             this.KeyPreview = true;
         }
 
@@ -32,7 +32,7 @@ namespace FinalPOS
         public void LoadRecords()
         {
             cn.Open();
-            cm = new SqlCommand("select * from tbl_Store ", cn);
+            cm = new MySqlCommand("SELECT * FROM tbl_store", cn);
             dr = cm.ExecuteReader();
             dr.Read();
             if(dr.Read())
@@ -57,13 +57,13 @@ namespace FinalPOS
                 {
                     int count;
                     cn.Open();
-                    cm = new SqlCommand("select count(*) from tbl_Store ", cn);
+                    cm = new MySqlCommand("SELECT COUNT(*) FROM tbl_store", cn);
                     count = int.Parse(cm.ExecuteScalar().ToString());
                     cn.Close();
                     if(count > 0)
                     {
                         cn.Open();
-                        cm = new SqlCommand("update tbl_Store set store =@store , address = @address ", cn);
+                        cm = new MySqlCommand("UPDATE tbl_store SET store = @store, address = @address", cn);
                         cm.Parameters.AddWithValue("@store", txtStore.Text);
                         cm.Parameters.AddWithValue("@address", txtAddress.Text);
                         cm.ExecuteNonQuery();
@@ -71,7 +71,7 @@ namespace FinalPOS
                     }else
                     {
                         cn.Open();
-                        cm = new SqlCommand("insert  tbl_Store (store, address) values (@store, @address)  ", cn);
+                        cm = new MySqlCommand("INSERT INTO tbl_store (store, address) VALUES (@store, @address)", cn);
                         cm.Parameters.AddWithValue("@store", txtStore.Text);
                         cm.Parameters.AddWithValue("@address", txtAddress.Text);
                         cm.ExecuteNonQuery();

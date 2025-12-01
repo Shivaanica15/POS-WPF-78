@@ -8,20 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace FinalPOS
 {
     public partial class frmRecords : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
+        MySqlDataReader dr;
         DBConnection dbcon = new DBConnection();
         public frmRecords()
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -36,11 +36,15 @@ namespace FinalPOS
             
             if(cboTopSelect.Text == "SORT BY TOTAL AMOUNT")
             {
-                cm = new SqlCommand("select top 10 pcode , pdesc, isnull(sum(qty),0) as qty, isnull(sum(total),0) as total  from ViewSoldItems where sdate between '" + dt1.Value.ToString() + "' and '" + dt2.Value.ToString() + "' and status like 'Sold' group by pcode, pdesc order by qty desc   ", cn);
+                cm = new MySqlCommand("SELECT pcode, pdesc, IFNULL(SUM(qty), 0) AS qty, IFNULL(SUM(total), 0) AS total FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY qty DESC LIMIT 10", cn);
+                cm.Parameters.AddWithValue("@date1", dt1.Value.Date);
+                cm.Parameters.AddWithValue("@date2", dt2.Value.Date);
             }
             else if (cboTopSelect.Text == "SORT BY QTY")
             {
-                cm = new SqlCommand("select top 10 pcode , pdesc, isnull(sum(qty),0) as qty, isnull(sum(total),0) as total  from ViewSoldItems where sdate between '" + dt1.Value.ToString() + "' and '" + dt2.Value.ToString() + "' and status like 'Sold' group by pcode, pdesc order by total desc   ", cn);
+                cm = new MySqlCommand("SELECT pcode, pdesc, IFNULL(SUM(qty), 0) AS qty, IFNULL(SUM(total), 0) AS total FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY total DESC LIMIT 10", cn);
+                cm.Parameters.AddWithValue("@date1", dt1.Value.Date);
+                cm.Parameters.AddWithValue("@date2", dt2.Value.Date);
             }
 
             if (!String.IsNullOrEmpty(cm.CommandText)) {
@@ -62,7 +66,9 @@ namespace FinalPOS
             int i = 0;
             dataGridView5.Rows.Clear();
             cn.Open();
-            cm = new SqlCommand("select * from CancelledOrder where sdate between '"+dateTimePicker1.Value.ToString()+"' and '"+dateTimePicker2.Value.ToString()+"' ", cn);
+            cm = new MySqlCommand("SELECT * FROM cancelledorder WHERE DATE(sdate) BETWEEN @date1 AND @date2", cn);
+            cm.Parameters.AddWithValue("@date1", dateTimePicker1.Value.Date);
+            cm.Parameters.AddWithValue("@date2", dateTimePicker2.Value.Date);
             dr = cm.ExecuteReader();
             while(dr.Read())
             {
@@ -88,7 +94,7 @@ namespace FinalPOS
             int i = 0;
             dataGridView4.Rows.Clear();
             cn.Open();
-            cm = new SqlCommand("select p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.qty, p.reorder from tbl_Products as p inner join tbl_Brand as b on p.bid =b.id inner join tbl_category as c on p.cid = c.id ",cn);
+            cm = new MySqlCommand("SELECT p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.qty, p.reorder FROM tbl_products AS p INNER JOIN tbl_brand AS b ON p.bid = b.id INNER JOIN tbl_category AS c ON p.cid = c.id", cn);
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
@@ -106,7 +112,7 @@ namespace FinalPOS
                 dataGridView3.Rows.Clear();
                 int i = 0;
                 cn.Open();
-                cm = new SqlCommand("select * from ViewCriticalItems", cn);
+                cm = new MySqlCommand("SELECT * FROM viewcriticalitems", cn);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
@@ -145,7 +151,9 @@ namespace FinalPOS
             int i = 0;
             dataGridView6.Rows.Clear();
             cn.Open();
-            cm = new SqlCommand("select * from ViewStocks where cast(sdate as date) between '" + dateTimePicker4.Value.ToShortDateString() + "' and '" + dateTimePicker3.Value.ToShortDateString() + "' and status like 'Done' ", cn);
+            cm = new MySqlCommand("SELECT * FROM viewstocks WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Done'", cn);
+            cm.Parameters.AddWithValue("@date1", dateTimePicker4.Value.Date);
+            cm.Parameters.AddWithValue("@date2", dateTimePicker3.Value.Date);
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
@@ -162,12 +170,12 @@ namespace FinalPOS
             frmInventoryReport f = new frmInventoryReport();
             if (cboTopSelect.Text == "SORT BY QTY")
             {
-                f.LoadTopSelling("select top 10 pcode , pdesc, sum(qty) as qty from ViewSoldItems where sdate between '" + dt1.Value.ToString() + "' and '" + dt2.Value.ToString() + "' and status like 'Sold' group by pcode, pdesc order by qty desc ", "From : " + dt1.Value.ToString() + "To : " + dt2.Value.ToString() , "SORT BY QUANTITY");
+                f.LoadTopSelling("SELECT pcode, pdesc, SUM(qty) AS qty FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY qty DESC LIMIT 10", "From : " + dt1.Value.ToString() + "To : " + dt2.Value.ToString() , "SORT BY QUANTITY");
             }
             else if (cboTopSelect.Text == "SORT BY TOTAL AMOUNT")
             {
            
-                f.LoadTopSelling("select top 10 pcode , pdesc, isnull(sum(qty),0) as qty, isnull(sum(total),0) as total  from ViewSoldItems where sdate between '" + dt1.Value.ToString() + "' and '" + dt2.Value.ToString() + "' and status like 'Sold' group by pcode, pdesc order by total desc ", "From: " + dt1.Value.ToString() + "To: " + dt2.Value.ToString() , "SORT BY TOTAL SALES" );
+                f.LoadTopSelling("SELECT pcode, pdesc, IFNULL(SUM(qty), 0) AS qty, IFNULL(SUM(total), 0) AS total FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY total DESC LIMIT 10", "From: " + dt1.Value.ToString() + "To: " + dt2.Value.ToString() , "SORT BY TOTAL SALES" );
             }
 
 
@@ -178,7 +186,7 @@ namespace FinalPOS
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             frmInventoryReport f = new frmInventoryReport();
-            f.LoadSoldItems(" select c.pcode, p.pdesc, c.price, sum(c.qty) as tot_qty, sum(c.disc) as tot_disc, sum(c.total) as total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + date1.Value.ToString() + "' and '" + date2.Value.ToString() + "' group by c.pcode , p.pdesc,c.price   ", "From : " + date1.Value.ToString() + "To : " + date2.Value.ToString());
+            f.LoadSoldItems("SELECT c.pcode, p.pdesc, c.price, SUM(c.qty) AS tot_qty, SUM(c.disc) AS tot_disc, SUM(c.total) AS total FROM tbl_cart AS c INNER JOIN tbl_products AS p ON c.pcode = p.pcode WHERE status = 'Sold' AND DATE(sdate) BETWEEN @date1 AND @date2 GROUP BY c.pcode, p.pdesc, c.price", "From : " + date1.Value.ToString() + "To : " + date2.Value.ToString());
             f.ShowDialog();
         }
 
@@ -197,15 +205,26 @@ namespace FinalPOS
           {
 
         
-            SqlDataAdapter da = new SqlDataAdapter();
+            MySqlDataAdapter da;
             cn.Open();
             if (cboTopSelect.Text == "SORT BY QTY")
             {
-                da = new SqlDataAdapter("select top 10  pcode, isnull(sum(qty),0) as qty  from ViewSoldItems where sdate between '" + dt1.Value.ToString() + "' and '" + dt2.Value.ToString() + "' and status like 'Sold' group by  pcode order by qty desc   ", cn);
+                cm = new MySqlCommand("SELECT pcode, IFNULL(SUM(qty), 0) AS qty FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode ORDER BY qty DESC LIMIT 10", cn);
+                cm.Parameters.AddWithValue("@date1", dt1.Value.Date);
+                cm.Parameters.AddWithValue("@date2", dt2.Value.Date);
+                da = new MySqlDataAdapter(cm);
             }
             else if (cboTopSelect.Text == "SORT BY TOTAL AMOUNT")
             {
-                da = new SqlDataAdapter("select top 10  pcode, isnull(sum(total),0) as total  from ViewSoldItems where sdate between '" + dt1.Value.ToString() + "' and '" + dt2.Value.ToString() + "' and status like 'Sold' group by pcode order by total desc   ", cn);
+                cm = new MySqlCommand("SELECT pcode, IFNULL(SUM(total), 0) AS total FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode ORDER BY total DESC LIMIT 10", cn);
+                cm.Parameters.AddWithValue("@date1", dt1.Value.Date);
+                cm.Parameters.AddWithValue("@date2", dt2.Value.Date);
+                da = new MySqlDataAdapter(cm);
+            }
+            else
+            {
+                cn.Close();
+                return;
             }
             DataSet ds = new DataSet();
             da.Fill(ds, "TOPSELLING");
@@ -244,7 +263,9 @@ namespace FinalPOS
                 dataGridView2.Rows.Clear();
                 int i = 0;
                 cn.Open();
-                cm = new SqlCommand("select c.pcode, p.pdesc, c.price, sum(c.qty) as tot_qty, sum(c.disc) as tot_disc, sum(c.total) as total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + date1.Value.ToString() + "' and '" + date2.Value.ToString() + "' group by c.pcode , p.pdesc,c.price", cn);
+                cm = new MySqlCommand("SELECT c.pcode, p.pdesc, c.price, SUM(c.qty) AS tot_qty, SUM(c.disc) AS tot_disc, SUM(c.total) AS total FROM tbl_cart AS c INNER JOIN tbl_products AS p ON c.pcode = p.pcode WHERE status = 'Sold' AND DATE(sdate) BETWEEN @date1 AND @date2 GROUP BY c.pcode, p.pdesc, c.price", cn);
+                cm.Parameters.AddWithValue("@date1", date1.Value.Date);
+                cm.Parameters.AddWithValue("@date2", date2.Value.Date);
                 dr = cm.ExecuteReader();
                 while (dr.Read())
                 {
@@ -256,7 +277,9 @@ namespace FinalPOS
 
 
                 cn.Open();
-                cm = new SqlCommand("select isnull(sum(total),0) as total from tbl_Cart  where status like 'Sold' and sdate between '" + date1.Value.ToString() + "' and '" + date2.Value.ToString() + "' ", cn);
+                cm = new MySqlCommand("SELECT IFNULL(SUM(total), 0) AS total FROM tbl_cart WHERE status = 'Sold' AND DATE(sdate) BETWEEN @date1 AND @date2", cn);
+                cm.Parameters.AddWithValue("@date1", date1.Value.Date);
+                cm.Parameters.AddWithValue("@date2", date2.Value.Date);
                 lblTotal.Text = Double.Parse(cm.ExecuteScalar().ToString()).ToString("#,##0.00");
                 cn.Close();
             }
@@ -285,7 +308,7 @@ namespace FinalPOS
         {
             frmInventoryReport frm = new frmInventoryReport();
             string param = "Date Covered : " + dateTimePicker4.Value.ToShortDateString() + " - " + dateTimePicker3.Value.ToShortDateString();
-            frm.LoadStocksInReports("select * from ViewStocks where cast(sdate as date) between '" + dateTimePicker4.Value.ToShortDateString() + "' and '" + dateTimePicker3.Value.ToShortDateString() + "' and status like 'Done'", param);
+            frm.LoadStocksInReports("SELECT * FROM viewstocks WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Done'", param);
             frm.ShowDialog();
         }
 
@@ -303,7 +326,7 @@ namespace FinalPOS
         {
             frmInventoryReport f = new frmInventoryReport();
             string param = "Date Covered: " + dateTimePicker4.Value.ToShortDateString() + " - " + dateTimePicker3.Value.ToShortDateString();
-            f.LoadCancelledOrders("select * from CancelledOrder where sdate between '" + dateTimePicker1.Value.ToShortDateString() + "' and '" + dateTimePicker2.Value.ToShortDateString() + "' ",param);
+            f.LoadCancelledOrders("SELECT * FROM cancelledorder WHERE DATE(sdate) BETWEEN @date1 AND @date2", param);
             f.ShowDialog();
         }
     }

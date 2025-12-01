@@ -7,24 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using Microsoft.Reporting.WinForms;
 
 namespace FinalPOS
 {
     public partial class FrmReciept : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         frmPOS f;
         string store = "Hello Wold Solutions";
         string address = "Light House Gari Khata, Karachi";
         public FrmReciept(frmPOS frm)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             f = frm;
             this.KeyPreview = true;
         }
@@ -41,10 +41,12 @@ namespace FinalPOS
                 ReportDataSource rptDatasource;
 
                 DataSet1 ds = new DataSet1();
-                SqlDataAdapter da = new SqlDataAdapter();
+                MySqlDataAdapter da = new MySqlDataAdapter();
               
                 cn.Open();
-                da.SelectCommand = new SqlCommand("select c.id, c.transno, c.pcode , c.price, c.qty, c.disc, c.total, c.sdate, status, p.pdesc from tbl_Cart as c inner join tbl_Products as p on p.pcode = c.pcode where transno like '"+ f.lblTransno.Text + "' ", cn);
+                cm = new MySqlCommand("SELECT c.id, c.transno, c.pcode, c.price, c.qty, c.disc, c.total, c.sdate, status, p.pdesc FROM tbl_cart AS c INNER JOIN tbl_products AS p ON p.pcode = c.pcode WHERE transno = @transno", cn);
+                cm.Parameters.AddWithValue("@transno", f.lblTransno.Text);
+                da.SelectCommand = cm;
                 da.Fill(ds.Tables["dtSold"]);
                 cn.Close();
 

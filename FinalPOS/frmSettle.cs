@@ -7,21 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace FinalPOS
 {
     public partial class frmSettle : Form
     {
         frmPOS fpos;
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         public frmSettle(frmPOS fp)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             fpos = fp;
             this.KeyPreview = true;
             txtCash.Focus();
@@ -127,13 +127,16 @@ namespace FinalPOS
                         cn.Open();
 
 
-                        cm = new SqlCommand("update tbl_Products set qty = qty - " + fpos.dataGridView1.Rows[i].Cells[5].Value.ToString() + "  where pcode = '" + fpos.dataGridView1.Rows[i].Cells[2].Value.ToString() + "' ", cn);
+                        cm = new MySqlCommand("UPDATE tbl_products SET qty = qty - @qty WHERE pcode = @pcode", cn);
+                        cm.Parameters.AddWithValue("@qty", fpos.dataGridView1.Rows[i].Cells[5].Value.ToString());
+                        cm.Parameters.AddWithValue("@pcode", fpos.dataGridView1.Rows[i].Cells[2].Value.ToString());
                         cm.ExecuteNonQuery();
                         cn.Close();
 
 
                         cn.Open();
-                        cm = new SqlCommand("update tbl_Cart set status = 'Sold' where id = '" + fpos.dataGridView1.Rows[i].Cells[1].Value.ToString() + "'  ", cn);
+                        cm = new MySqlCommand("UPDATE tbl_cart SET status = 'Sold' WHERE id = @id", cn);
+                        cm.Parameters.AddWithValue("@id", fpos.dataGridView1.Rows[i].Cells[1].Value.ToString());
                         cm.ExecuteNonQuery();
                         cn.Close();
 

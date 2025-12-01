@@ -8,22 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace FinalPOS
 {
     public partial class frmLookUp : Form
     {
         frmPOS f;
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         string stitle = "MyNEW POS System";
         public frmLookUp(frmPOS frm)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             f = frm;
 
             this.KeyPreview = true;
@@ -35,7 +35,8 @@ namespace FinalPOS
             int i = 0;
             dataGridView1.Rows.Clear();
             cn.Open();
-            cm = new SqlCommand("Select p.pcode, p.barcode, p.pdesc, b.brand, c.category , p.price , p.qty from tbl_Products as p inner join tbl_Brand as b on b.id = p.bid inner join tbl_category as c on c.id = p.cid where p.pdesc like '%" + txtSearchp.Text + "%' ", cn);
+            cm = new MySqlCommand("SELECT p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.qty FROM tbl_products AS p INNER JOIN tbl_brand AS b ON b.id = p.bid INNER JOIN tbl_category AS c ON c.id = p.cid WHERE p.pdesc LIKE @search", cn);
+            cm.Parameters.AddWithValue("@search", "%" + txtSearchp.Text + "%");
             dr = cm.ExecuteReader();
             while (dr.Read())
             {

@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace FinalPOS
 {
     public partial class frmProductList : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         string stitle = "MyNEW POS System";
         public frmProductList()
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             
         }
 
@@ -25,7 +25,8 @@ namespace FinalPOS
             int i = 0;
             
             cn.Open();
-            cm = new SqlCommand("Select p.pcode, p.barcode, p.pdesc, b.brand, c.category , p.price , p.reorder from tbl_Products as p inner join tbl_Brand as b on b.id = p.bid inner join tbl_category as c on c.id =   p.cid where  p.barcode like '%" + txtSearchp.Text + "%' or p.pdesc like '%" + txtSearchp.Text + "%'  ", cn);
+            cm = new MySqlCommand("SELECT p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.reorder FROM tbl_products AS p INNER JOIN tbl_brand AS b ON b.id = p.bid INNER JOIN tbl_category AS c ON c.id = p.cid WHERE p.barcode LIKE @search OR p.pdesc LIKE @search", cn);
+            cm.Parameters.AddWithValue("@search", "%" + txtSearchp.Text + "%");
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
@@ -82,7 +83,8 @@ namespace FinalPOS
                 if (MessageBox.Show("Are you sure want to delete this product?", "Delete Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("delete from tbl_Products where pcode like '" + dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString() + "'", cn);
+                    cm = new MySqlCommand("DELETE FROM tbl_products WHERE pcode = @pcode", cn);
+                    cm.Parameters.AddWithValue("@pcode", dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                     cm.ExecuteNonQuery();
                     cn.Close();
                     LoadRecords();

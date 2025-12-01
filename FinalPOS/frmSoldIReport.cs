@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using Microsoft.Reporting.WinForms;
 
@@ -14,14 +14,14 @@ namespace FinalPOS
 {
     public partial class frmSoldIReport : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
         frmSoldItems f;
         public frmSoldIReport(frmSoldItems frm)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             f = frm;
         }
 
@@ -43,16 +43,23 @@ namespace FinalPOS
                 this.reportViewer2.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();
-                SqlDataAdapter da = new SqlDataAdapter();
+                MySqlDataAdapter da = new MySqlDataAdapter();
 
                 cn.Open();
                 if (f.cboCashier.Text == "All Cashiers")
                 {
-                    da.SelectCommand = new SqlCommand("select c.id, c.transno, c.pcode , p.pdesc, c.price, c.qty, c.disc as discount , c.total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + f.dt1.Value + "' and '" + f.dt2.Value + "' ", cn);
+                    cm = new MySqlCommand("SELECT c.id, c.transno, c.pcode, p.pdesc, c.price, c.qty, c.disc AS discount, c.total FROM tbl_cart AS c INNER JOIN tbl_products AS p ON c.pcode = p.pcode WHERE status = 'Sold' AND DATE(sdate) BETWEEN @date1 AND @date2", cn);
+                    cm.Parameters.AddWithValue("@date1", f.dt1.Value.Date);
+                    cm.Parameters.AddWithValue("@date2", f.dt2.Value.Date);
+                    da.SelectCommand = cm;
                 }
                 else
                 {
-                    da.SelectCommand = new SqlCommand("select c.id, c.transno, c.pcode , p.pdesc, c.price, c.qty, c.disc as discount , c.total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + f.dt1.Value + "' and '" + f.dt2.Value + "'  and cashier like '" + f.cboCashier.Text + "'   ", cn);
+                    cm = new MySqlCommand("SELECT c.id, c.transno, c.pcode, p.pdesc, c.price, c.qty, c.disc AS discount, c.total FROM tbl_cart AS c INNER JOIN tbl_products AS p ON c.pcode = p.pcode WHERE status = 'Sold' AND DATE(sdate) BETWEEN @date1 AND @date2 AND cashier = @cashier", cn);
+                    cm.Parameters.AddWithValue("@date1", f.dt1.Value.Date);
+                    cm.Parameters.AddWithValue("@date2", f.dt2.Value.Date);
+                    cm.Parameters.AddWithValue("@cashier", f.cboCashier.Text);
+                    da.SelectCommand = cm;
                 }
                 da.Fill(ds.Tables["dtSoldReport"]);
                 cn.Close();

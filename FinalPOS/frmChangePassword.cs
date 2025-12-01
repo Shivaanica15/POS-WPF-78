@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 namespace FinalPOS
 {
     public partial class frmChangePassword : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
         frmPOS f;
         public frmChangePassword(frmPOS frm)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             f = frm;
         }
 
@@ -46,7 +46,7 @@ namespace FinalPOS
                     if (MessageBox.Show("Change Password", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         cn.Open();
-                        cm = new SqlCommand(" update tbl_Users set password = @password  where username = @username",cn);
+                        cm = new MySqlCommand("UPDATE tbl_users SET password = @password WHERE username = @username", cn);
                         cm.Parameters.AddWithValue("@password", txtNew.Text);
                         cm.Parameters.AddWithValue("@username", f.lblUser.Text);
                         cm.ExecuteNonQuery();

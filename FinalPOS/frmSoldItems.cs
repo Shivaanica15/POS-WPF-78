@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace FinalPOS
@@ -14,15 +14,15 @@ namespace FinalPOS
     public partial class frmSoldItems : Form
     {
       //  frmPOS fpos;
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         public string suser;
         public frmSoldItems()
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             LoadRecords();
             LoadCashier();
             dt1.Value = DateTime.Now;
@@ -40,11 +40,16 @@ namespace FinalPOS
             cn.Open();
             if (cboCashier.Text == "All Cashiers")
             {
-                cm = new SqlCommand("select c.id, c.transno, c.pcode , p.pdesc, c.price, c.qty, c.disc , c.total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + dt1.Value + "' and '" + dt2.Value + "' ", cn);
+                cm = new MySqlCommand("SELECT c.id, c.transno, c.pcode, p.pdesc, c.price, c.qty, c.disc, c.total FROM tbl_cart AS c INNER JOIN tbl_products AS p ON c.pcode = p.pcode WHERE status = 'Sold' AND DATE(sdate) BETWEEN @date1 AND @date2", cn);
+                cm.Parameters.AddWithValue("@date1", dt1.Value.Date);
+                cm.Parameters.AddWithValue("@date2", dt2.Value.Date);
             }
             else
             {
-                cm = new SqlCommand("select c.id, c.transno, c.pcode , p.pdesc, c.price, c.qty, c.disc , c.total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + dt1.Value + "' and '" + dt2.Value + "' and cashier like '" + cboCashier.Text + "' ", cn);
+                cm = new MySqlCommand("SELECT c.id, c.transno, c.pcode, p.pdesc, c.price, c.qty, c.disc, c.total FROM tbl_cart AS c INNER JOIN tbl_products AS p ON c.pcode = p.pcode WHERE status = 'Sold' AND DATE(sdate) BETWEEN @date1 AND @date2 AND cashier = @cashier", cn);
+                cm.Parameters.AddWithValue("@date1", dt1.Value.Date);
+                cm.Parameters.AddWithValue("@date2", dt2.Value.Date);
+                cm.Parameters.AddWithValue("@cashier", cboCashier.Text);
             }
             dr = cm.ExecuteReader();
             while (dr.Read())
@@ -90,7 +95,7 @@ namespace FinalPOS
             cboCashier.Items.Clear();
             cboCashier.Items.Add("All Cashiers");
             cn.Open();
-            cm = new SqlCommand("select * from tbl_Users where role like 'Cashier'",cn);
+            cm = new MySqlCommand("SELECT * FROM tbl_users WHERE role = 'Cashier'", cn);
             dr = cm.ExecuteReader();
             while (dr.Read())
             {

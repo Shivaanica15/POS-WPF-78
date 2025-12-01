@@ -7,21 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 namespace FinalPOS
 {
     public partial class frmSearchProduct_StocksIn : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         string stitle = "MyNEW POS System";
         frmStockIn slist;
         public frmSearchProduct_StocksIn(frmStockIn flist)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             slist = flist;
         }
 
@@ -32,7 +32,8 @@ namespace FinalPOS
             int i = 0;
             dataGridView1.Rows.Clear();
             cn.Open();
-            cm = new SqlCommand("Select pcode, pdesc, qty,price from tbl_Products where pdesc like '%" + txtSearch.Text + "%' order by pdesc ", cn);
+            cm = new MySqlCommand("SELECT pcode, pdesc, qty, price FROM tbl_products WHERE pdesc LIKE @search ORDER BY pdesc", cn);
+            cm.Parameters.AddWithValue("@search", "%" + txtSearch.Text + "%");
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
@@ -70,10 +71,10 @@ namespace FinalPOS
                 if (MessageBox.Show("Add this Item?", stitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("insert into tbl_Stocks_In(refno , pcode, sdate, stockinby, vendorid) values(@refno , @pcode, @sdate, @stockinby, @vendorid)", cn);
+                    cm = new MySqlCommand("INSERT INTO tbl_stocks_in (refno, pcode, sdate, stockinby, vendorid) VALUES (@refno, @pcode, @sdate, @stockinby, @vendorid)", cn);
                     cm.Parameters.AddWithValue("@refno", slist.txtrefno.Text);
                     cm.Parameters.AddWithValue("@pcode", dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-                    cm.Parameters.AddWithValue("sdate", slist.dttime.Value);
+                    cm.Parameters.AddWithValue("@sdate", slist.dttime.Value);
                     cm.Parameters.AddWithValue("@stockinby", slist.txtstockinby.Text);
                     cm.Parameters.AddWithValue("@vendorid", slist.lblVendorID.Text);
                     cm.ExecuteNonQuery();

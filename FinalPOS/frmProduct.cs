@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,15 +13,15 @@ namespace FinalPOS
 {
     public partial class frmProduct : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         frmProductList flist;
         public frmProduct(frmProductList frm)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             flist = frm;
         }
 
@@ -31,7 +31,7 @@ namespace FinalPOS
         {
             categorycbo.Items.Clear();
             cn.Open();
-            cm = new SqlCommand("select category from tbl_category ", cn);
+            cm = new MySqlCommand("SELECT category FROM tbl_category", cn);
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
@@ -46,7 +46,7 @@ namespace FinalPOS
         {
             brandcbo.Items.Clear();
             cn.Open();
-            cm = new SqlCommand("select brand from tbl_Brand ", cn);
+            cm = new MySqlCommand("SELECT brand FROM tbl_brand", cn);
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
@@ -105,7 +105,8 @@ namespace FinalPOS
                 {
                     string bid = ""; string cid = "";
                     cn.Open();
-                    cm = new SqlCommand("Select id from tbl_Brand where brand like '" + brandcbo.Text + "'", cn);
+                    cm = new MySqlCommand("SELECT id FROM tbl_brand WHERE brand = @brand", cn);
+                    cm.Parameters.AddWithValue("@brand", brandcbo.Text);
                     dr = cm.ExecuteReader();
                     dr.Read();
                     if (dr.HasRows)
@@ -116,7 +117,8 @@ namespace FinalPOS
                     cn.Close();
 
                     cn.Open();
-                    cm = new SqlCommand("Select id from tbl_category where category like '" + categorycbo.Text + "'", cn);
+                    cm = new MySqlCommand("SELECT id FROM tbl_category WHERE category = @category", cn);
+                    cm.Parameters.AddWithValue("@category", categorycbo.Text);
                     dr = cm.ExecuteReader();
                     dr.Read();
                     if (dr.HasRows)
@@ -127,7 +129,7 @@ namespace FinalPOS
                     cn.Close();
 
                     cn.Open();
-                    cm = new SqlCommand("UPDATE  tbl_Products SET barcode = @barcode , pdesc = @pdesc , bid = @bid, cid=@cid ,price= @price, reorder=@reorder where pcode like @pcode", cn);
+                    cm = new MySqlCommand("UPDATE tbl_products SET barcode = @barcode, pdesc = @pdesc, bid = @bid, cid = @cid, price = @price, reorder = @reorder WHERE pcode = @pcode", cn);
                     cm.Parameters.AddWithValue("@pcode", txtpcode.Text);
                     cm.Parameters.AddWithValue("@barcode", txtBarcode.Text);
                     cm.Parameters.AddWithValue("@pdesc", descriptionTxtBox.Text);
@@ -157,7 +159,8 @@ namespace FinalPOS
                 {
                     string bid = ""; string cid = "";
                     cn.Open();
-                    cm = new SqlCommand("Select id from tbl_Brand where brand like '" + brandcbo.Text + "'", cn);
+                    cm = new MySqlCommand("SELECT id FROM tbl_brand WHERE brand = @brand", cn);
+                    cm.Parameters.AddWithValue("@brand", brandcbo.Text);
                     dr = cm.ExecuteReader();
                     dr.Read();
                     if (dr.HasRows)
@@ -168,7 +171,8 @@ namespace FinalPOS
                     cn.Close();
 
                     cn.Open();
-                    cm = new SqlCommand("Select id from tbl_category where category like '" + categorycbo.Text + "'", cn);
+                    cm = new MySqlCommand("SELECT id FROM tbl_category WHERE category = @category", cn);
+                    cm.Parameters.AddWithValue("@category", categorycbo.Text);
                     dr = cm.ExecuteReader();
                     dr.Read();
                     if (dr.HasRows)
@@ -179,7 +183,7 @@ namespace FinalPOS
                     cn.Close();
 
                     cn.Open();
-                    cm = new SqlCommand("INSERT INTO tbl_Products (pcode ,barcode, pdesc, bid, cid ,price, reorder) VALUES(@pcode, @barcode, @pdesc, @bid, @cid , @price, @reorder)", cn);
+                    cm = new MySqlCommand("INSERT INTO tbl_products (pcode, barcode, pdesc, bid, cid, price, reorder) VALUES (@pcode, @barcode, @pdesc, @bid, @cid, @price, @reorder)", cn);
                     cm.Parameters.AddWithValue("@pcode", txtpcode.Text);
                     cm.Parameters.AddWithValue("@barcode", txtBarcode.Text);
                     cm.Parameters.AddWithValue("@pdesc", descriptionTxtBox.Text);

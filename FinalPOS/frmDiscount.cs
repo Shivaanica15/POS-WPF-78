@@ -7,23 +7,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace FinalPOS
 {
     public partial class frmDiscount : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
        
         frmPOS f;
         string stitle = "MyNEW POS System";
         public frmDiscount(frmPOS frm)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             f = frm;
             this.KeyPreview = true;
         }
@@ -58,7 +58,7 @@ namespace FinalPOS
                if (MessageBox.Show("Add Discount? Click Yes To Confirm", stitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("update tbl_Cart set disc = @disc, disc_per = @disc_per where id = @id", cn);
+                    cm = new MySqlCommand("UPDATE tbl_cart SET disc = @disc, disc_per = @disc_per WHERE id = @id", cn);
                     cm.Parameters.AddWithValue("@disc", Double.Parse(txtDiscountAmount.Text));
                     cm.Parameters.AddWithValue("@disc_per", Double.Parse(txtDisocunt.Text));
                     cm.Parameters.AddWithValue("@id", int.Parse(lblID.Text));

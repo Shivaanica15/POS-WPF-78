@@ -7,20 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace FinalPOS
 {
     public partial class frmBrand : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
         frmBrandList frmlist;
         public frmBrand(frmBrandList flist)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             frmlist = flist;
         }
 
@@ -56,7 +56,8 @@ namespace FinalPOS
                 if (MessageBox.Show("Are you sure want to update this brand?", "Update Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("update tbl_Brand set brand = @brand where id like '" + lblID.Text + "'", cn);
+                    cm = new MySqlCommand("UPDATE tbl_brand SET brand = @brand WHERE id = @id", cn);
+                    cm.Parameters.AddWithValue("@id", lblID.Text);
                     cm.Parameters.AddWithValue("@brand", txtBrand.Text);
                     cm.ExecuteNonQuery();
 
@@ -82,7 +83,7 @@ namespace FinalPOS
                 if (MessageBox.Show("Are you sure want to save this brand?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("INSERT INTO tbl_Brand(Brand) VALUES (@brand)", cn);
+                    cm = new MySqlCommand("INSERT INTO tbl_brand (brand) VALUES (@brand)", cn);
                     cm.Parameters.AddWithValue("@brand", txtBrand.Text);
                     cm.ExecuteNonQuery();
                     cn.Close();

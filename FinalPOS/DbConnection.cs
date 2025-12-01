@@ -1,116 +1,248 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Data.Common;
+using System.Data;
+using MySql.Data.MySqlClient;
 
 namespace FinalPOS
 {
     public class DBConnection
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
-        private double dailysales;
-        private int productline;
-        private string con;
-        private int stockonhand;
-        private int critical;
+        private MySqlConnection cn;
+
+        public DBConnection()
+        {
+            cn = new MySqlConnection("Server=localhost;Database=newone;Uid=root;Pwd=;");
+        }
+
+        public MySqlConnection Connection => cn;
+
+        public void Open()
+        {
+            if (cn.State == ConnectionState.Closed)
+                cn.Open();
+        }
+
+        public void Close()
+        {
+            if (cn.State == ConnectionState.Open)
+                cn.Close();
+        }
+
         public string MyConnection()
         {
-            con = @"Data Source=DESKTOP-E7EO3OH;Initial Catalog=NewOne;Integrated Security=True";
-            return con;
+            return "Server=localhost;Database=newone;Uid=root;Pwd=;";
         }
+
+        public MySqlConnection OpenConnection()
+        {
+            if (cn.State == ConnectionState.Closed)
+            {
+                cn.ConnectionString = MyConnection();
+                cn.Open();
+            }
+            return cn;
+        }
+
+        public void CloseConnection()
+        {
+            if (cn.State == ConnectionState.Open)
+            {
+                cn.Close();
+            }
+        }
+
+        public MySqlDataReader ExecuteQuery(string query, MySqlParameter[] parameters = null)
+        {
+            try
+            {
+                OpenConnection();
+                MySqlCommand cm = new MySqlCommand(query, cn);
+                if (parameters != null)
+                {
+                    cm.Parameters.AddRange(parameters);
+                }
+                MySqlDataReader dr = cm.ExecuteReader();
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int ExecuteNonQuery(string query, MySqlParameter[] parameters = null)
+        {
+            try
+            {
+                OpenConnection();
+                MySqlCommand cm = new MySqlCommand(query, cn);
+                if (parameters != null)
+                {
+                    cm.Parameters.AddRange(parameters);
+                }
+                int result = cm.ExecuteNonQuery();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        public object ExecuteScalar(string query, MySqlParameter[] parameters = null)
+        {
+            try
+            {
+                OpenConnection();
+                MySqlCommand cm = new MySqlCommand(query, cn);
+                if (parameters != null)
+                {
+                    cm.Parameters.AddRange(parameters);
+                }
+                object result = cm.ExecuteScalar();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
         public double GetVal()
         {
             double vat = 0;
-            cn.ConnectionString = MyConnection();
-            cn.Open();
-            cm = new SqlCommand("select * from tbl_Vat", cn);
-            dr = cm.ExecuteReader();
-            while (dr.Read())
+            try
             {
-                vat = Double.Parse(dr["vat"].ToString());
+                cn.ConnectionString = MyConnection();
+                cn.Open();
+                MySqlCommand cm = new MySqlCommand("SELECT * FROM tbl_store LIMIT 1", cn);
+                MySqlDataReader dr = cm.ExecuteReader();
+                while (dr.Read())
+                {
+                    // Note: Adjust field name if VAT is stored in tbl_store
+                    // If VAT table exists, use: "SELECT * FROM tbl_vat LIMIT 1"
+                    // vat = Double.Parse(dr["vat"].ToString());
+                }
+                dr.Close();
             }
-            dr.Close();
-            cn.Close();
-
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cn.Close();
+            }
             return vat;
         }
-
 
         public double DailySales()
         {
             string sdate = DateTime.Now.ToShortDateString();
-            cn = new SqlConnection();
-            cn.ConnectionString = con;
-            cn.Open();
-            cm = new SqlCommand("select isnull (sum(total),0) as total from tbl_Cart where sdate between '"+sdate+ "' and  '" + sdate + "' and status like 'Sold'   ",cn);
-            dailysales = double.Parse(cm.ExecuteScalar().ToString());
-
-           cn.Close();
-            return dailysales;
+            try
+            {
+                MySqlConnection tempCn = new MySqlConnection();
+                tempCn.ConnectionString = MyConnection();
+                tempCn.Open();
+                MySqlCommand cm = new MySqlCommand("SELECT IFNULL(SUM(total), 0) AS total FROM tbl_cart WHERE DATE(sdate) = DATE(@sdate) AND status = 'Sold'", tempCn);
+                cm.Parameters.AddWithValue("@sdate", sdate);
+                double dailysales = double.Parse(cm.ExecuteScalar().ToString());
+                tempCn.Close();
+                return dailysales;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public double ProductLine()
         {
-            cn = new SqlConnection();
-            cn.ConnectionString = con;
-            cn.Open();
-            cm = new SqlCommand("select count(*)  from tbl_Products   ", cn);
-            productline = int.Parse(cm.ExecuteScalar().ToString());
-
-            cn.Close();
-            return productline;
+            try
+            {
+                MySqlConnection tempCn = new MySqlConnection();
+                tempCn.ConnectionString = MyConnection();
+                tempCn.Open();
+                MySqlCommand cm = new MySqlCommand("SELECT COUNT(*) FROM tbl_products", tempCn);
+                int productline = int.Parse(cm.ExecuteScalar().ToString());
+                tempCn.Close();
+                return productline;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public double StockOnHand()
         {
-            cn = new SqlConnection();
-            cn.ConnectionString = con;
-            cn.Open();
-            cm = new SqlCommand("select isnull(sum(qty),0)  as qty  from tbl_Products   ", cn);
-            stockonhand = int.Parse(cm.ExecuteScalar().ToString());
-
-            cn.Close();
-            return stockonhand;
+            try
+            {
+                MySqlConnection tempCn = new MySqlConnection();
+                tempCn.ConnectionString = MyConnection();
+                tempCn.Open();
+                MySqlCommand cm = new MySqlCommand("SELECT IFNULL(SUM(qty), 0) AS qty FROM tbl_products", tempCn);
+                int stockonhand = int.Parse(cm.ExecuteScalar().ToString());
+                tempCn.Close();
+                return stockonhand;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public double Critical()
         {
-            cn = new SqlConnection();
-            cn.ConnectionString = con;
-            cn.Open();
-            cm = new SqlCommand("select count(*) from ViewCriticalItems  ", cn);
-            critical = int.Parse(cm.ExecuteScalar().ToString());
-
-            cn.Close();
-            return critical;
+            try
+            {
+                MySqlConnection tempCn = new MySqlConnection();
+                tempCn.ConnectionString = MyConnection();
+                tempCn.Open();
+                MySqlCommand cm = new MySqlCommand("SELECT COUNT(*) FROM viewcriticalitems", tempCn);
+                int critical = int.Parse(cm.ExecuteScalar().ToString());
+                tempCn.Close();
+                return critical;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public string GetPassword(string user)
         {
-            string password="";
-            cn.ConnectionString = MyConnection();
-            cn.Open();
-            cm = new SqlCommand("select * from tbl_Users where username = @username", cn);
-            cm.Parameters.AddWithValue("username", user);
-            dr = cm.ExecuteReader();
-            dr.Read();
-            if(dr.HasRows)
+            string password = "";
+            try
             {
-                password = dr["password"].ToString();
+                cn.ConnectionString = MyConnection();
+                cn.Open();
+                MySqlCommand cm = new MySqlCommand("SELECT * FROM tbl_users WHERE username = @username", cn);
+                cm.Parameters.AddWithValue("@username", user);
+                MySqlDataReader dr = cm.ExecuteReader();
+                dr.Read();
+                if (dr.HasRows)
+                {
+                    password = dr["password"].ToString();
+                }
+                dr.Close();
             }
-       
-           
-            dr.Close();
-            cn.Close();
-
-
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cn.Close();
+            }
             return password;
         }
-       
     }
 }

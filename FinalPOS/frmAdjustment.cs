@@ -7,21 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 namespace FinalPOS
 {
     public partial class frmAdjustment : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         Form1 f;
         int _qty;
         public frmAdjustment(Form1 f)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             this.f = f;
             
         }
@@ -47,7 +47,8 @@ namespace FinalPOS
             int i = 0;
 
             cn.Open();
-            cm = new SqlCommand("Select p.pcode, p.barcode, p.pdesc, b.brand, c.category , p.price , p.qty from tbl_Products as p inner join tbl_Brand as b on b.id = p.bid inner join tbl_category as c on c.id = p.cid where p.pdesc like '%" + txtSearchp.Text + "%' ", cn);
+            cm = new MySqlCommand("SELECT p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.qty FROM tbl_products AS p INNER JOIN tbl_brand AS b ON b.id = p.bid INNER JOIN tbl_category AS c ON c.id = p.cid WHERE p.pdesc LIKE @search", cn);
+            cm.Parameters.AddWithValue("@search", "%" + txtSearchp.Text + "%");
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
@@ -83,14 +84,23 @@ namespace FinalPOS
                 //update stock
                 if(cboCommand.Text == "REMOVE FROM INVENTORY")
                 {
-                    SqlStatement ("update tbl_Products set qty = (qty -" + int.Parse(txtQty.Text) + ") where pcode like '"+txtPcode.Text+"' ");
+                    SqlStatement("UPDATE tbl_products SET qty = (qty - @qty) WHERE pcode = @pcode", new MySqlParameter[] { new MySqlParameter("@qty", int.Parse(txtQty.Text)), new MySqlParameter("@pcode", txtPcode.Text) });
                 }
                 else if(cboCommand.Text == "ADD TO INVENTORY")
                 {
-                    SqlStatement("update tbl_Products set qty = (qty +" + int.Parse(txtQty.Text) + ") where pcode like '" + txtPcode.Text + "' ");
+                    SqlStatement("UPDATE tbl_products SET qty = (qty + @qty) WHERE pcode = @pcode", new MySqlParameter[] { new MySqlParameter("@qty", int.Parse(txtQty.Text)), new MySqlParameter("@pcode", txtPcode.Text) });
                 }
 
-                SqlStatement("insert into tbl_Adjustment(referenceno, pcode, qty, action, remarks, sdate , [user]) values ('"+txtRefNo.Text+ "', '" + txtPcode.Text + "' , '" + int.Parse(txtQty.Text) + "' , '" + cboCommand.Text + "' ,'" + txtRemarks.Text + "' , '"    + DateTime.Now.ToShortDateString() + "' , '" + txtUser.Text + "')");
+                SqlStatement("INSERT INTO tbl_adjustment (referenceno, pcode, qty, action, remarks, sdate, user) VALUES (@refno, @pcode, @qty, @action, @remarks, @sdate, @user)", 
+                    new MySqlParameter[] {
+                        new MySqlParameter("@refno", txtRefNo.Text),
+                        new MySqlParameter("@pcode", txtPcode.Text),
+                        new MySqlParameter("@qty", int.Parse(txtQty.Text)),
+                        new MySqlParameter("@action", cboCommand.Text),
+                        new MySqlParameter("@remarks", txtRemarks.Text),
+                        new MySqlParameter("@sdate", DateTime.Now),
+                        new MySqlParameter("@user", txtUser.Text)
+                    });
 
                 MessageBox.Show("STOCK HAS BEEN ADJUSTED", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
                
@@ -115,10 +125,14 @@ namespace FinalPOS
             RefrenceNo();
         }
 
-        public void SqlStatement(string _sql)
+        public void SqlStatement(string _sql, MySqlParameter[] parameters = null)
         {
             cn.Open();
-            cm = new SqlCommand(_sql, cn);
+            cm = new MySqlCommand(_sql, cn);
+            if (parameters != null)
+            {
+                cm.Parameters.AddRange(parameters);
+            }
             cm.ExecuteNonQuery();
             cn.Close();
         }

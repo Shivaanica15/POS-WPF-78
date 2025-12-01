@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Runtime.CompilerServices;
 
 namespace FinalPOS
@@ -17,9 +17,9 @@ namespace FinalPOS
     {
         string id;
         string price;
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
+        MySqlDataReader dr;
         DBConnection dbcon = new DBConnection();
         string stitle = "MyNEW POS System";
         frmSecurity f;
@@ -30,7 +30,7 @@ namespace FinalPOS
         {
             InitializeComponent();
             lblDate.Text = DateTime.Now.ToLongDateString();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             dataGridView1.Rows.Clear();
             this.KeyPreview = true;
             NotifyCriticalItems();
@@ -43,14 +43,14 @@ namespace FinalPOS
         {
             string critical = "";
             cn.Open();
-            cm = new SqlCommand("select count(*) from  ViewCriticalItems  ", cn);
+            cm = new MySqlCommand("SELECT COUNT(*) FROM viewcriticalitems", cn);
 
             int i = 0;
             string count = cm.ExecuteScalar().ToString();
             cn.Close();
 
             cn.Open();
-            cm = new SqlCommand("select * from  ViewCriticalItems  ", cn);
+            cm = new MySqlCommand("SELECT * FROM viewcriticalitems", cn);
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
@@ -75,7 +75,8 @@ namespace FinalPOS
                 string transno;
                 int count;
                 cn.Open();
-                cm = new SqlCommand("select top 1 transno from tbl_Cart where transno like '" + sdate + "%' order by id desc  ", cn);
+                cm = new MySqlCommand("SELECT transno FROM tbl_cart WHERE transno LIKE @sdate ORDER BY id DESC LIMIT 1", cn);
+                cm.Parameters.AddWithValue("@sdate", sdate + "%");
                 dr = cm.ExecuteReader();
                 dr.Read();
                 if (dr.HasRows)
@@ -123,7 +124,7 @@ namespace FinalPOS
             bool found = false;
             int cart_qty = 0;
             cn.Open();
-            cm = new SqlCommand("select * from tbl_Cart  where transno =@transno and pcode = @pcode", cn);
+            cm = new MySqlCommand("SELECT * FROM tbl_cart WHERE transno = @transno AND pcode = @pcode", cn);
             cm.Parameters.AddWithValue("@transno", lblTransno.Text);
             cm.Parameters.AddWithValue("@pcode", _pcode);
             dr = cm.ExecuteReader();
@@ -151,7 +152,9 @@ namespace FinalPOS
 
 
                 cn.Open();
-                cm = new SqlCommand("update tbl_Cart set qty = (qty +" + _qty + ") where id = '" + id + "'   ", cn);
+                cm = new MySqlCommand("UPDATE tbl_cart SET qty = (qty + @qty) WHERE id = @id", cn);
+                cm.Parameters.AddWithValue("@qty", _qty);
+                cm.Parameters.AddWithValue("@id", id);
                 cm.ExecuteNonQuery();
                 cn.Close();
 
@@ -169,7 +172,7 @@ namespace FinalPOS
                 }
 
                 cn.Open();
-                cm = new SqlCommand("insert  into tbl_Cart (transno, pcode , price , qty, sdate, cashier) values (@transno, @pcode , @price , @qty , @sdate, @cashier)", cn);
+                cm = new MySqlCommand("INSERT INTO tbl_cart (transno, pcode, price, qty, sdate, cashier) VALUES (@transno, @pcode, @price, @qty, @sdate, @cashier)", cn);
                 cm.Parameters.AddWithValue("transno", lblTransno.Text);
                 cm.Parameters.AddWithValue("pcode", _pcode);
                 cm.Parameters.AddWithValue("price", _price);
@@ -201,7 +204,8 @@ namespace FinalPOS
                 double total = 0;
                 double discount = 0;
                 cn.Open();
-                cm = new SqlCommand("select c.id, c.pcode, p.pdesc,c.price, c.qty, c.disc, c.total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where transno like '" + lblTransno.Text + "' and status like 'Pending' ", cn);
+                cm = new MySqlCommand("SELECT c.id, c.pcode, p.pdesc, c.price, c.qty, c.disc, c.total FROM tbl_cart AS c INNER JOIN tbl_products AS p ON c.pcode = p.pcode WHERE transno = @transno AND status = 'Pending'", cn);
+                cm.Parameters.AddWithValue("@transno", lblTransno.Text);
                 dr = cm.ExecuteReader();
     
                     if (dr.HasRows)
@@ -307,7 +311,8 @@ namespace FinalPOS
                     double _price;
                     int _qty;
                     cn.Open();
-                    cm = new SqlCommand("select * from tbl_Products where barcode like  '" + Searchhp.Text + "' ", cn);
+                    cm = new MySqlCommand("SELECT * FROM tbl_products WHERE barcode = @barcode", cn);
+                    cm.Parameters.AddWithValue("@barcode", Searchhp.Text);
                     dr = cm.ExecuteReader();
                     dr.Read();
                     if (dr.HasRows)
@@ -360,7 +365,8 @@ namespace FinalPOS
                 if (MessageBox.Show("Remove this Item?", "Remove Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("delete from tbl_Cart where id like '" + dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString() + "'  ", cn);
+                    cm = new MySqlCommand("DELETE FROM tbl_cart WHERE id = @id", cn);
+                    cm.Parameters.AddWithValue("@id", dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                     cm.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("Item Removed Successfully", stitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -376,7 +382,8 @@ namespace FinalPOS
             {
                 int i = 0;
                 cn.Open();
-                cm = new SqlCommand("select sum(qty)  as qty from tbl_Products where  pcode like '"+dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString()+"' group by pcode   ",cn);
+                cm = new MySqlCommand("SELECT SUM(qty) AS qty FROM tbl_products WHERE pcode = @pcode GROUP BY pcode", cn);
+                cm.Parameters.AddWithValue("@pcode", dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
                 i = int.Parse(cm.ExecuteScalar().ToString());
                 cn.Close();
 
@@ -384,7 +391,10 @@ namespace FinalPOS
                 {
                     cn.Open();
                  
-                    cm = new SqlCommand("update tbl_Cart set qty = qty + " + int.Parse(txtQuantity.Text) + " where transno like '" + lblTransno.Text + "' and pcode like '" + dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString() + "'          ", cn);
+                    cm = new MySqlCommand("UPDATE tbl_cart SET qty = qty + @qty WHERE transno = @transno AND pcode = @pcode", cn);
+                    cm.Parameters.AddWithValue("@qty", int.Parse(txtQuantity.Text));
+                    cm.Parameters.AddWithValue("@transno", lblTransno.Text);
+                    cm.Parameters.AddWithValue("@pcode", dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
                     
                     cm.ExecuteNonQuery();
                     cn.Close();
@@ -400,7 +410,9 @@ namespace FinalPOS
             {
                 int i = 0;
                 cn.Open();
-                cm = new SqlCommand("select sum(qty)  as qty from tbl_Cart where  pcode like '" + dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString() + "' and transno like '"+lblTransno.Text+"' group by transno, pcode   ", cn);
+                cm = new MySqlCommand("SELECT SUM(qty) AS qty FROM tbl_cart WHERE pcode = @pcode AND transno = @transno GROUP BY transno, pcode", cn);
+                cm.Parameters.AddWithValue("@pcode", dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
+                cm.Parameters.AddWithValue("@transno", lblTransno.Text);
                 i = int.Parse(cm.ExecuteScalar().ToString());
                 cn.Close();
 
@@ -408,7 +420,10 @@ namespace FinalPOS
                 {
                     cn.Open();
 
-                    cm = new SqlCommand("update tbl_Cart set qty = qty - " + int.Parse(txtQuantity.Text) + " where transno like '" + lblTransno.Text + "' and pcode like '" + dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString() + "'          ", cn);
+                    cm = new MySqlCommand("UPDATE tbl_cart SET qty = qty - @qty WHERE transno = @transno AND pcode = @pcode", cn);
+                    cm.Parameters.AddWithValue("@qty", int.Parse(txtQuantity.Text));
+                    cm.Parameters.AddWithValue("@transno", lblTransno.Text);
+                    cm.Parameters.AddWithValue("@pcode", dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
 
                     cm.ExecuteNonQuery();
                     cn.Close();
@@ -538,7 +553,8 @@ namespace FinalPOS
            else if(MessageBox.Show("Remove Everything from Cart?", "Clear Cart", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
             {
                 cn.Open();
-                cm = new SqlCommand("delete from tbl_Cart where transno like '"+lblTransno.Text+"'   ",cn);
+                cm = new MySqlCommand("DELETE FROM tbl_cart WHERE transno = @transno", cn);
+                cm.Parameters.AddWithValue("@transno", lblTransno.Text);
                 cm.ExecuteNonQuery();
                 cn.Close();
                 dataGridView1.Rows.Clear();

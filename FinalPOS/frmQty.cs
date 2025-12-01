@@ -6,16 +6,16 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace FinalPOS
 {
     public partial class frmQty : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
+        MySqlDataReader dr;
         DBConnection dbcon = new DBConnection();
         private string pcode;
         private int qty;
@@ -25,7 +25,7 @@ namespace FinalPOS
         public frmQty(frmPOS frmpos)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             this.KeyPreview = true;
             f = frmpos;
         }
@@ -60,7 +60,7 @@ namespace FinalPOS
                 bool found = false;
                 
                 cn.Open();
-                cm = new SqlCommand("select * from tbl_Cart  where transno =@transno and pcode = @pcode" ,cn);
+                cm = new MySqlCommand("SELECT * FROM tbl_cart WHERE transno = @transno AND pcode = @pcode", cn);
                 cm.Parameters.AddWithValue("@transno", f.lblTransno.Text);
                 cm.Parameters.AddWithValue("@pcode", pcode);
                 dr = cm.ExecuteReader();
@@ -83,7 +83,9 @@ namespace FinalPOS
                 {
                    
                     cn.Open();
-                    cm = new SqlCommand("update tbl_Cart set qty = (qty +" + int.Parse(txtQty.Text)+") where id = '"+id+"'   ", cn);
+                    cm = new MySqlCommand("UPDATE tbl_cart SET qty = (qty + @qty) WHERE id = @id", cn);
+                    cm.Parameters.AddWithValue("@qty", int.Parse(txtQty.Text));
+                    cm.Parameters.AddWithValue("@id", id);
                     cm.ExecuteNonQuery();
                     cn.Close();
 
@@ -101,7 +103,7 @@ namespace FinalPOS
                     }
 
                     cn.Open();
-                    cm = new SqlCommand("insert  into tbl_Cart (transno, pcode , price , qty,  sdate, cashier) values (@transno, @pcode , @price , @qty,  @sdate, @cashier)", cn);
+                    cm = new MySqlCommand("INSERT INTO tbl_cart (transno, pcode, price, qty, sdate, cashier) VALUES (@transno, @pcode, @price, @qty, @sdate, @cashier)", cn);
                     cm.Parameters.AddWithValue("transno", transno);
                     cm.Parameters.AddWithValue("pcode", pcode);
                     cm.Parameters.AddWithValue("price", price);

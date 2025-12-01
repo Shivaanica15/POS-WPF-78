@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace FinalPOS
@@ -14,15 +14,15 @@ namespace FinalPOS
    
 public partial class frmStockIn : Form
 {
-    SqlConnection cn = new SqlConnection();
-    SqlCommand cm = new SqlCommand();
+    MySqlConnection cn = new MySqlConnection();
+    MySqlCommand cm = new MySqlCommand();
     DBConnection dbcon = new DBConnection();
-    SqlDataReader dr;
+    MySqlDataReader dr;
     string stitle = "MyNEW POS System";
     public frmStockIn()
     {
         InitializeComponent();
-        cn = new SqlConnection(dbcon.MyConnection());
+        cn = new MySqlConnection(dbcon.MyConnection());
         LoadVendor();
 
     }
@@ -34,7 +34,8 @@ public partial class frmStockIn : Form
         int i=0;
         stgrids.Rows.Clear();
         cn.Open();
-        cm = new SqlCommand("select * from ViewStocks where refno like '"+txtrefno.Text+"' and status like 'Pending' ",cn);
+        cm = new MySqlCommand("SELECT * FROM viewstocks WHERE refno = @refno AND status = 'Pending'", cn);
+        cm.Parameters.AddWithValue("@refno", txtrefno.Text);
         dr = cm.ExecuteReader();
         while(dr.Read())
         {
@@ -67,7 +68,9 @@ public partial class frmStockIn : Form
             int i = 0;
             dataGridView1.Rows.Clear();
             cn.Open();
-            cm = new SqlCommand("select * from ViewStocks where cast(sdate as date) between '" + date1.Value.ToShortDateString() + "' and '" + date2.Value.ToShortDateString() + "' and status like 'Done' ", cn);
+            cm = new MySqlCommand("SELECT * FROM viewstocks WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Done'", cn);
+            cm.Parameters.AddWithValue("@date1", date1.Value.Date);
+            cm.Parameters.AddWithValue("@date2", date2.Value.Date);
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
@@ -87,7 +90,8 @@ public partial class frmStockIn : Form
                 if (MessageBox.Show("Remove this item?", stitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("delete from tbl_Stocks_In where id = '" + stgrids.Rows[e.RowIndex].Cells[1].Value.ToString() + "' ", cn);
+                    cm = new MySqlCommand("DELETE FROM tbl_stocks_in WHERE id = @id", cn);
+                    cm.Parameters.AddWithValue("@id", stgrids.Rows[e.RowIndex].Cells[1].Value.ToString());
                     cm.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("Item has been successfully removed", stitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -111,14 +115,18 @@ public partial class frmStockIn : Form
                         {
                             //update product quantity   
                             cn.Open();
-                            cm = new SqlCommand("update tbl_Products set qty = qty+ " + int.Parse(stgrids.Rows[i].Cells[5].Value.ToString()) + " where pcode like '" + stgrids.Rows[i].Cells[3].Value.ToString() + "'  ", cn);
+                            cm = new MySqlCommand("UPDATE tbl_products SET qty = qty + @qty WHERE pcode = @pcode", cn);
+                            cm.Parameters.AddWithValue("@qty", int.Parse(stgrids.Rows[i].Cells[5].Value.ToString()));
+                            cm.Parameters.AddWithValue("@pcode", stgrids.Rows[i].Cells[3].Value.ToString());
                             cm.ExecuteNonQuery();
                             cn.Close();
 
 
                             //update tblstockin qty
                             cn.Open();
-                            cm = new SqlCommand("update tbl_Stocks_In set qty = qty+ " + int.Parse(stgrids.Rows[i].Cells[5].Value.ToString()) + " , status = 'Done' where id like '" + stgrids.Rows[i].Cells[1].Value.ToString() + "'", cn);
+                            cm = new MySqlCommand("UPDATE tbl_stocks_in SET qty = qty + @qty, status = 'Done' WHERE id = @id", cn);
+                            cm.Parameters.AddWithValue("@qty", int.Parse(stgrids.Rows[i].Cells[5].Value.ToString()));
+                            cm.Parameters.AddWithValue("@id", stgrids.Rows[i].Cells[1].Value.ToString());
                             cm.ExecuteNonQuery();
                             cn.Close();
                         }
@@ -155,7 +163,8 @@ public partial class frmStockIn : Form
                 if (MessageBox.Show("Remove this item?", stitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("delete from ViewStocks where id = '" + dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString() + "' ", cn);
+                    cm = new MySqlCommand("DELETE FROM tbl_stocks_in WHERE id = @id", cn);
+                    cm.Parameters.AddWithValue("@id", dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                     cm.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("Item has been successfully removed", stitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -179,7 +188,7 @@ public partial class frmStockIn : Form
         {
             cboVendor.Items.Clear();
             cn.Open();
-            cm = new SqlCommand("select * from tbl_Vendor", cn);
+            cm = new MySqlCommand("SELECT * FROM tbl_vendor", cn);
             dr = cm.ExecuteReader();
             while(dr.Read())
             {
@@ -198,7 +207,8 @@ public partial class frmStockIn : Form
         private void cboVendor_TextChanged(object sender, EventArgs e)
         {
             cn.Open();
-            cm = new SqlCommand("select * from tbl_Vendor where vendor like '" + cboVendor.Text + "'  ", cn);
+            cm = new MySqlCommand("SELECT * FROM tbl_vendor WHERE vendor = @vendor", cn);
+            cm.Parameters.AddWithValue("@vendor", cboVendor.Text);
             dr = cm.ExecuteReader();
             dr.Read();
             if (dr.HasRows)

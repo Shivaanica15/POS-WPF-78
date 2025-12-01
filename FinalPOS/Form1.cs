@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Common;
@@ -15,17 +15,17 @@ namespace FinalPOS
 {
     public partial class Form1 : MetroFramework.Forms.MetroForm
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         public string _pass , _username;   
 
         public Form1()
         {
 
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             NotifyCriticalItems();
             MyDashboard();
             // cn.Open();
@@ -36,14 +36,14 @@ namespace FinalPOS
         {
             string critical = "";
             cn.Open();
-            cm = new SqlCommand("select count(*) from  ViewCriticalItems  ", cn);
+            cm = new MySqlCommand("SELECT COUNT(*) FROM viewcriticalitems", cn);
 
             int i = 0;
             string count = cm.ExecuteScalar().ToString();
             cn.Close();
 
             cn.Open();
-            cm = new SqlCommand("select * from  ViewCriticalItems  ", cn);
+            cm = new MySqlCommand("SELECT * FROM viewcriticalitems", cn);
             dr = cm.ExecuteReader();
             while(dr.Read())
             {

@@ -8,20 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Reporting.WinForms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace FinalPOS
 {
     public partial class frmInventoryReport : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;
+        MySqlDataReader dr;
         public frmInventoryReport()
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
 
         }
 
@@ -46,10 +46,11 @@ namespace FinalPOS
                 this.reportViewer1.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();
-                SqlDataAdapter da = new SqlDataAdapter();
+                MySqlDataAdapter da = new MySqlDataAdapter();
 
                 cn.Open();
-                da.SelectCommand = new SqlCommand(sql, cn);
+                cm = new MySqlCommand(sql, cn);
+                da.SelectCommand = cm;
                 da.Fill(ds.Tables["dtTopSelling"]);
                 cn.Close();
                 ReportParameter pDate = new ReportParameter("pDate", param);
@@ -81,7 +82,7 @@ namespace FinalPOS
                 this.reportViewer1.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();
-                SqlDataAdapter da = new SqlDataAdapter();
+                MySqlDataAdapter da = new MySqlDataAdapter();
 
                 ReportParameter pDate = new ReportParameter("pDate", param);
                
@@ -89,7 +90,8 @@ namespace FinalPOS
                 reportViewer1.LocalReport.SetParameters(pDate);
 
                 cn.Open();
-                da.SelectCommand = new SqlCommand(psql, cn);
+                cm = new MySqlCommand(psql, cn);
+                da.SelectCommand = cm;
                 da.Fill(ds.Tables["dtStocksIn"]);
                 cn.Close();
 
@@ -116,7 +118,7 @@ namespace FinalPOS
                 this.reportViewer1.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();
-                SqlDataAdapter da = new SqlDataAdapter();
+                MySqlDataAdapter da = new MySqlDataAdapter();
 
                 ReportParameter pDate = new ReportParameter("pDate", param);
 
@@ -124,7 +126,8 @@ namespace FinalPOS
                 reportViewer1.LocalReport.SetParameters(pDate);
 
                 cn.Open();
-                da.SelectCommand = new SqlCommand(psql, cn);
+                cm = new MySqlCommand(psql, cn);
+                da.SelectCommand = cm;
                 da.Fill(ds.Tables["dbCancelled"]);
                 cn.Close();
 
@@ -158,10 +161,11 @@ namespace FinalPOS
                 this.reportViewer1.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();
-                SqlDataAdapter da = new SqlDataAdapter();
+                MySqlDataAdapter da = new MySqlDataAdapter();
 
                 cn.Open();
-                da.SelectCommand = new SqlCommand(sql, cn);
+                cm = new MySqlCommand(sql, cn);
+                da.SelectCommand = cm;
                 da.Fill(ds.Tables["dtSoldItems"]);
                 cn.Close();
                 ReportParameter pDate = new ReportParameter("pDate", param);
@@ -192,10 +196,11 @@ namespace FinalPOS
                 this.reportViewer1.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();
-                SqlDataAdapter da = new SqlDataAdapter();
+                MySqlDataAdapter da = new MySqlDataAdapter();
 
                 cn.Open();
-                da.SelectCommand = new SqlCommand("select p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.qty, p.reorder from tbl_Products as p inner join tbl_Brand as b on p.bid = b.id inner join tbl_category as c on p.cid = c.id ",cn);
+                cm = new MySqlCommand("SELECT p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.qty, p.reorder FROM tbl_products AS p INNER JOIN tbl_brand AS b ON p.bid = b.id INNER JOIN tbl_category AS c ON p.cid = c.id", cn);
+                da.SelectCommand = cm;
                 da.Fill(ds.Tables["dtInventory"]);
                 cn.Close();
 

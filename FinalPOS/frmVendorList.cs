@@ -7,21 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 namespace FinalPOS
 {
 
 
     public partial class frmVendorList : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
+        MySqlDataReader dr;
         DBConnection dbcon = new DBConnection();
         public frmVendorList()
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
 
         }
 
@@ -43,7 +43,7 @@ namespace FinalPOS
             dataGridView1.Rows.Clear();
             int i = 0;
             cn.Open();
-            cm = new SqlCommand("select * from tbl_Vendor", cn);
+            cm = new MySqlCommand("SELECT * FROM tbl_vendor", cn);
             dr = cm.ExecuteReader();
             while(dr.Read())
             {
@@ -75,7 +75,8 @@ namespace FinalPOS
                 if(MessageBox.Show("YOU SURE WANT TO DELETE THE VENDOR?", "Delete Vendor", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("delete from tbl_Vendor where id like '"+dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString()+"'   ",cn);
+                    cm = new MySqlCommand("DELETE FROM tbl_vendor WHERE id = @id", cn);
+                    cm.Parameters.AddWithValue("@id", dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                     cm.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("Vendor Deleted Successfully", "Delete Vendor", MessageBoxButtons.OK, MessageBoxIcon.Information);

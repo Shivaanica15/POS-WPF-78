@@ -7,21 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace FinalPOS
 {
     public partial class frmVoid : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
+        MySqlDataReader dr;
         DBConnection dbcon = new DBConnection();
         frmCancelDetails f;
         public frmVoid(frmCancelDetails frm)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             f = frm;
 
         }
@@ -39,7 +39,7 @@ namespace FinalPOS
                 {
                     string user;
                     cn.Open();
-                    cm = new SqlCommand("select * from tbl_Users where username = @username  and password = @password", cn);
+                    cm = new MySqlCommand("SELECT * FROM tbl_users WHERE username = @username AND password = @password", cn);
                     cm.Parameters.AddWithValue("@username", txtUsername.Text);
                     cm.Parameters.AddWithValue("@password", txtPassword.Text);
                     dr = cm.ExecuteReader();
@@ -53,10 +53,10 @@ namespace FinalPOS
                        SaveCancelOrder(user);
                         if(f.cboAction.Text == "Yes")
                         {
-                            UpdateData("update tbl_Products set qty = qty + " + int.Parse(f.txtCancelQty.Text) + "where pcode = '" + f.txtpcode.Text + "'  ");
+                            UpdateData("UPDATE tbl_products SET qty = qty + @qty WHERE pcode = @pcode", new MySqlParameter[] { new MySqlParameter("@qty", int.Parse(f.txtCancelQty.Text)), new MySqlParameter("@pcode", f.txtpcode.Text) });
                         }
 
-                        UpdateData("update tbl_Cart set qty = qty - " + int.Parse(f.txtCancelQty.Text) + "where id like '"+f.txtID.Text+"'   ");
+                        UpdateData("UPDATE tbl_cart SET qty = qty - @qty WHERE id = @id", new MySqlParameter[] { new MySqlParameter("@qty", int.Parse(f.txtCancelQty.Text)), new MySqlParameter("@id", f.txtID.Text) });
 
                         MessageBox.Show("Order Transaction Cancelled Successfully", "Cancel Order", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Dispose();
@@ -78,7 +78,7 @@ namespace FinalPOS
         public void SaveCancelOrder(string user)
         {
             cn.Open();
-            cm = new SqlCommand("insert into tbl_Cancel (transno, pcode, price, qty, sdate, voidby, cancelledby, reason,action) values (@transno, @pcode, @price, @qty, @sdate, @voidby, @cancelledby, @reason, @action) ",cn);
+            cm = new MySqlCommand("INSERT INTO tbl_cancel (transno, pcode, price, qty, sdate, voidby, cancelledby, reason, action) VALUES (@transno, @pcode, @price, @qty, @sdate, @voidby, @cancelledby, @reason, @action)", cn);
             cm.Parameters.AddWithValue("transno", f.txtTransno.Text);
             cm.Parameters.AddWithValue("pcode", f.txtpcode.Text);
             cm.Parameters.AddWithValue("price", double.Parse(f.txtPrice.Text));
@@ -94,10 +94,14 @@ namespace FinalPOS
             cn.Close();
         }
 
-        public void UpdateData(string sql)
+        public void UpdateData(string sql, MySqlParameter[] parameters = null)
         {
             cn.Open();
-            cm = new SqlCommand(sql,cn);
+            cm = new MySqlCommand(sql, cn);
+            if (parameters != null)
+            {
+                cm.Parameters.AddRange(parameters);
+            }
             cm.ExecuteNonQuery();
             cn.Close();
         }

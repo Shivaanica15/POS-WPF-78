@@ -7,22 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace FinalPOS
 {
     public partial class frmSecurity : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
+        MySqlDataReader dr;
         DBConnection dbcon = new DBConnection();
         public string _pass, _username = "";
         public bool _isactive = false;
         public frmSecurity()
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             txtUsername.Focus();
             this.KeyPreview = true;
         }
@@ -41,7 +41,7 @@ namespace FinalPOS
             {
                 bool found = false;
                 cn.Open();
-                cm = new SqlCommand("select * from tbl_Users where username = @username and password = @password", cn);
+                cm = new MySqlCommand("SELECT * FROM tbl_users WHERE username = @username AND password = @password", cn);
                 cm.Parameters.AddWithValue("@username", txtUsername.Text);
                 cm.Parameters.AddWithValue("@password", txtPassword.Text);
                 dr = cm.ExecuteReader();

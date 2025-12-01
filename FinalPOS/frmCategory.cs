@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,14 +14,14 @@ namespace FinalPOS
     public partial class frmCateogory : Form
     {
 
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
         frmCateogoryList flist;
         public frmCateogory(frmCateogoryList frm)
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
             flist = frm;
 
         }
@@ -56,7 +56,7 @@ namespace FinalPOS
                 if (MessageBox.Show("Are you sure want to save this Category?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("INSERT into tbl_category(category) VALUES(@category)", cn);
+                    cm = new MySqlCommand("INSERT INTO tbl_category (category) VALUES (@category)", cn);
                     cm.Parameters.AddWithValue("@category", txtCategory.Text);
                     cm.ExecuteNonQuery();
                     cn.Close();
@@ -80,7 +80,8 @@ namespace FinalPOS
                 if (MessageBox.Show("Are you sure want to update this category?", "Update Category", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("UPDATE tbl_category set category = @category where id like '" + lblID.Text + "'", cn);
+                    cm = new MySqlCommand("UPDATE tbl_category SET category = @category WHERE id = @id", cn);
+                    cm.Parameters.AddWithValue("@id", lblID.Text);
                     cm.Parameters.AddWithValue("@category", txtCategory.Text);
                     cm.ExecuteNonQuery();
                     cn.Close();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,14 +13,14 @@ namespace FinalPOS
 {
     public partial class frmCateogoryList : Form
     {
-        SqlConnection cn = new SqlConnection();
-        SqlCommand cm = new SqlCommand();
+        MySqlConnection cn = new MySqlConnection();
+        MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        SqlDataReader dr;   
+        MySqlDataReader dr;   
         public frmCateogoryList()
         {
             InitializeComponent();
-            cn = new SqlConnection(dbcon.MyConnection());
+            cn = new MySqlConnection(dbcon.MyConnection());
         }
 
       private void pictureBox1_Click(object sender, EventArgs e)
@@ -32,7 +32,7 @@ namespace FinalPOS
             int i = 0;
             dataGridView1.Rows.Clear();
             cn.Open();
-            cm = new SqlCommand("SELECT * FROM tbl_category order by category", cn);
+            cm = new MySqlCommand("SELECT * FROM tbl_category ORDER BY category", cn);
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
@@ -72,7 +72,8 @@ namespace FinalPOS
                 if (MessageBox.Show("Are you sure want to delete this category?", "Delete Category", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     cn.Open();
-                    cm = new SqlCommand("delete from tbl_category where id like '" + dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString() + "'", cn);
+                    cm = new MySqlCommand("DELETE FROM tbl_category WHERE id = @id", cn);
+                    cm.Parameters.AddWithValue("@id", dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
                     cm.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("Category Deleted Successfully");
