@@ -2,15 +2,8 @@
 {
     partial class frmBrandList
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,10 +15,6 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -47,9 +36,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // panel1
-            // 
+            
+
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.pictureBox1);
@@ -59,9 +47,8 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(911, 44);
             this.panel1.TabIndex = 0;
-            // 
-            // pictureBox2
-            // 
+            
+
             this.pictureBox2.Image = global::FinalPOS.Properties.Resources.zca;
             this.pictureBox2.Location = new System.Drawing.Point(796, 0);
             this.pictureBox2.Name = "pictureBox2";
@@ -70,9 +57,8 @@
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click_1);
-            // 
-            // pictureBox1
-            // 
+            
+
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Right;
             this.pictureBox1.Image = global::FinalPOS.Properties.Resources.cancel__3_;
             this.pictureBox1.Location = new System.Drawing.Point(848, 0);
@@ -82,9 +68,8 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // label1
-            // 
+           
+
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.Color.Black;
@@ -93,9 +78,8 @@
             this.label1.Size = new System.Drawing.Size(121, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "BRAND LIST";
-            // 
-            // dataGridView1
-            // 
+            
+
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -132,60 +116,44 @@
             this.dataGridView1.Size = new System.Drawing.Size(911, 573);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
-            // 
-            // Column1
-            // 
+            
             this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Column1.HeaderText = "#";
             this.Column1.Name = "Column1";
             this.Column1.Width = 39;
-            // 
-            // Column2
-            // 
+             
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Column2.HeaderText = "ID";
             this.Column2.Name = "Column2";
             this.Column2.Visible = false;
             this.Column2.Width = 45;
-            // 
-            // Column3
-            // 
+            
             this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column3.HeaderText = "BRAND";
             this.Column3.Name = "Column3";
-            // 
-            // Edit
-            // 
+           
             this.Edit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Edit.HeaderText = "";
             this.Edit.Image = global::FinalPOS.Properties.Resources.edit;
             this.Edit.Name = "Edit";
             this.Edit.Width = 5;
-            // 
-            // Delete
-            // 
+            
             this.Delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Delete.HeaderText = "";
             this.Delete.Image = global::FinalPOS.Properties.Resources.recycle_bin;
             this.Delete.Name = "Delete";
             this.Delete.Width = 5;
-            // 
-            // dataGridViewImageColumn1
-            // 
+             
             this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewImageColumn1.HeaderText = "";
             this.dataGridViewImageColumn1.Image = global::FinalPOS.Properties.Resources.edit;
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            // 
-            // dataGridViewImageColumn2
-            // 
+             
             this.dataGridViewImageColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewImageColumn2.HeaderText = "";
             this.dataGridViewImageColumn2.Image = global::FinalPOS.Properties.Resources.recycle_bin;
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
-            // 
-            // frmBrandList
-            // 
+            
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(911, 617);
