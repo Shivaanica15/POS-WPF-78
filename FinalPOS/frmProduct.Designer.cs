@@ -49,6 +49,10 @@
             this.brandcbo = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtReOrder = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtQty = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtQty = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -92,7 +96,7 @@
             this.button3.BackColor = System.Drawing.Color.Gray;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(321, 294);
+            this.button3.Location = new System.Drawing.Point(321, 326);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(97, 43);
             this.button3.TabIndex = 6;
@@ -105,7 +109,7 @@
             this.btnUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnUpdate.Location = new System.Drawing.Point(218, 294);
+            this.btnUpdate.Location = new System.Drawing.Point(218, 326);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(97, 43);
             this.btnUpdate.TabIndex = 7;
@@ -118,7 +122,7 @@
             this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(117, 294);
+            this.btnSave.Location = new System.Drawing.Point(117, 326);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(97, 43);
             this.btnSave.TabIndex = 8;
@@ -265,20 +269,42 @@
             this.txtReOrder.TextChanged += new System.EventHandler(this.pricetxtbox_TextChanged);
             this.txtReOrder.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pricetxtbox_KeyPress_1);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label9.Location = new System.Drawing.Point(50, 290);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(62, 19);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "Quantity";
+            // 
+            // txtQty
+            // 
+            this.txtQty.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtQty.Location = new System.Drawing.Point(117, 290);
+            this.txtQty.Name = "txtQty";
+            this.txtQty.Size = new System.Drawing.Size(400, 25);
+            this.txtQty.TabIndex = 10;
+            this.txtQty.TextChanged += new System.EventHandler(this.pricetxtbox_TextChanged);
+            this.txtQty.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pricetxtbox_KeyPress_1);
+            // 
             // frmProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 344);
+            this.ClientSize = new System.Drawing.Size(543, 376);
             this.ControlBox = false;
             this.Controls.Add(this.brandcbo);
             this.Controls.Add(this.categorycbo);
             this.Controls.Add(this.descriptionTxtBox);
+            this.Controls.Add(this.txtQty);
             this.Controls.Add(this.txtReOrder);
             this.Controls.Add(this.pricetxtbox);
             this.Controls.Add(this.txtpcode);
             this.Controls.Add(this.txtBarcode);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label7);
@@ -326,5 +352,7 @@
         public System.Windows.Forms.ComboBox brandcbo;
         private System.Windows.Forms.Label label5;
         public System.Windows.Forms.TextBox txtReOrder;
+        private System.Windows.Forms.Label label9;
+        public System.Windows.Forms.TextBox txtQty;
     }
 }

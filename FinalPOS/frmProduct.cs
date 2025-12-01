@@ -70,6 +70,7 @@ namespace FinalPOS
             btnSave.Enabled = true;
             btnUpdate.Enabled = false;
             txtReOrder.Clear();
+            txtQty.Clear();
         }
 
 
@@ -129,7 +130,7 @@ namespace FinalPOS
                     cn.Close();
 
                     cn.Open();
-                    cm = new MySqlCommand("UPDATE tbl_products SET barcode = @barcode, pdesc = @pdesc, bid = @bid, cid = @cid, price = @price, reorder = @reorder WHERE pcode = @pcode", cn);
+                    cm = new MySqlCommand("UPDATE tbl_products SET barcode = @barcode, pdesc = @pdesc, bid = @bid, cid = @cid, price = @price, reorder = @reorder, qty = @qty WHERE pcode = @pcode", cn);
                     cm.Parameters.AddWithValue("@pcode", txtpcode.Text);
                     cm.Parameters.AddWithValue("@barcode", txtBarcode.Text);
                     cm.Parameters.AddWithValue("@pdesc", descriptionTxtBox.Text);
@@ -137,6 +138,7 @@ namespace FinalPOS
                     cm.Parameters.AddWithValue("@cid", cid);
                     cm.Parameters.AddWithValue("@price", Double.Parse(pricetxtbox.Text));
                     cm.Parameters.AddWithValue("@reorder",int.Parse(txtReOrder.Text));
+                    cm.Parameters.AddWithValue("@qty", int.Parse(txtQty.Text));
                     cm.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("Product has been updated successfully.");
@@ -183,7 +185,7 @@ namespace FinalPOS
                     cn.Close();
 
                     cn.Open();
-                    cm = new MySqlCommand("INSERT INTO tbl_products (pcode, barcode, pdesc, bid, cid, price, reorder) VALUES (@pcode, @barcode, @pdesc, @bid, @cid, @price, @reorder)", cn);
+                    cm = new MySqlCommand("INSERT INTO tbl_products (pcode, barcode, pdesc, bid, cid, price, reorder, qty) VALUES (@pcode, @barcode, @pdesc, @bid, @cid, @price, @reorder, @qty)", cn);
                     cm.Parameters.AddWithValue("@pcode", txtpcode.Text);
                     cm.Parameters.AddWithValue("@barcode", txtBarcode.Text);
                     cm.Parameters.AddWithValue("@pdesc", descriptionTxtBox.Text);
@@ -191,6 +193,7 @@ namespace FinalPOS
                     cm.Parameters.AddWithValue("@cid", cid);
                     cm.Parameters.AddWithValue("@price", pricetxtbox.Text);
                     cm.Parameters.AddWithValue("@reorder", txtReOrder.Text);
+                    cm.Parameters.AddWithValue("@qty", txtQty.Text);
                     cm.ExecuteNonQuery();
                     cn.Close();
                     MessageBox.Show("Product has been added successfully.");
