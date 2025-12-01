@@ -133,10 +133,9 @@ namespace FinalPOS
 
         private void frmRegister_Load(object sender, EventArgs e)
         {
-            // Populate role combobox
-            cmbRole.Items.Add("Admin");
+            // Populate role combobox - only roles with dashboards
+            cmbRole.Items.Add("System Administrator");
             cmbRole.Items.Add("Cashier");
-            cmbRole.Items.Add("Manager");
         }
 
         private void frmRegister_KeyDown(object sender, KeyEventArgs e)
