@@ -41,7 +41,8 @@ namespace FinalPOS
             try
             {
                 ReportDataSource rptDs;
-                this.reportViewer1.LocalReport.ReportPath = Application.StartupPath + @"\Reports\rptTop10.rdlc";
+                // Use embedded resource instead of file path
+                this.reportViewer1.LocalReport.ReportEmbeddedResource = "FinalPOS.rptTop10.rdlc";
                 this.reportViewer1.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();
@@ -77,7 +78,8 @@ namespace FinalPOS
             ReportDataSource rptDS;
             try
             {
-                this.reportViewer1.LocalReport.ReportPath = Application.StartupPath + @"\Reports\RPTStocksIn.rdlc";
+                // Use embedded resource instead of file path
+                this.reportViewer1.LocalReport.ReportEmbeddedResource = "FinalPOS.RPTStocksIn.rdlc";
                 this.reportViewer1.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();
@@ -113,7 +115,8 @@ namespace FinalPOS
             ReportDataSource rptDS;
             try
             {
-                this.reportViewer1.LocalReport.ReportPath = Application.StartupPath + @"\Reports\rptCancelled.rdlc";
+                // Use embedded resource instead of file path
+                this.reportViewer1.LocalReport.ReportEmbeddedResource = "FinalPOS.rptCancelled.rdlc";
                 this.reportViewer1.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();
@@ -156,7 +159,8 @@ namespace FinalPOS
             try
             {
                 ReportDataSource rptDs;
-                this.reportViewer1.LocalReport.ReportPath = Application.StartupPath + @"\Reports\rptSold.rdlc";
+                // Use embedded resource instead of file path
+                this.reportViewer1.LocalReport.ReportEmbeddedResource = "FinalPOS.rptSold.rdlc";
                 this.reportViewer1.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();
@@ -191,7 +195,8 @@ namespace FinalPOS
             ReportDataSource rptDS;
             try
             {
-                this.reportViewer1.LocalReport.ReportPath = Application.StartupPath + @"\Reports\Report3.rdlc";
+                // Use embedded resource instead of file path
+                this.reportViewer1.LocalReport.ReportEmbeddedResource = "FinalPOS.Report3.rdlc";
                 this.reportViewer1.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();

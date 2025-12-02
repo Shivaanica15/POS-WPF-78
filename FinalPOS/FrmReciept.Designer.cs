@@ -54,7 +54,7 @@
             reportDataSource2.Name = "DataSet1";
             reportDataSource2.Value = this.dtSoldBindingSource;
             this.reportViewer1.LocalReport.DataSources.Add(reportDataSource2);
-            this.reportViewer1.LocalReport.ReportEmbeddedResource = "FinalPOS.Report1.rdlc";
+            // ReportEmbeddedResource will be set in LoadReport method to avoid conflicts
             this.reportViewer1.Location = new System.Drawing.Point(0, 0);
             this.reportViewer1.Name = "reportViewer1";
          //   this.reportViewer1.ServerReport.BearerToken = null;

@@ -39,7 +39,8 @@ namespace FinalPOS
             try
             {
                 ReportDataSource rptDS;
-                this.reportViewer2.LocalReport.ReportPath = Application.StartupPath + @"\Reports\Report2.rdlc";
+                // Use embedded resource instead of file path
+                this.reportViewer2.LocalReport.ReportEmbeddedResource = "FinalPOS.Report2.rdlc";
                 this.reportViewer2.LocalReport.DataSources.Clear();
 
                 DataSet1 ds = new DataSet1();

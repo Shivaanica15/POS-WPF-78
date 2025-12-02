@@ -285,16 +285,29 @@ namespace FinalPOS
 
         public void GetCartTotal()
         {
-
-
+            // Get values from labels (already set by LoadCart)
+            double salesTotal = Double.Parse(lblSalesTotal.Text);
             double discount = Double.Parse(lblDiscount.Text);
-            double sales = Double.Parse(lblSalesTotal.Text);
-            double vat = sales * dbcon.GetVal();
-            double vatable = sales - vat;
+            
+            // Step 1: SalesTotal = sum of item totals (already correct, no change needed)
+            // Step 2: Discount = total discount value (already correct, no change needed)
+            
+            // Step 3: Taxable = SalesTotal - Discount
+            double taxable = salesTotal - discount;
+            
+            // Step 4: VAT = Taxable * TAX_RATE
+            double taxRate = dbcon.GetVal();
+            double vat = taxable * taxRate;
+            
+            // Step 5: TotalAmount = Taxable + VAT
+            double totalAmount = taxable + vat;
 
-            lblVAT.Text = vat.ToString("#,##0.00");
-            lblVatable.Text = vatable.ToString("#,##0.00");
-            lblDisplayTotal.Text = sales.ToString("#,##0.00");
+            // Update labels
+            lblSalesTotal.Text = salesTotal.ToString("#,##0.00");  // Sales Total (Sub Total)
+            lblDiscount.Text = discount.ToString("#,##0.00");  // Discount
+            lblVatable.Text = taxable.ToString("#,##0.00");  // Taxable (SalesTotal - Discount)
+            lblVAT.Text = totalAmount.ToString("#,##0.00");  // Total Amount (Taxable + VAT)
+            lblDisplayTotal.Text = totalAmount.ToString("#,##0.00");  // Display total at top
         }
 
         private void Searchhp_TextChanged_2(object sender, EventArgs e)
