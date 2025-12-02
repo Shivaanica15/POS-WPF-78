@@ -63,16 +63,11 @@ namespace FinalPOS
                 ReportParameter pTransaction = new ReportParameter("pTransaction","Invoice #:" + f.lblTransno.Text); 
                 ReportParameter pCashier = new ReportParameter("pCashier", f.lblUser.Text);
 
-                reportViewer1.LocalReport.SetParameters(pVatable);
-                reportViewer1.LocalReport.SetParameters(pVat);
-                reportViewer1.LocalReport.SetParameters(pDiscount);
-                reportViewer1.LocalReport.SetParameters(pTotal);
-                reportViewer1.LocalReport.SetParameters(pCash);
-                reportViewer1.LocalReport.SetParameters(pChange);
-                reportViewer1.LocalReport.SetParameters(pStore);
-                reportViewer1.LocalReport.SetParameters(pAddress);
-                reportViewer1.LocalReport.SetParameters(pTransaction);
-                reportViewer1.LocalReport.SetParameters(pCashier);
+                List<ReportParameter> parameters = new List<ReportParameter>
+                {
+                    pVatable, pVat, pDiscount, pTotal, pCash, pChange, pStore, pAddress, pTransaction, pCashier
+                };
+                reportViewer1.LocalReport.SetParameters(parameters);
 
                 rptDatasource = new ReportDataSource("DataSet1",ds.Tables["dtSold"]);
                 reportViewer1.LocalReport.DataSources.Add(rptDatasource);
@@ -84,7 +79,7 @@ namespace FinalPOS
             catch (Exception ex)
             {
                 cn.Close();
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Error loading report: " + ex.Message, "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
