@@ -16,7 +16,6 @@ namespace FinalPOS
     {
         MySqlConnection cn = new MySqlConnection();
         MySqlCommand cm = new MySqlCommand();
-        MySqlDataReader dr;
         DBConnection dbcon = new DBConnection();
         public frmChart()
         {

@@ -14,7 +14,6 @@ namespace FinalPOS
     public partial class frmDashboard : Form
     {
         MySqlConnection cn;
-        MySqlCommand cm;
         DBConnection db = new DBConnection();
         public frmDashboard()
         {

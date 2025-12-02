@@ -18,7 +18,6 @@ namespace FinalPOS
         MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
         MySqlDataReader dr;
-        string stitle = "MyNEW POS System";
         public frmLookUp(frmPOS frm)
         {
             InitializeComponent();

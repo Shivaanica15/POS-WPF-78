@@ -16,7 +16,6 @@ namespace FinalPOS
         MySqlConnection cn = new MySqlConnection();
         MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        MySqlDataReader dr;
        
         frmPOS f;
         string stitle = "MyNEW POS System";
@@ -41,7 +40,7 @@ namespace FinalPOS
                 double discount = Double.Parse(txtPrice.Text) * Double.Parse(txtDisocunt.Text);
                 txtDiscountAmount.Text = discount.ToString("#,##0.00");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 txtDiscountAmount.Text = "0.00";
 

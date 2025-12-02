@@ -686,7 +686,7 @@
         public System.Windows.Forms.TextBox txtrefno;
         public System.Windows.Forms.DateTimePicker dttime;
         public System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ComboBox cboVendor;
+        public System.Windows.Forms.ComboBox cboVendor;
         public System.Windows.Forms.TextBox txtContactPerson;
         private System.Windows.Forms.Label lblContact;
         private System.Windows.Forms.Label lblVendor;

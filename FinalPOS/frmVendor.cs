@@ -16,7 +16,6 @@ namespace FinalPOS
         frmVendorList f;
         MySqlConnection cn = new MySqlConnection();
         MySqlCommand cm = new MySqlCommand();
-        MySqlDataReader dr;
         DBConnection dbcon = new DBConnection();
         public frmVendor(frmVendorList f)
         {

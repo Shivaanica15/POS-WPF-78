@@ -36,7 +36,7 @@ namespace FinalPOS
                 double change = cash - sale;
                 txtChange.Text = change.ToString("#,##0.00");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 txtChange.Text = "0.00";
             }

@@ -17,7 +17,6 @@ namespace FinalPOS
         MySqlConnection cn = new MySqlConnection();
         MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        MySqlDataReader dr;
         frmPOS f;
         string store = "Hello Wold Solutions";
         string address = "Light House Gari Khata, Karachi";
