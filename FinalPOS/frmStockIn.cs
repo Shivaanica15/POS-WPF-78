@@ -143,7 +143,7 @@ public partial class frmStockIn : Form
             }
         }
 
-        private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnSearchAllProducts_Click(object sender, EventArgs e)
         {
             frmSearchProduct_StocksIn frm = new frmSearchProduct_StocksIn(this);
             frm.LoadProduct();
