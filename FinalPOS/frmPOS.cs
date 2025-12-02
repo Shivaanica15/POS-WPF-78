@@ -144,7 +144,7 @@ namespace FinalPOS
 
             if (found == true)
             {
-                if (qty < (int.Parse(txtQuantity.Text) + cart_qty))
+                if (qty < (_qty + cart_qty))
                 {
                     MessageBox.Show("Unable to Add Remaining Quantity on hand is " + qty, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -165,7 +165,7 @@ namespace FinalPOS
             }
             else
             {
-                if (qty < (int.Parse(txtQuantity.Text) + cart_qty))
+                if (qty < (_qty + cart_qty))
                 {
                     MessageBox.Show("Unable to Add Remaining Quantity on hand is " + qty, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -333,7 +333,17 @@ namespace FinalPOS
                         qty = int.Parse(dr["qty"].ToString());
                         _pcode = dr["pcode"].ToString();
                         _price = double.Parse(dr["price"].ToString());
-                        _qty = int.Parse(txtQuantity.Text);
+                        
+                        // Parse quantity with proper validation
+                        string qtyText = txtQuantity.Text.Trim();
+                        if (string.IsNullOrEmpty(qtyText))
+                        {
+                            _qty = 1;
+                        }
+                        else if (!int.TryParse(qtyText, out _qty) || _qty <= 0)
+                        {
+                            _qty = 1;
+                        }
 
                         dr.Close();
                         cn.Close();
