@@ -72,6 +72,20 @@
             this.lblSalesTotal = new System.Windows.Forms.Label();
             this.lblDiscount = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.btnCalcEnter = new System.Windows.Forms.Button();
+            this.btnCalc00 = new System.Windows.Forms.Button();
+            this.btnCalc0 = new System.Windows.Forms.Button();
+            this.btnCalc3 = new System.Windows.Forms.Button();
+            this.btnCalc2 = new System.Windows.Forms.Button();
+            this.btnCalc1 = new System.Windows.Forms.Button();
+            this.btnCalc6 = new System.Windows.Forms.Button();
+            this.btnCalc5 = new System.Windows.Forms.Button();
+            this.btnCalc4 = new System.Windows.Forms.Button();
+            this.btnCalc9 = new System.Windows.Forms.Button();
+            this.btnCalc8 = new System.Windows.Forms.Button();
+            this.btnCalc7 = new System.Windows.Forms.Button();
+            this.btnCalcClear = new System.Windows.Forms.Button();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -84,6 +98,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -169,8 +184,8 @@
             this.panel2.Controls.Add(this.btnDiscount);
             this.panel2.Controls.Add(this.btnSearchProduct);
             this.panel2.Controls.Add(this.button1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(915, 60);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel2.Location = new System.Drawing.Point(0, 60);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(283, 618);
             this.panel2.TabIndex = 1;
@@ -345,7 +360,7 @@
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 60);
+            this.panel3.Location = new System.Drawing.Point(283, 60);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(915, 88);
             this.panel3.TabIndex = 2;
@@ -484,10 +499,10 @@
             // panel4
             // 
             this.panel4.Controls.Add(this.dataGridView1);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 148);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(283, 148);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(915, 378);
+            this.panel4.Size = new System.Drawing.Size(632, 530);
             this.panel4.TabIndex = 3;
             // 
             // dataGridView1
@@ -623,11 +638,10 @@
             this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
             this.panel5.Controls.Add(this.btnCustomer);
             this.panel5.Controls.Add(this.label1);
-            this.panel5.Controls.Add(this.panel6);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 527);
+            this.panel5.Location = new System.Drawing.Point(283, 527);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(915, 151);
+            this.panel5.Size = new System.Drawing.Size(632, 151);
             this.panel5.TabIndex = 4;
             // 
             // btnCustomer
@@ -668,10 +682,10 @@
             this.panel6.Controls.Add(this.lblSalesTotal);
             this.panel6.Controls.Add(this.lblDiscount);
             this.panel6.Controls.Add(this.label7);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel6.Location = new System.Drawing.Point(546, 0);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(369, 151);
+            this.panel6.Size = new System.Drawing.Size(283, 200);
             this.panel6.TabIndex = 4;
             // 
             // label10
@@ -687,7 +701,7 @@
             // 
             this.lblVatable.AutoSize = true;
             this.lblVatable.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblVatable.Location = new System.Drawing.Point(212, 108);
+            this.lblVatable.Location = new System.Drawing.Point(180, 108);
             this.lblVatable.Name = "lblVatable";
             this.lblVatable.Size = new System.Drawing.Size(36, 19);
             this.lblVatable.TabIndex = 1;
@@ -706,7 +720,7 @@
             // 
             this.lblVAT.AutoSize = true;
             this.lblVAT.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblVAT.Location = new System.Drawing.Point(212, 81);
+            this.lblVAT.Location = new System.Drawing.Point(180, 81);
             this.lblVAT.Name = "lblVAT";
             this.lblVAT.Size = new System.Drawing.Size(36, 19);
             this.lblVAT.TabIndex = 1;
@@ -725,7 +739,7 @@
             // 
             this.lblSalesTotal.AutoSize = true;
             this.lblSalesTotal.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblSalesTotal.Location = new System.Drawing.Point(212, 22);
+            this.lblSalesTotal.Location = new System.Drawing.Point(180, 22);
             this.lblSalesTotal.Name = "lblSalesTotal";
             this.lblSalesTotal.Size = new System.Drawing.Size(36, 19);
             this.lblSalesTotal.TabIndex = 3;
@@ -735,7 +749,7 @@
             // 
             this.lblDiscount.AutoSize = true;
             this.lblDiscount.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblDiscount.Location = new System.Drawing.Point(212, 49);
+            this.lblDiscount.Location = new System.Drawing.Point(180, 49);
             this.lblDiscount.Name = "lblDiscount";
             this.lblDiscount.Size = new System.Drawing.Size(36, 19);
             this.lblDiscount.TabIndex = 2;
@@ -749,6 +763,223 @@
             this.label7.Size = new System.Drawing.Size(29, 17);
             this.label7.TabIndex = 1;
             this.label7.Text = "VAT";
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.panel6);
+            this.panel7.Controls.Add(this.btnCalcEnter);
+            this.panel7.Controls.Add(this.btnCalc00);
+            this.panel7.Controls.Add(this.btnCalc0);
+            this.panel7.Controls.Add(this.btnCalc3);
+            this.panel7.Controls.Add(this.btnCalc2);
+            this.panel7.Controls.Add(this.btnCalc1);
+            this.panel7.Controls.Add(this.btnCalc6);
+            this.panel7.Controls.Add(this.btnCalc5);
+            this.panel7.Controls.Add(this.btnCalc4);
+            this.panel7.Controls.Add(this.btnCalc9);
+            this.panel7.Controls.Add(this.btnCalc8);
+            this.panel7.Controls.Add(this.btnCalc7);
+            this.panel7.Controls.Add(this.btnCalcClear);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel7.Location = new System.Drawing.Point(915, 60);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(283, 618);
+            this.panel7.TabIndex = 5;
+            // 
+            // btnCalcClear
+            // 
+            this.btnCalcClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalcClear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalcClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalcClear.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalcClear.ForeColor = System.Drawing.Color.White;
+            this.btnCalcClear.Location = new System.Drawing.Point(10, 210);
+            this.btnCalcClear.Name = "btnCalcClear";
+            this.btnCalcClear.Size = new System.Drawing.Size(85, 60);
+            this.btnCalcClear.TabIndex = 0;
+            this.btnCalcClear.Text = "C";
+            this.btnCalcClear.UseVisualStyleBackColor = false;
+            this.btnCalcClear.Click += new System.EventHandler(this.btnCalcClear_Click);
+            // 
+            // btnCalc7
+            // 
+            this.btnCalc7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc7.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc7.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc7.ForeColor = System.Drawing.Color.White;
+            this.btnCalc7.Location = new System.Drawing.Point(10, 280);
+            this.btnCalc7.Name = "btnCalc7";
+            this.btnCalc7.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc7.TabIndex = 0;
+            this.btnCalc7.Text = "7";
+            this.btnCalc7.UseVisualStyleBackColor = false;
+            this.btnCalc7.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalc8
+            // 
+            this.btnCalc8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc8.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc8.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc8.ForeColor = System.Drawing.Color.White;
+            this.btnCalc8.Location = new System.Drawing.Point(101, 280);
+            this.btnCalc8.Name = "btnCalc8";
+            this.btnCalc8.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc8.TabIndex = 0;
+            this.btnCalc8.Text = "8";
+            this.btnCalc8.UseVisualStyleBackColor = false;
+            this.btnCalc8.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalc9
+            // 
+            this.btnCalc9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc9.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc9.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc9.ForeColor = System.Drawing.Color.White;
+            this.btnCalc9.Location = new System.Drawing.Point(192, 280);
+            this.btnCalc9.Name = "btnCalc9";
+            this.btnCalc9.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc9.TabIndex = 0;
+            this.btnCalc9.Text = "9";
+            this.btnCalc9.UseVisualStyleBackColor = false;
+            this.btnCalc9.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalc4
+            // 
+            this.btnCalc4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc4.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc4.ForeColor = System.Drawing.Color.White;
+            this.btnCalc4.Location = new System.Drawing.Point(10, 346);
+            this.btnCalc4.Name = "btnCalc4";
+            this.btnCalc4.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc4.TabIndex = 0;
+            this.btnCalc4.Text = "4";
+            this.btnCalc4.UseVisualStyleBackColor = false;
+            this.btnCalc4.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalc5
+            // 
+            this.btnCalc5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc5.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc5.ForeColor = System.Drawing.Color.White;
+            this.btnCalc5.Location = new System.Drawing.Point(101, 346);
+            this.btnCalc5.Name = "btnCalc5";
+            this.btnCalc5.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc5.TabIndex = 0;
+            this.btnCalc5.Text = "5";
+            this.btnCalc5.UseVisualStyleBackColor = false;
+            this.btnCalc5.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalc6
+            // 
+            this.btnCalc6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc6.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc6.ForeColor = System.Drawing.Color.White;
+            this.btnCalc6.Location = new System.Drawing.Point(192, 346);
+            this.btnCalc6.Name = "btnCalc6";
+            this.btnCalc6.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc6.TabIndex = 0;
+            this.btnCalc6.Text = "6";
+            this.btnCalc6.UseVisualStyleBackColor = false;
+            this.btnCalc6.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalc1
+            // 
+            this.btnCalc1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc1.ForeColor = System.Drawing.Color.White;
+            this.btnCalc1.Location = new System.Drawing.Point(10, 412);
+            this.btnCalc1.Name = "btnCalc1";
+            this.btnCalc1.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc1.TabIndex = 0;
+            this.btnCalc1.Text = "1";
+            this.btnCalc1.UseVisualStyleBackColor = false;
+            this.btnCalc1.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalc2
+            // 
+            this.btnCalc2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc2.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc2.ForeColor = System.Drawing.Color.White;
+            this.btnCalc2.Location = new System.Drawing.Point(101, 412);
+            this.btnCalc2.Name = "btnCalc2";
+            this.btnCalc2.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc2.TabIndex = 0;
+            this.btnCalc2.Text = "2";
+            this.btnCalc2.UseVisualStyleBackColor = false;
+            this.btnCalc2.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalc3
+            // 
+            this.btnCalc3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc3.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc3.ForeColor = System.Drawing.Color.White;
+            this.btnCalc3.Location = new System.Drawing.Point(192, 412);
+            this.btnCalc3.Name = "btnCalc3";
+            this.btnCalc3.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc3.TabIndex = 0;
+            this.btnCalc3.Text = "3";
+            this.btnCalc3.UseVisualStyleBackColor = false;
+            this.btnCalc3.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalc0
+            // 
+            this.btnCalc0.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc0.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc0.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc0.ForeColor = System.Drawing.Color.White;
+            this.btnCalc0.Location = new System.Drawing.Point(101, 478);
+            this.btnCalc0.Name = "btnCalc0";
+            this.btnCalc0.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc0.TabIndex = 0;
+            this.btnCalc0.Text = "0";
+            this.btnCalc0.UseVisualStyleBackColor = false;
+            this.btnCalc0.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalc00
+            // 
+            this.btnCalc00.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalc00.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalc00.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalc00.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.btnCalc00.ForeColor = System.Drawing.Color.White;
+            this.btnCalc00.Location = new System.Drawing.Point(192, 478);
+            this.btnCalc00.Name = "btnCalc00";
+            this.btnCalc00.Size = new System.Drawing.Size(85, 60);
+            this.btnCalc00.TabIndex = 0;
+            this.btnCalc00.Text = "00";
+            this.btnCalc00.UseVisualStyleBackColor = false;
+            this.btnCalc00.Click += new System.EventHandler(this.btnCalcNumber_Click);
+            // 
+            // btnCalcEnter
+            // 
+            this.btnCalcEnter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCalcEnter.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnCalcEnter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalcEnter.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnCalcEnter.ForeColor = System.Drawing.Color.White;
+            this.btnCalcEnter.Location = new System.Drawing.Point(10, 478);
+            this.btnCalcEnter.Name = "btnCalcEnter";
+            this.btnCalcEnter.Size = new System.Drawing.Size(85, 60);
+            this.btnCalcEnter.TabIndex = 0;
+            this.btnCalcEnter.Text = "Enter";
+            this.btnCalcEnter.UseVisualStyleBackColor = false;
+            this.btnCalcEnter.Click += new System.EventHandler(this.btnCalcEnter_Click);
             // 
             // dataGridViewImageColumn1
             // 
@@ -779,9 +1010,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1198, 678);
             this.ControlBox = false;
-            this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
+            this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -803,6 +1035,7 @@
             this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            this.panel7.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -862,5 +1095,19 @@
         private System.Windows.Forms.DataGridViewImageColumn Delete;
         private System.Windows.Forms.CheckBox cbocustomer;
         public System.Windows.Forms.Button btnCustomer;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Button btnCalcClear;
+        private System.Windows.Forms.Button btnCalc7;
+        private System.Windows.Forms.Button btnCalc8;
+        private System.Windows.Forms.Button btnCalc9;
+        private System.Windows.Forms.Button btnCalc4;
+        private System.Windows.Forms.Button btnCalc5;
+        private System.Windows.Forms.Button btnCalc6;
+        private System.Windows.Forms.Button btnCalc1;
+        private System.Windows.Forms.Button btnCalc2;
+        private System.Windows.Forms.Button btnCalc3;
+        private System.Windows.Forms.Button btnCalc0;
+        private System.Windows.Forms.Button btnCalc00;
+        private System.Windows.Forms.Button btnCalcEnter;
     }
 }

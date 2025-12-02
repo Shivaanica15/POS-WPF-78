@@ -580,5 +580,37 @@ namespace FinalPOS
                 return;
             }
         }
+
+        private void btnCalcNumber_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn != null)
+            {
+                if (txtQuantity.Focused || txtQuantity.Text == "1")
+                {
+                    if (txtQuantity.Text == "1")
+                        txtQuantity.Text = btn.Text;
+                    else
+                        txtQuantity.Text += btn.Text;
+                }
+                else
+                {
+                    txtQuantity.Text = btn.Text;
+                    txtQuantity.Focus();
+                }
+            }
+        }
+
+        private void btnCalcClear_Click(object sender, EventArgs e)
+        {
+            txtQuantity.Text = "1";
+            txtQuantity.Focus();
+        }
+
+        private void btnCalcEnter_Click(object sender, EventArgs e)
+        {
+            // Focus back to barcode/search field after entering quantity
+            Searchhp.Focus();
+        }
     }
 }
