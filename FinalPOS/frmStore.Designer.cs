@@ -37,6 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -84,13 +85,14 @@
             // 
             // cboStore
             // 
-            this.cboStore.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboStore.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
             this.cboStore.FormattingEnabled = true;
             this.cboStore.Location = new System.Drawing.Point(165, 85);
             this.cboStore.Name = "cboStore";
             this.cboStore.Size = new System.Drawing.Size(490, 25);
             this.cboStore.TabIndex = 0;
             this.cboStore.SelectedIndexChanged += new System.EventHandler(this.cboStore_SelectedIndexChanged);
+            this.cboStore.TextChanged += new System.EventHandler(this.cboStore_TextChanged);
             // 
             // label3
             // 
@@ -115,10 +117,10 @@
             this.button3.BackColor = System.Drawing.Color.Gray;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(268, 150);
+            this.button3.Location = new System.Drawing.Point(371, 150);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(97, 43);
-            this.button3.TabIndex = 3;
+            this.button3.TabIndex = 4;
             this.button3.Text = "CANCEL";
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -136,6 +138,20 @@
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnDelete.Enabled = false;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.ForeColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(268, 150);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(97, 43);
+            this.btnDelete.TabIndex = 3;
+            this.btnDelete.Text = "DELETE";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // frmStore
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -143,6 +159,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(832, 205);
             this.ControlBox = false;
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtAddress);
@@ -176,5 +193,6 @@
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.Button button3;
         public System.Windows.Forms.Button btnSave;
+        public System.Windows.Forms.Button btnDelete;
     }
 }

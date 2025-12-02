@@ -18,6 +18,7 @@ namespace FinalPOS
         DBConnection dbcon = new DBConnection();
         MySqlDataReader dr;
         private Dictionary<string, string> storeAddressMap = new Dictionary<string, string>();
+        private bool isNewStore = false;
         
         public frmStore()
         {
@@ -57,6 +58,11 @@ namespace FinalPOS
                 if (cboStore.Items.Count > 0)
                 {
                     cboStore.SelectedIndex = 0;
+                    btnDelete.Enabled = true;
+                }
+                else
+                {
+                    btnDelete.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -74,7 +80,37 @@ namespace FinalPOS
                 if (storeAddressMap.ContainsKey(selectedStore))
                 {
                     txtAddress.Text = storeAddressMap[selectedStore];
+                    isNewStore = false;
+                    btnDelete.Enabled = true;
                 }
+            }
+        }
+
+        private void cboStore_TextChanged(object sender, EventArgs e)
+        {
+            string enteredText = cboStore.Text.Trim();
+            if (!string.IsNullOrEmpty(enteredText))
+            {
+                // Check if the entered text exists in the store list
+                if (storeAddressMap.ContainsKey(enteredText))
+                {
+                    txtAddress.Text = storeAddressMap[enteredText];
+                    isNewStore = false;
+                    btnDelete.Enabled = true;
+                }
+                else
+                {
+                    // New store - clear address and disable delete
+                    txtAddress.Clear();
+                    isNewStore = true;
+                    btnDelete.Enabled = false;
+                }
+            }
+            else
+            {
+                txtAddress.Clear();
+                isNewStore = false;
+                btnDelete.Enabled = false;
             }
         }
 
@@ -82,9 +118,11 @@ namespace FinalPOS
         {
             try
             {
-                if (cboStore.SelectedItem == null)
+                string storeName = cboStore.Text.Trim();
+                
+                if (string.IsNullOrWhiteSpace(storeName))
                 {
-                    MessageBox.Show("Please select a store", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Please enter store name", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 
@@ -94,28 +132,56 @@ namespace FinalPOS
                     return;
                 }
                 
-                if (MessageBox.Show("Save Store Details", "Store Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
+                string message = isNewStore ? "Add new store?" : "Update store details?";
+                string title = isNewStore ? "Add Store" : "Update Store";
+                
+                if (MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    string selectedStore = cboStore.SelectedItem.ToString();
-                    string newAddress = txtAddress.Text.Trim();
+                    string address = txtAddress.Text.Trim();
                     
                     cn.Open();
-                    cm = new MySqlCommand("UPDATE tbl_store SET address = @address WHERE store = @store", cn);
-                    cm.Parameters.AddWithValue("@store", selectedStore);
-                    cm.Parameters.AddWithValue("@address", newAddress);
-                    cm.ExecuteNonQuery();
+                    
+                    if (isNewStore)
+                    {
+                        // INSERT new store
+                        cm = new MySqlCommand("INSERT INTO tbl_store (store, address) VALUES (@store, @address)", cn);
+                        cm.Parameters.AddWithValue("@store", storeName);
+                        cm.Parameters.AddWithValue("@address", address);
+                        cm.ExecuteNonQuery();
+                        
+                        MessageBox.Show("Store Added Successfully", "SAVED RECORD", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        // UPDATE existing store
+                        cm = new MySqlCommand("UPDATE tbl_store SET address = @address WHERE store = @store", cn);
+                        cm.Parameters.AddWithValue("@store", storeName);
+                        cm.Parameters.AddWithValue("@address", address);
+                        cm.ExecuteNonQuery();
+                        
+                        MessageBox.Show("Store Details Updated Successfully", "UPDATED RECORD", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    
                     cn.Close();
                     
-                    // Update the dictionary
-                    storeAddressMap[selectedStore] = newAddress;
+                    // Reload records to refresh the list
+                    LoadRecords();
                     
-                    MessageBox.Show("Store Details Saved Successfully", "SAVED RECORD ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Select the current store
+                    if (cboStore.Items.Contains(storeName))
+                    {
+                        cboStore.SelectedItem = storeName;
+                    }
+                    else
+                    {
+                        cboStore.Text = storeName;
+                    }
                 }
             }
             catch(Exception ex)
             {
                 cn.Close();
-                MessageBox.Show(ex.Message, "WARNING" ,MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -126,7 +192,58 @@ namespace FinalPOS
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Dispose();
+            Clear();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string storeName = cboStore.Text.Trim();
+                
+                if (string.IsNullOrWhiteSpace(storeName))
+                {
+                    MessageBox.Show("Please select a store to delete", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
+                if (!storeAddressMap.ContainsKey(storeName))
+                {
+                    MessageBox.Show("Store not found in database", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
+                if (MessageBox.Show("Are you sure you want to delete this store?\n\nStore: " + storeName, "Delete Store", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    cn.Open();
+                    cm = new MySqlCommand("DELETE FROM tbl_store WHERE store = @store", cn);
+                    cm.Parameters.AddWithValue("@store", storeName);
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+                    
+                    MessageBox.Show("Store Deleted Successfully", "DELETED RECORD", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                    // Reload records
+                    LoadRecords();
+                    
+                    // Clear form
+                    Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                cn.Close();
+                MessageBox.Show(ex.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public void Clear()
+        {
+            cboStore.Text = "";
+            txtAddress.Clear();
+            isNewStore = false;
+            btnDelete.Enabled = false;
+            cboStore.Focus();
         }
 
         private void frmStore_KeyDown(object sender, KeyEventArgs e)
