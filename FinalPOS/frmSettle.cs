@@ -17,7 +17,6 @@ namespace FinalPOS
         MySqlConnection cn = new MySqlConnection();
         MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
-        MySqlDataReader dr;
         public frmSettle(frmPOS fp)
         {
             InitializeComponent();

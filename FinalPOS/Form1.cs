@@ -73,8 +73,9 @@ namespace FinalPOS
 
         private void POSButton_Click(object sender, EventArgs e)
         {
-            //frmPOS frm = new frmPOS();
-            //frm.ShowDialog();
+            frmSecurity frmSecurity = new frmSecurity();
+            frmPOS frm = new frmPOS(frmSecurity);
+            frm.ShowDialog();
         }
 
         private void ManageBrandButton_Click(object sender, EventArgs e)

@@ -569,6 +569,7 @@
     <None Include="Resources\stall1.png" />
     <None Include="Resources\pie-chart.png" />
     <None Include="Resources\check1.png" />
+    <None Include="Resources\icon.png" />
     <None Include="Resources\refresh.png" />
   </ItemGroup>
   <ItemGroup>

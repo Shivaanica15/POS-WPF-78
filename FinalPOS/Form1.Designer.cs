@@ -31,6 +31,7 @@
             this.StocksButton = new System.Windows.Forms.Button();
             this.Logoutbtn = new System.Windows.Forms.Button();
             this.DashboardButton = new System.Windows.Forms.Button();
+            this.POSButton = new System.Windows.Forms.Button();
             this.ManageBrandButton = new System.Windows.Forms.Button();
             this.UserSettingsButton = new System.Windows.Forms.Button();
             this.RecordsButton = new System.Windows.Forms.Button();
@@ -86,6 +87,7 @@
             this.panel4.Controls.Add(this.StocksButton);
             this.panel4.Controls.Add(this.Logoutbtn);
             this.panel4.Controls.Add(this.DashboardButton);
+            this.panel4.Controls.Add(this.POSButton);
             this.panel4.Controls.Add(this.ManageBrandButton);
             this.panel4.Controls.Add(this.UserSettingsButton);
             this.panel4.Controls.Add(this.RecordsButton);
@@ -94,7 +96,7 @@
             this.panel4.Controls.Add(this.SystemSettingButton);
             this.panel4.Location = new System.Drawing.Point(0, 189);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(285, 449);
+            this.panel4.Size = new System.Drawing.Size(285, 480);
             this.panel4.TabIndex = 2;
             // 
             // lblRole
@@ -145,7 +147,7 @@
             this.btnVendor.ForeColor = System.Drawing.Color.White;
             this.btnVendor.Image = global::FinalPOS.Properties.Resources.stall1;
             this.btnVendor.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVendor.Location = new System.Drawing.Point(1, 191);
+            this.btnVendor.Location = new System.Drawing.Point(0, 210);
             this.btnVendor.Name = "btnVendor";
             this.btnVendor.Size = new System.Drawing.Size(285, 33);
             this.btnVendor.TabIndex = 13;
@@ -165,9 +167,9 @@
             this.btnSaleHistory.ForeColor = System.Drawing.Color.White;
             this.btnSaleHistory.Image = global::FinalPOS.Properties.Resources.sale_report;
             this.btnSaleHistory.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaleHistory.Location = new System.Drawing.Point(-2, 299);
+            this.btnSaleHistory.Location = new System.Drawing.Point(0, 309);
             this.btnSaleHistory.Name = "btnSaleHistory";
-            this.btnSaleHistory.Size = new System.Drawing.Size(288, 33);
+            this.btnSaleHistory.Size = new System.Drawing.Size(285, 33);
             this.btnSaleHistory.TabIndex = 12;
             this.btnSaleHistory.Text = "  Sales History";
             this.btnSaleHistory.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -185,7 +187,7 @@
             this.btnStockAdjustment.ForeColor = System.Drawing.Color.White;
             this.btnStockAdjustment.Image = global::FinalPOS.Properties.Resources.pie_chart;
             this.btnStockAdjustment.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStockAdjustment.Location = new System.Drawing.Point(1, 118);
+            this.btnStockAdjustment.Location = new System.Drawing.Point(0, 144);
             this.btnStockAdjustment.Name = "btnStockAdjustment";
             this.btnStockAdjustment.Size = new System.Drawing.Size(285, 33);
             this.btnStockAdjustment.TabIndex = 11;
@@ -205,7 +207,7 @@
             this.StocksButton.ForeColor = System.Drawing.Color.White;
             this.StocksButton.Image = global::FinalPOS.Properties.Resources.boxes;
             this.StocksButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.StocksButton.Location = new System.Drawing.Point(0, 79);
+            this.StocksButton.Location = new System.Drawing.Point(0, 111);
             this.StocksButton.Name = "StocksButton";
             this.StocksButton.Size = new System.Drawing.Size(285, 33);
             this.StocksButton.TabIndex = 11;
@@ -225,7 +227,7 @@
             this.Logoutbtn.ForeColor = System.Drawing.Color.White;
             this.Logoutbtn.Image = global::FinalPOS.Properties.Resources.logout;
             this.Logoutbtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Logoutbtn.Location = new System.Drawing.Point(1, 416);
+            this.Logoutbtn.Location = new System.Drawing.Point(0, 408);
             this.Logoutbtn.Name = "Logoutbtn";
             this.Logoutbtn.Size = new System.Drawing.Size(285, 33);
             this.Logoutbtn.TabIndex = 10;
@@ -245,14 +247,36 @@
             this.DashboardButton.ForeColor = System.Drawing.Color.White;
             this.DashboardButton.Image = global::FinalPOS.Properties.Resources.dashboard;
             this.DashboardButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.DashboardButton.Location = new System.Drawing.Point(-3, 12);
+            this.DashboardButton.Location = new System.Drawing.Point(0, 12);
             this.DashboardButton.Name = "DashboardButton";
-            this.DashboardButton.Size = new System.Drawing.Size(288, 33);
+            this.DashboardButton.Size = new System.Drawing.Size(285, 33);
             this.DashboardButton.TabIndex = 2;
             this.DashboardButton.Text = "  Dashboard";
             this.DashboardButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.DashboardButton.UseVisualStyleBackColor = false;
             this.DashboardButton.Click += new System.EventHandler(this.DashboardButton_Click);
+            // 
+            // POSButton
+            // 
+            this.POSButton.BackColor = System.Drawing.Color.Transparent;
+            this.POSButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.POSButton.FlatAppearance.BorderSize = 0;
+            this.POSButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.POSButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.POSButton.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.POSButton.ForeColor = System.Drawing.Color.White;
+            this.POSButton.Image = global::FinalPOS.Properties.Resources.dashboard;
+            this.POSButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.POSButton.Location = new System.Drawing.Point(0, 45);
+            this.POSButton.Name = "POSButton";
+            this.POSButton.Size = new System.Drawing.Size(285, 33);
+            this.POSButton.TabIndex = 3;
+            this.POSButton.Text = "  POS";
+            this.POSButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.POSButton.UseVisualStyleBackColor = false;
+            this.POSButton.Click += new System.EventHandler(this.POSButton_Click);
+            this.POSButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+
             // 
             // ManageBrandButton
             // 
@@ -265,7 +289,7 @@
             this.ManageBrandButton.ForeColor = System.Drawing.Color.White;
             this.ManageBrandButton.Image = global::FinalPOS.Properties.Resources.brand;
             this.ManageBrandButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ManageBrandButton.Location = new System.Drawing.Point(1, 226);
+            this.ManageBrandButton.Location = new System.Drawing.Point(0, 243);
             this.ManageBrandButton.Name = "ManageBrandButton";
             this.ManageBrandButton.Size = new System.Drawing.Size(285, 33);
             this.ManageBrandButton.TabIndex = 6;
@@ -285,7 +309,7 @@
             this.UserSettingsButton.ForeColor = System.Drawing.Color.White;
             this.UserSettingsButton.Image = global::FinalPOS.Properties.Resources.user;
             this.UserSettingsButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.UserSettingsButton.Location = new System.Drawing.Point(-2, 377);
+            this.UserSettingsButton.Location = new System.Drawing.Point(0, 375);
             this.UserSettingsButton.Name = "UserSettingsButton";
             this.UserSettingsButton.Size = new System.Drawing.Size(288, 33);
             this.UserSettingsButton.TabIndex = 9;
@@ -305,9 +329,9 @@
             this.RecordsButton.ForeColor = System.Drawing.Color.White;
             this.RecordsButton.Image = global::FinalPOS.Properties.Resources.icons8_graph_report_20;
             this.RecordsButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.RecordsButton.Location = new System.Drawing.Point(-2, 260);
+            this.RecordsButton.Location = new System.Drawing.Point(0, 276);
             this.RecordsButton.Name = "RecordsButton";
-            this.RecordsButton.Size = new System.Drawing.Size(288, 33);
+            this.RecordsButton.Size = new System.Drawing.Size(285, 33);
             this.RecordsButton.TabIndex = 7;
             this.RecordsButton.Text = "  Records";
             this.RecordsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -325,7 +349,7 @@
             this.ManageProductsButton.ForeColor = System.Drawing.Color.White;
             this.ManageProductsButton.Image = global::FinalPOS.Properties.Resources.product_return;
             this.ManageProductsButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ManageProductsButton.Location = new System.Drawing.Point(0, 45);
+            this.ManageProductsButton.Location = new System.Drawing.Point(0, 78);
             this.ManageProductsButton.Name = "ManageProductsButton";
             this.ManageProductsButton.Size = new System.Drawing.Size(285, 33);
             this.ManageProductsButton.TabIndex = 4;
@@ -345,7 +369,7 @@
             this.ManageCategoryButton.ForeColor = System.Drawing.Color.White;
             this.ManageCategoryButton.Image = global::FinalPOS.Properties.Resources._1141913;
             this.ManageCategoryButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ManageCategoryButton.Location = new System.Drawing.Point(1, 156);
+            this.ManageCategoryButton.Location = new System.Drawing.Point(0, 177);
             this.ManageCategoryButton.Name = "ManageCategoryButton";
             this.ManageCategoryButton.Size = new System.Drawing.Size(285, 33);
             this.ManageCategoryButton.TabIndex = 5;
@@ -365,7 +389,7 @@
             this.SystemSettingButton.ForeColor = System.Drawing.Color.White;
             this.SystemSettingButton.Image = global::FinalPOS.Properties.Resources.system;
             this.SystemSettingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.SystemSettingButton.Location = new System.Drawing.Point(-2, 338);
+            this.SystemSettingButton.Location = new System.Drawing.Point(0, 342);
             this.SystemSettingButton.Name = "SystemSettingButton";
             this.SystemSettingButton.Size = new System.Drawing.Size(288, 33);
             this.SystemSettingButton.TabIndex = 8;
@@ -410,6 +434,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button DashboardButton;
+        private System.Windows.Forms.Button POSButton;
         private System.Windows.Forms.Button Logoutbtn;
         private System.Windows.Forms.Button UserSettingsButton;
         private System.Windows.Forms.Button SystemSettingButton;
