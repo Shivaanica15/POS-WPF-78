@@ -393,7 +393,6 @@
             this.txtQuantity.MaxLength = 32767;
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.PasswordChar = '\0';
-            this.txtQuantity.PromptText = "Qty";
             this.txtQuantity.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtQuantity.SelectedText = "";
             this.txtQuantity.SelectionLength = 0;
@@ -430,7 +429,6 @@
             this.Searchhp.MaxLength = 32767;
             this.Searchhp.Name = "Searchhp";
             this.Searchhp.PasswordChar = '\0';
-            this.Searchhp.PromptText = "Enter Barcode Here";
             this.Searchhp.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.Searchhp.SelectedText = "";
             this.Searchhp.SelectionLength = 0;

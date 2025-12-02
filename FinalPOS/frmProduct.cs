@@ -4,8 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using MySql.Data.MySqlClient;
 using System.Text;
+using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -58,6 +58,7 @@ namespace FinalPOS
         }
 
      
+
         public void Clear()
         {
             txtpcode.Clear();
@@ -70,27 +71,26 @@ namespace FinalPOS
             btnSave.Enabled = true;
             btnUpdate.Enabled = false;
             txtReOrder.Clear();
-            txtQty.Clear();
         }
 
 
 
         private void pricetxtbox_KeyPress_1(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 46)
-            {
-
-                //accept. character
-            }
-            else if (e.KeyChar == 8)
-            {
-                //accept backspace
-            }
-
-            else if ((e.KeyChar < 48) || (e.KeyChar > 57))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
             {
                 e.Handled = true;
             }
+
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -102,9 +102,11 @@ namespace FinalPOS
         {
             try
             {
-                if (MessageBox.Show("Are you sure want to update this product?", "Save Product", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Are you sure want to update this product?", "Update Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    string bid = ""; string cid = "";
+                    string bid = "";
+                    string cid = "";
+                    
                     cn.Open();
                     cm = new MySqlCommand("SELECT id FROM tbl_brand WHERE brand = @brand", cn);
                     cm.Parameters.AddWithValue("@brand", brandcbo.Text);
@@ -130,17 +132,17 @@ namespace FinalPOS
                     cn.Close();
 
                     cn.Open();
-                    cm = new MySqlCommand("UPDATE tbl_products SET barcode = @barcode, pdesc = @pdesc, bid = @bid, cid = @cid, price = @price, reorder = @reorder, qty = @qty WHERE pcode = @pcode", cn);
-                    cm.Parameters.AddWithValue("@pcode", txtpcode.Text);
+                    cm = new MySqlCommand("UPDATE tbl_products SET barcode = @barcode, pdesc = @pdesc, bid = @bid, cid = @cid, price = @price, reorder = @reorder WHERE pcode = @pcode", cn);
                     cm.Parameters.AddWithValue("@barcode", txtBarcode.Text);
                     cm.Parameters.AddWithValue("@pdesc", descriptionTxtBox.Text);
                     cm.Parameters.AddWithValue("@bid", bid);
                     cm.Parameters.AddWithValue("@cid", cid);
-                    cm.Parameters.AddWithValue("@price", Double.Parse(pricetxtbox.Text));
-                    cm.Parameters.AddWithValue("@reorder",int.Parse(txtReOrder.Text));
-                    cm.Parameters.AddWithValue("@qty", int.Parse(txtQty.Text));
+                    cm.Parameters.AddWithValue("@price", pricetxtbox.Text);
+                    cm.Parameters.AddWithValue("@reorder", txtReOrder.Text);
+                    cm.Parameters.AddWithValue("@pcode", txtpcode.Text);
                     cm.ExecuteNonQuery();
                     cn.Close();
+
                     MessageBox.Show("Product has been updated successfully.");
                     Clear();
                     flist.LoadRecords();
@@ -149,6 +151,7 @@ namespace FinalPOS
             }
             catch (Exception ex)
             {
+                cn.Close();
                 MessageBox.Show(ex.Message);
             }
         }
@@ -157,9 +160,11 @@ namespace FinalPOS
         {
             try
             {
-                if (MessageBox.Show("Are you sure want to save this product?", "Save Product", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Are you sure want to save this product?", "Save Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    string bid = ""; string cid = "";
+                    string bid = "";
+                    string cid = "";
+                    
                     cn.Open();
                     cm = new MySqlCommand("SELECT id FROM tbl_brand WHERE brand = @brand", cn);
                     cm.Parameters.AddWithValue("@brand", brandcbo.Text);
@@ -185,7 +190,7 @@ namespace FinalPOS
                     cn.Close();
 
                     cn.Open();
-                    cm = new MySqlCommand("INSERT INTO tbl_products (pcode, barcode, pdesc, bid, cid, price, reorder, qty) VALUES (@pcode, @barcode, @pdesc, @bid, @cid, @price, @reorder, @qty)", cn);
+                    cm = new MySqlCommand("INSERT INTO tbl_products (pcode, barcode, pdesc, bid, cid, price, reorder) VALUES (@pcode, @barcode, @pdesc, @bid, @cid, @price, @reorder)", cn);
                     cm.Parameters.AddWithValue("@pcode", txtpcode.Text);
                     cm.Parameters.AddWithValue("@barcode", txtBarcode.Text);
                     cm.Parameters.AddWithValue("@pdesc", descriptionTxtBox.Text);
@@ -193,29 +198,24 @@ namespace FinalPOS
                     cm.Parameters.AddWithValue("@cid", cid);
                     cm.Parameters.AddWithValue("@price", pricetxtbox.Text);
                     cm.Parameters.AddWithValue("@reorder", txtReOrder.Text);
-                    cm.Parameters.AddWithValue("@qty", txtQty.Text);
                     cm.ExecuteNonQuery();
                     cn.Close();
-                    MessageBox.Show("Product has been added successfully.");
+
+                    MessageBox.Show("Product has been saved successfully.");
                     Clear();
                     flist.LoadRecords();
                 }
             }
             catch (Exception ex)
             {
+                cn.Close();
                 MessageBox.Show(ex.Message);
             }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-        }
-
         private void pricetxtbox_TextChanged(object sender, EventArgs e)
         {
-
+            // Allow text change
         }
     }
 }
-

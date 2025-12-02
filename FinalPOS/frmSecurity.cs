@@ -131,13 +131,5 @@ namespace FinalPOS
                 btnLogin_Click(sender, e);
             }
         }
-
-        private void lnkCreateAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.Hide();
-            frmRegister frm = new frmRegister();
-            frm.ShowDialog();
-            this.Show();
-        }
     }
 }

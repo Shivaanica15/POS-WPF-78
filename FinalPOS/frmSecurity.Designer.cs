@@ -33,7 +33,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.lnkCreateAccount = new System.Windows.Forms.LinkLabel();
             this.txtUsername = new MetroFramework.Controls.MetroTextBox();
             this.txtPassword = new MetroFramework.Controls.MetroTextBox();
             this.panel1.SuspendLayout();
@@ -98,21 +97,6 @@
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // lnkCreateAccount
-            // 
-            this.lnkCreateAccount.ActiveLinkColor = System.Drawing.Color.RoyalBlue;
-            this.lnkCreateAccount.AutoSize = true;
-            this.lnkCreateAccount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkCreateAccount.LinkColor = System.Drawing.Color.RoyalBlue;
-            this.lnkCreateAccount.Location = new System.Drawing.Point(120, 350);
-            this.lnkCreateAccount.Name = "lnkCreateAccount";
-            this.lnkCreateAccount.Size = new System.Drawing.Size(81, 15);
-            this.lnkCreateAccount.TabIndex = 5;
-            this.lnkCreateAccount.TabStop = true;
-            this.lnkCreateAccount.Text = "Create Account";
-            this.lnkCreateAccount.VisitedLinkColor = System.Drawing.Color.RoyalBlue;
-            this.lnkCreateAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCreateAccount_LinkClicked);
-            // 
             // txtUsername
             // 
             // 
@@ -134,7 +118,6 @@
             this.txtUsername.MaxLength = 32767;
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.PasswordChar = '\0';
-            this.txtUsername.PromptText = "Enter Password";
             this.txtUsername.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtUsername.SelectedText = "";
             this.txtUsername.SelectionLength = 0;
@@ -168,7 +151,6 @@
             this.txtPassword.MaxLength = 32767;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '●';
-            this.txtPassword.PromptText = "Enter Password";
             this.txtPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtPassword.SelectedText = "";
             this.txtPassword.SelectionLength = 0;
@@ -188,7 +170,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(321, 375);
             this.ControlBox = false;
-            this.Controls.Add(this.lnkCreateAccount);
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.btnCancel);
@@ -214,7 +195,6 @@
         private System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.Button btnLogin;
-        private System.Windows.Forms.LinkLabel lnkCreateAccount;
         private MetroFramework.Controls.MetroTextBox txtPassword;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;

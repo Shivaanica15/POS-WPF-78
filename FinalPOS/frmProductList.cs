@@ -25,13 +25,13 @@ namespace FinalPOS
             int i = 0;
             
             cn.Open();
-            cm = new MySqlCommand("SELECT p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.qty, p.reorder FROM tbl_products AS p INNER JOIN tbl_brand AS b ON b.id = p.bid INNER JOIN tbl_category AS c ON c.id = p.cid WHERE p.barcode LIKE @search OR p.pdesc LIKE @search", cn);
+            cm = new MySqlCommand("SELECT p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.reorder FROM tbl_products AS p INNER JOIN tbl_brand AS b ON b.id = p.bid INNER JOIN tbl_category AS c ON c.id = p.cid WHERE p.barcode LIKE @search OR p.pdesc LIKE @search", cn);
             cm.Parameters.AddWithValue("@search", "%" + txtSearchp.Text + "%");
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
                 i++;
-                dataGridView1.Rows.Add(i, dr[0].ToString(), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString());
+                dataGridView1.Rows.Add(i, dr[0].ToString(), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString());
             }
             dr.Close();
             cn.Close();
@@ -75,8 +75,7 @@ namespace FinalPOS
                 frm.brandcbo.Text = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
                 frm.categorycbo.Text = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
                 frm.pricetxtbox.Text = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString();
-                frm.txtQty.Text = dataGridView1.Rows[e.RowIndex].Cells[7].Value.ToString();
-                frm.txtReOrder.Text = dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString();
+                frm.txtReOrder.Text = dataGridView1.Rows[e.RowIndex].Cells[7].Value.ToString();
                 frm.ShowDialog();
             }
             else if (colName == "Delete")

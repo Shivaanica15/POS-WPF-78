@@ -261,12 +261,6 @@
     <Compile Include="frmSecurity.Designer.cs">
       <DependentUpon>frmSecurity.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmRegister.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmRegister.Designer.cs">
-      <DependentUpon>frmRegister.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmSettle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -388,9 +382,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSecurity.resx">
       <DependentUpon>frmSecurity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmRegister.resx">
-      <DependentUpon>frmRegister.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSettle.resx">
       <DependentUpon>frmSettle.cs</DependentUpon>

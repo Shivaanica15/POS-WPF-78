@@ -94,7 +94,6 @@
             this.txtOld.MaxLength = 32767;
             this.txtOld.Name = "txtOld";
             this.txtOld.PasswordChar = '●';
-            this.txtOld.PromptText = "Old Password";
             this.txtOld.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtOld.SelectedText = "";
             this.txtOld.SelectionLength = 0;
@@ -129,7 +128,6 @@
             this.txtNew.MaxLength = 32767;
             this.txtNew.Name = "txtNew";
             this.txtNew.PasswordChar = '●';
-            this.txtNew.PromptText = "New Password";
             this.txtNew.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtNew.SelectedText = "";
             this.txtNew.SelectionLength = 0;
@@ -164,7 +162,6 @@
             this.txtConfNew.MaxLength = 32767;
             this.txtConfNew.Name = "txtConfNew";
             this.txtConfNew.PasswordChar = '●';
-            this.txtConfNew.PromptText = "Confirm New Password";
             this.txtConfNew.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtConfNew.SelectedText = "";
             this.txtConfNew.SelectionLength = 0;

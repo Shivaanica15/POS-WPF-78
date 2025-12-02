@@ -374,7 +374,6 @@
             this.txtSearchp.MaxLength = 32767;
             this.txtSearchp.Name = "txtSearchp";
             this.txtSearchp.PasswordChar = '\0';
-            this.txtSearchp.PromptText = "Search Here";
             this.txtSearchp.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtSearchp.SelectedText = "";
             this.txtSearchp.SelectionLength = 0;
@@ -458,6 +457,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewImageColumn Select;
+        private new System.Windows.Forms.DataGridViewImageColumn Select;
     }
 }
