@@ -160,10 +160,17 @@ namespace FinalPOS
         {
             try
             {
-                bool found = true;
+                // Validate username is entered
+                if (string.IsNullOrWhiteSpace(textBox1.Text))
+                {
+                    MessageBox.Show("Please enter a username", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                bool found = false;
                 cn.Open();
                 cm = new MySqlCommand("SELECT * FROM tbl_users WHERE username = @username", cn);
-                cm.Parameters.AddWithValue("@username", txtUsername.Text);
+                cm.Parameters.AddWithValue("@username", textBox1.Text);
                 dr = cm.ExecuteReader();
                 dr.Read();
                 if (dr.HasRows)
@@ -177,30 +184,27 @@ namespace FinalPOS
                 dr.Close();
                 cn.Close();
 
-
-
                 if (found == true)
                 {
                     cn.Open();
                     cm = new MySqlCommand("UPDATE tbl_users SET isactive = @isactive WHERE username = @username", cn);
-                    cm.Parameters.AddWithValue("@isactive", checkBox1.Checked.ToString());
-                    cm.Parameters.AddWithValue("@username", txtUsername.Text);
+                    cm.Parameters.AddWithValue("@isactive", checkBox1.Checked);
+                    cm.Parameters.AddWithValue("@username", textBox1.Text);
                     cm.ExecuteNonQuery();
                     cn.Close();
-                    MessageBox.Show("Account status has updated successfully ", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtUsername.Clear();
+                    MessageBox.Show("Account status has updated successfully", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    textBox1.Clear();
                     checkBox1.Checked = false;
                 }
-
                 else
                 {
-                    MessageBox.Show("Account Not Exists ", "WARNING ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Account Not Exists", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
                 cn.Close();
-                MessageBox.Show(ex.Message, "WARNING ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
