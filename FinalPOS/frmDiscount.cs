@@ -36,8 +36,11 @@ namespace FinalPOS
         {
             try
             {
-
-                double discount = Double.Parse(txtPrice.Text) * Double.Parse(txtDisocunt.Text);
+                // Calculate discount: price * (percentage / 100)
+                // Example: 4500 * (10 / 100) = 4500 * 0.10 = 450.00
+                double price = Double.Parse(txtPrice.Text);
+                double percentage = Double.Parse(txtDisocunt.Text);
+                double discount = price * (percentage / 100.0);
                 txtDiscountAmount.Text = discount.ToString("#,##0.00");
             }
             catch (Exception)

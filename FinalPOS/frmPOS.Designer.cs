@@ -691,17 +691,17 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(13, 110);
+            this.label10.Location = new System.Drawing.Point(13, 83);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(51, 17);
             this.label10.TabIndex = 1;
-            this.label10.Text = "Vatable";
+            this.label10.Text = "Taxable";
             // 
             // lblVatable
             // 
             this.lblVatable.AutoSize = true;
             this.lblVatable.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblVatable.Location = new System.Drawing.Point(180, 108);
+            this.lblVatable.Location = new System.Drawing.Point(180, 81);
             this.lblVatable.Name = "lblVatable";
             this.lblVatable.Size = new System.Drawing.Size(36, 19);
             this.lblVatable.TabIndex = 1;
@@ -720,7 +720,7 @@
             // 
             this.lblVAT.AutoSize = true;
             this.lblVAT.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblVAT.Location = new System.Drawing.Point(180, 81);
+            this.lblVAT.Location = new System.Drawing.Point(180, 108);
             this.lblVAT.Name = "lblVAT";
             this.lblVAT.Size = new System.Drawing.Size(36, 19);
             this.lblVAT.TabIndex = 1;
@@ -758,11 +758,11 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(13, 83);
+            this.label7.Location = new System.Drawing.Point(13, 110);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(29, 17);
+            this.label7.Size = new System.Drawing.Size(80, 17);
             this.label7.TabIndex = 1;
-            this.label7.Text = "VAT";
+            this.label7.Text = "Total Amount";
             // 
             // panel7
             // 
