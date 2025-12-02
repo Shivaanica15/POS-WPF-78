@@ -36,7 +36,8 @@ namespace FinalPOS
             NotifyCriticalItems();
             LoadCart();
             f = frm;
-         
+            UpdateDateTime();
+            timerDateTime.Start();
         }
 
         public void NotifyCriticalItems()
@@ -634,6 +635,27 @@ namespace FinalPOS
         {
             // Focus back to barcode/search field after entering quantity
             Searchhp.Focus();
+        }
+
+        private void timerDateTime_Tick(object sender, EventArgs e)
+        {
+            UpdateDateTime();
+        }
+
+        private void UpdateDateTime()
+        {
+            lblTime.Text = DateTime.Now.ToString("hh:mm:ss tt");
+            lblDateDisplay.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy");
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
