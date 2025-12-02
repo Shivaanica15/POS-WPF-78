@@ -550,7 +550,6 @@
     <None Include="Resources\user %281%29.png" />
     <None Include="Resources\security.png" />
     <None Include="Resources\sale-report.png" />
-    <None Include="Resources\hello world logo.png" />
     <None Include="Resources\cancelnew.png" />
     <None Include="Resources\printer %281%29.png" />
     <None Include="Resources\shield.png" />

@@ -112,13 +112,14 @@
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBox1.Image = global::FinalPOS.Properties.Resources.cashier;
+            this.pictureBox1.Image = null;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(61, 60);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // label3
             // 
@@ -140,7 +141,7 @@
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(140, 19);
             this.lblName.TabIndex = 0;
-            this.lblName.Text = "Hello World Solutions";
+            this.lblName.Text = "bohar";
             // 
             // lblUser
             // 
@@ -151,7 +152,7 @@
             this.lblUser.Name = "lblUser";
             this.lblUser.Size = new System.Drawing.Size(140, 19);
             this.lblUser.TabIndex = 0;
-            this.lblUser.Text = "Hello World Solutions";
+            this.lblUser.Text = "bohar";
             this.lblUser.Visible = false;
             // 
             // lblDisplayTotal
@@ -186,11 +187,12 @@
             // pictureBox2
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Image = global::FinalPOS.Properties.Resources.hello_world_logo;
+            this.pictureBox2.Image = null;
             this.pictureBox2.Location = new System.Drawing.Point(0, 416);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(283, 202);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox2.Visible = false;
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             // 
@@ -662,7 +664,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(291, 25);
             this.label1.TabIndex = 5;
-            this.label1.Text = "HELLO WORLD SOLUTIONS";
+            this.label1.Text = "bohar";
             // 
             // panel6
             // 
