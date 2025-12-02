@@ -18,8 +18,8 @@ namespace FinalPOS
         MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
         frmPOS f;
-        string store = "bohar";
-        string address = "Light House Gari Khata, Karachi";
+        string store = "Bohar Solutions";
+        string address = "Amman Road, Kantharmadam, Jaffna";
         public FrmReciept(frmPOS frm)
         {
             InitializeComponent();
