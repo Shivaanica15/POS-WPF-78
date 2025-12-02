@@ -17,6 +17,8 @@ namespace FinalPOS
         MySqlCommand cm = new MySqlCommand();
         DBConnection dbcon = new DBConnection();
         MySqlDataReader dr;
+        private Dictionary<string, string> storeAddressMap = new Dictionary<string, string>();
+        
         public frmStore()
         {
             InitializeComponent();
@@ -31,78 +33,100 @@ namespace FinalPOS
 
         public void LoadRecords()
         {
-            cn.Open();
-            cm = new MySqlCommand("SELECT * FROM tbl_store", cn);
-            dr = cm.ExecuteReader();
-            dr.Read();
-            if(dr.Read())
+            try
             {
-                txtStore.Text = dr["store"].ToString();
-                txtAddress.Text = dr["address"].ToString();
+                cboStore.Items.Clear();
+                storeAddressMap.Clear();
+                
+                cn.Open();
+                cm = new MySqlCommand("SELECT * FROM tbl_store ORDER BY store", cn);
+                dr = cm.ExecuteReader();
+                
+                while (dr.Read())
+                {
+                    string storeName = dr["store"].ToString();
+                    string address = dr["address"].ToString();
+                    
+                    cboStore.Items.Add(storeName);
+                    storeAddressMap[storeName] = address;
+                }
+                dr.Close();
+                cn.Close();
+                
+                // Select first item if available
+                if (cboStore.Items.Count > 0)
+                {
+                    cboStore.SelectedIndex = 0;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                txtStore.Clear();
-                txtAddress.Clear();
+                cn.Close();
+                MessageBox.Show(ex.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            dr.Close();
-            cn.Close();
+        }
+        
+        private void cboStore_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboStore.SelectedItem != null)
+            {
+                string selectedStore = cboStore.SelectedItem.ToString();
+                if (storeAddressMap.ContainsKey(selectedStore))
+                {
+                    txtAddress.Text = storeAddressMap[selectedStore];
+                }
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
             {
+                if (cboStore.SelectedItem == null)
+                {
+                    MessageBox.Show("Please select a store", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
+                if (string.IsNullOrWhiteSpace(txtAddress.Text))
+                {
+                    MessageBox.Show("Please enter store address", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
                 if (MessageBox.Show("Save Store Details", "Store Details", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
                 {
-                    int count;
+                    string selectedStore = cboStore.SelectedItem.ToString();
+                    string newAddress = txtAddress.Text.Trim();
+                    
                     cn.Open();
-                    cm = new MySqlCommand("SELECT COUNT(*) FROM tbl_store", cn);
-                    count = int.Parse(cm.ExecuteScalar().ToString());
+                    cm = new MySqlCommand("UPDATE tbl_store SET address = @address WHERE store = @store", cn);
+                    cm.Parameters.AddWithValue("@store", selectedStore);
+                    cm.Parameters.AddWithValue("@address", newAddress);
+                    cm.ExecuteNonQuery();
                     cn.Close();
-                    if(count > 0)
-                    {
-                        cn.Open();
-                        cm = new MySqlCommand("UPDATE tbl_store SET store = @store, address = @address", cn);
-                        cm.Parameters.AddWithValue("@store", txtStore.Text);
-                        cm.Parameters.AddWithValue("@address", txtAddress.Text);
-                        cm.ExecuteNonQuery();
-                        cn.Close();
-                    }else
-                    {
-                        cn.Open();
-                        cm = new MySqlCommand("INSERT INTO tbl_store (store, address) VALUES (@store, @address)", cn);
-                        cm.Parameters.AddWithValue("@store", txtStore.Text);
-                        cm.Parameters.AddWithValue("@address", txtAddress.Text);
-                        cm.ExecuteNonQuery();
-                        cn.Close();
-
-                    }
+                    
+                    // Update the dictionary
+                    storeAddressMap[selectedStore] = newAddress;
+                    
                     MessageBox.Show("Store Details Saved Successfully", "SAVED RECORD ", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtStore.Clear();
-                    txtAddress.Clear();
-                    txtStore.Focus();
-
-
                 }
             }
             catch(Exception ex)
             {
+                cn.Close();
                 MessageBox.Show(ex.Message, "WARNING" ,MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
         private void frmStore_Load(object sender, EventArgs e)
         {
-            txtStore.Focus();
+            LoadRecords();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            txtStore.Clear();
-            txtAddress.Clear();
             this.Dispose();
-
         }
 
         private void frmStore_KeyDown(object sender, KeyEventArgs e)

@@ -73,6 +73,7 @@
             this.txtrestorebrowse = new System.Windows.Forms.TextBox();
             this.button9 = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.metroTabControl1.SuspendLayout();
@@ -513,6 +514,7 @@
             this.restorebutton.TabIndex = 13;
             this.restorebutton.Text = "RESTORE DATA";
             this.restorebutton.UseVisualStyleBackColor = false;
+            this.restorebutton.Click += new System.EventHandler(this.restorebutton_Click);
             // 
             // txtbackupbrowse
             // 
@@ -554,6 +556,7 @@
             this.button9.TabIndex = 15;
             this.button9.Text = "BROWSE";
             this.button9.UseVisualStyleBackColor = false;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // frmUserAccounts
             // 
@@ -639,5 +642,6 @@
         public System.Windows.Forms.Button button8;
         private System.Windows.Forms.TextBox txtrestorebrowse;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

@@ -32,7 +32,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtAddress = new System.Windows.Forms.TextBox();
-            this.txtStore = new System.Windows.Forms.TextBox();
+            this.cboStore = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -82,12 +82,15 @@
             this.txtAddress.Size = new System.Drawing.Size(490, 25);
             this.txtAddress.TabIndex = 1;
             // 
-            // txtStore
+            // cboStore
             // 
-            this.txtStore.Location = new System.Drawing.Point(165, 85);
-            this.txtStore.Name = "txtStore";
-            this.txtStore.Size = new System.Drawing.Size(490, 25);
-            this.txtStore.TabIndex = 0;
+            this.cboStore.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboStore.FormattingEnabled = true;
+            this.cboStore.Location = new System.Drawing.Point(165, 85);
+            this.cboStore.Name = "cboStore";
+            this.cboStore.Size = new System.Drawing.Size(490, 25);
+            this.cboStore.TabIndex = 0;
+            this.cboStore.SelectedIndexChanged += new System.EventHandler(this.cboStore_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -143,7 +146,7 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtAddress);
-            this.Controls.Add(this.txtStore);
+            this.Controls.Add(this.cboStore);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
@@ -168,7 +171,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.TextBox txtAddress;
-        public System.Windows.Forms.TextBox txtStore;
+        public System.Windows.Forms.ComboBox cboStore;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.Button button3;
