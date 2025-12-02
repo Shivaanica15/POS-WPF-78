@@ -32,28 +32,57 @@ namespace FinalPOS
         {
             try
             {
-                string _oldpass = dbcon.GetPassword(f.lblUser.Text);
-                if(_oldpass!=txtOld.Text)
+                // Validate empty fields
+                if (string.IsNullOrWhiteSpace(txtOld.Text))
+                {
+                    MessageBox.Show("Please enter your old password", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(txtNew.Text))
+                {
+                    MessageBox.Show("Please enter a new password", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(txtConfNew.Text))
+                {
+                    MessageBox.Show("Please confirm your new password", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Check if new password and confirm password match
+                if(txtNew.Text.Trim() != txtConfNew.Text.Trim())
+                {
+                    MessageBox.Show("New Password and Confirm Password Doesn't Matched!!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Verify old password by querying database directly (same way as login)
+                cn.Open();
+                cm = new MySqlCommand("SELECT * FROM tbl_users WHERE username = @username AND password = @password", cn);
+                cm.Parameters.AddWithValue("@username", f.lblUser.Text);
+                cm.Parameters.AddWithValue("@password", txtOld.Text.Trim());
+                MySqlDataReader dr = cm.ExecuteReader();
+                bool passwordMatch = dr.HasRows;
+                dr.Close();
+                cn.Close();
+
+                if(!passwordMatch)
                 {
                     MessageBox.Show("Old Password Doesn't Matched!!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
-                else if(txtNew != txtConfNew)
+
+                // Old password is correct, proceed to change password
+                if (MessageBox.Show("Change Password", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    MessageBox.Show("Password Doesn't Matched!!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    if (MessageBox.Show("Change Password", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        cn.Open();
-                        cm = new MySqlCommand("UPDATE tbl_users SET password = @password WHERE username = @username", cn);
-                        cm.Parameters.AddWithValue("@password", txtNew.Text);
-                        cm.Parameters.AddWithValue("@username", f.lblUser.Text);
-                        cm.ExecuteNonQuery();
-                        cn.Close();
-                        MessageBox.Show("Passsword Changed Successfully", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Dispose();
-                    }
+                    cn.Open();
+                    cm = new MySqlCommand("UPDATE tbl_users SET password = @password WHERE username = @username", cn);
+                    cm.Parameters.AddWithValue("@password", txtNew.Text.Trim());
+                    cm.Parameters.AddWithValue("@username", f.lblUser.Text);
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+                    MessageBox.Show("Password Changed Successfully", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Dispose();
                 }
             }
             catch(Exception ex)
