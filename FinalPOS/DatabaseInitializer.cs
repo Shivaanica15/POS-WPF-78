@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -8,7 +9,62 @@ namespace FinalPOS
     public static class DatabaseInitializer
     {
         private const string DatabaseName = "POS_NEXA_ERP";
-        private const string ServerConnectionString = "Server=localhost;Uid=root;Pwd=;";
+        
+        private static string GetServerConnectionString()
+        {
+            try
+            {
+                // Try to read from App.config connection string
+                var connectionString = ConfigurationManager.ConnectionStrings["FinalPOS.Properties.Settings.NewOneConnectionString"]?.ConnectionString;
+                if (!string.IsNullOrEmpty(connectionString))
+                {
+                    // Extract port if present, otherwise use default
+                    var parts = connectionString.Split(';');
+                    string server = "localhost";
+                    string port = "";
+                    string uid = "root";
+                    string pwd = "";
+                    
+                    foreach (var part in parts)
+                    {
+                        var keyValue = part.Split('=');
+                        if (keyValue.Length == 2)
+                        {
+                            var key = keyValue[0].Trim();
+                            var value = keyValue[1].Trim();
+                            
+                            if (key.Equals("Server", StringComparison.OrdinalIgnoreCase))
+                                server = value;
+                            else if (key.Equals("Port", StringComparison.OrdinalIgnoreCase))
+                                port = value;
+                            else if (key.Equals("Uid", StringComparison.OrdinalIgnoreCase))
+                                uid = value;
+                            else if (key.Equals("Pwd", StringComparison.OrdinalIgnoreCase))
+                                pwd = value;
+                        }
+                    }
+                    
+                    // Build connection string with port if specified
+                    if (!string.IsNullOrEmpty(port))
+                    {
+                        return $"Server={server};Port={port};Uid={uid};Pwd={pwd};";
+                    }
+                    else
+                    {
+                        return $"Server={server};Uid={uid};Pwd={pwd};";
+                    }
+                }
+            }
+            catch
+            {
+                // Fall back to default if reading config fails
+            }
+            
+            // Default connection string (no port specified, uses default 3306)
+            return "Server=localhost;Uid=root;Pwd=;";
+        }
+        
+        private static string ServerConnectionString => GetServerConnectionString();
 
         private static readonly string[] TableStatements = new[]
         {
