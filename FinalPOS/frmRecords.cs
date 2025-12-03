@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,8 +33,8 @@ namespace FinalPOS
         {
             dataGridView1.Rows.Clear();
             int i = 0;
-            
-            if(cboTopSelect.Text == "SORT BY TOTAL AMOUNT")
+
+            if (cboTopSelect.Text == "SORT BY TOTAL AMOUNT")
             {
                 cm = new MySqlCommand("SELECT pcode, pdesc, IFNULL(SUM(qty), 0) AS qty, IFNULL(SUM(total), 0) AS total FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY qty DESC LIMIT 10", cn);
                 cm.Parameters.AddWithValue("@date1", dt1.Value.Date);
@@ -47,7 +47,8 @@ namespace FinalPOS
                 cm.Parameters.AddWithValue("@date2", dt2.Value.Date);
             }
 
-            if (!String.IsNullOrEmpty(cm.CommandText)) {
+            if (!String.IsNullOrEmpty(cm.CommandText))
+            {
                 cn.Open();
                 dr = cm.ExecuteReader();
                 while (dr.Read())
@@ -70,7 +71,7 @@ namespace FinalPOS
             cm.Parameters.AddWithValue("@date1", dateTimePicker1.Value.Date);
             cm.Parameters.AddWithValue("@date2", dateTimePicker2.Value.Date);
             dr = cm.ExecuteReader();
-            while(dr.Read())
+            while (dr.Read())
             {
                 i++;
                 dataGridView5.Rows.Add(i, dr["transno"].ToString(), dr["pcode"].ToString(), dr["pdesc"].ToString(), dr["price"].ToString(), dr["qty"].ToString(), dr["total"].ToString(), dr["sdate"].ToString(), dr["voidby"].ToString(), dr["cancelledby"].ToString(), dr["reason"].ToString(), dr["action"].ToString());
@@ -81,12 +82,12 @@ namespace FinalPOS
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-                
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         public void LoadInventory()
@@ -117,15 +118,15 @@ namespace FinalPOS
                 while (dr.Read())
                 {
                     i++;
-                    dataGridView3.Rows.Add(i,dr[0].ToString(), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString());
+                    dataGridView3.Rows.Add(i, dr[0].ToString(), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString());
                 }
                 dr.Close();
                 cn.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 cn.Close();
-                MessageBox.Show(ex.Message, "Warning" ,MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -138,7 +139,7 @@ namespace FinalPOS
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void panel7_Paint(object sender, PaintEventArgs e)
@@ -165,34 +166,34 @@ namespace FinalPOS
 
         }
 
-       private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnTopPrint_Click(object sender, EventArgs e)
         {
             frmInventoryReport f = new frmInventoryReport();
             if (cboTopSelect.Text == "SORT BY QTY")
             {
-                f.LoadTopSelling("SELECT pcode, pdesc, SUM(qty) AS qty FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY qty DESC LIMIT 10", "From : " + dt1.Value.ToString() + "To : " + dt2.Value.ToString() , "SORT BY QUANTITY");
+                f.LoadTopSelling("SELECT pcode, pdesc, SUM(qty) AS qty FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY qty DESC LIMIT 10", "From : " + dt1.Value.ToString() + "To : " + dt2.Value.ToString(), "SORT BY QUANTITY");
             }
             else if (cboTopSelect.Text == "SORT BY TOTAL AMOUNT")
             {
-           
-                f.LoadTopSelling("SELECT pcode, pdesc, IFNULL(SUM(qty), 0) AS qty, IFNULL(SUM(total), 0) AS total FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY total DESC LIMIT 10", "From: " + dt1.Value.ToString() + "To: " + dt2.Value.ToString() , "SORT BY TOTAL SALES" );
+
+                f.LoadTopSelling("SELECT pcode, pdesc, IFNULL(SUM(qty), 0) AS qty, IFNULL(SUM(total), 0) AS total FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY total DESC LIMIT 10", "From: " + dt1.Value.ToString() + "To: " + dt2.Value.ToString(), "SORT BY TOTAL SALES");
             }
 
 
-            
+
             f.ShowDialog();
         }
 
-        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnSalesPrint_Click(object sender, EventArgs e)
         {
             frmInventoryReport f = new frmInventoryReport();
             f.LoadSoldItems("SELECT c.pcode, p.pdesc, c.price, SUM(c.qty) AS tot_qty, SUM(c.disc) AS tot_disc, SUM(c.total) AS total FROM tbl_cart AS c INNER JOIN tbl_products AS p ON c.pcode = p.pcode WHERE status = 'Sold' AND DATE(sdate) BETWEEN @date1 AND @date2 GROUP BY c.pcode, p.pdesc, c.price", "From : " + date1.Value.ToString() + "To : " + date2.Value.ToString());
             f.ShowDialog();
         }
 
-        private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnTopLoad_Click(object sender, EventArgs e)
         {
-            if(cboTopSelect.Text == string.Empty)
+            if (cboTopSelect.Text == string.Empty)
             {
                 MessageBox.Show("Please Select Sorting", "WARNING ", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -202,9 +203,9 @@ namespace FinalPOS
         }
 
         public void LoadChartTopSelling()
-          {
+        {
 
-        
+
             MySqlDataAdapter da;
             cn.Open();
             if (cboTopSelect.Text == "SORT BY QTY")
@@ -256,7 +257,7 @@ namespace FinalPOS
 
         }
 
-        private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnSalesLoad_Click(object sender, EventArgs e)
         {
             try
             {
@@ -298,13 +299,13 @@ namespace FinalPOS
         private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             frmChart f = new frmChart();
-            f.lblTitle.Text = "SOLD ITEMS [" +date1.Value.ToShortDateString() + " - " +date2.Value.ToShortDateString()+ "]";
+            f.lblTitle.Text = "SOLD ITEMS [" + date1.Value.ToShortDateString() + " - " + date2.Value.ToShortDateString() + "]";
             f.LoadChartSold("select  p.pdesc, sum(c.total) as total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + date1.Value.ToString() + "' and '" + date2.Value.ToString() + "' group by p.pdesc order by total desc");
             f.LoadChartSold("select  p.pdesc, sum(c.total) as total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + date1.Value.ToString() + "' and '" + date2.Value.ToString() + "' group by p.pdesc order by total desc");
             f.ShowDialog();
         }
 
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnStockPrint_Click(object sender, EventArgs e)
         {
             frmInventoryReport frm = new frmInventoryReport();
             string param = "Date Covered : " + dateTimePicker4.Value.ToShortDateString() + " - " + dateTimePicker3.Value.ToShortDateString();
@@ -312,17 +313,17 @@ namespace FinalPOS
             frm.ShowDialog();
         }
 
-        private void linkLabel10_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnStockLoad_Click(object sender, EventArgs e)
         {
             LoadStockInHistory();
         }
 
-        private void linkLabel11_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnCancelledLoad_Click(object sender, EventArgs e)
         {
             CancelledOrders();
         }
 
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnCancelledPrint_Click(object sender, EventArgs e)
         {
             frmInventoryReport f = new frmInventoryReport();
             string param = "Date Covered: " + dateTimePicker4.Value.ToShortDateString() + " - " + dateTimePicker3.Value.ToShortDateString();
