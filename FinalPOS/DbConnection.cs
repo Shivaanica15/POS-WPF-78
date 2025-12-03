@@ -145,17 +145,19 @@ namespace FinalPOS
 
         public double DailySales()
         {
-            string sdate = DateTime.Now.ToShortDateString();
             try
             {
-                MySqlConnection tempCn = new MySqlConnection();
-                tempCn.ConnectionString = MyConnection();
-                tempCn.Open();
-                MySqlCommand cm = new MySqlCommand("SELECT IFNULL(SUM(total), 0) AS total FROM tbl_cart WHERE DATE(sdate) = DATE(@sdate) AND status = 'Sold'", tempCn);
-                cm.Parameters.AddWithValue("@sdate", sdate);
-                double dailysales = double.Parse(cm.ExecuteScalar().ToString());
-                tempCn.Close();
-                return dailysales;
+                using (MySqlConnection tempCn = new MySqlConnection(MyConnection()))
+                {
+                    tempCn.Open();
+                    using (MySqlCommand cm = new MySqlCommand("SELECT IFNULL(SUM(total), 0) AS total FROM tbl_cart WHERE DATE(sdate) = @sdate AND status = 'Sold'", tempCn))
+                    {
+                        cm.Parameters.Add("@sdate", MySqlDbType.Date).Value = DateTime.Today;
+                        object result = cm.ExecuteScalar();
+                        double dailysales = Convert.ToDouble(result);
+                        return dailysales;
+                    }
+                }
             }
             catch (Exception ex)
             {
