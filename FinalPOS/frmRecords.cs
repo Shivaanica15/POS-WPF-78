@@ -298,8 +298,10 @@ namespace FinalPOS
         {
             frmChart f = new frmChart();
             f.lblTitle.Text = "SOLD ITEMS [" + date1.Value.ToShortDateString() + " - " + date2.Value.ToShortDateString() + "]";
-            f.LoadChartSold("select  p.pdesc, sum(c.total) as total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + date1.Value.ToString() + "' and '" + date2.Value.ToString() + "' group by p.pdesc order by total desc");
-            f.LoadChartSold("select  p.pdesc, sum(c.total) as total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + date1.Value.ToString() + "' and '" + date2.Value.ToString() + "' group by p.pdesc order by total desc");
+            string dateFrom = date1.Value.ToString("yyyy-MM-dd");
+            string dateTo = date2.Value.ToString("yyyy-MM-dd");
+            f.LoadChartSold("select  p.pdesc, sum(c.total) as total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + dateFrom + "' and '" + dateTo + "' group by p.pdesc order by total desc");
+            f.LoadChartSold("select  p.pdesc, sum(c.total) as total from tbl_Cart as c inner join tbl_Products as p on c.pcode = p.pcode where status like 'Sold' and sdate between '" + dateFrom + "' and '" + dateTo + "' group by p.pdesc order by total desc");
             f.ShowDialog();
         }
 

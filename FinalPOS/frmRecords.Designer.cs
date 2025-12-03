@@ -2,15 +2,10 @@ namespace FinalPOS
 {
     partial class frmRecords
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
+        
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -63,9 +58,9 @@ namespace FinalPOS
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.cboTopSelect = new System.Windows.Forms.ComboBox();
-            this.btnTopLoad = new System.Windows.Forms.Button();
             this.btnTopPrint = new System.Windows.Forms.Button();
+            this.btnTopLoad = new System.Windows.Forms.Button();
+            this.cboTopSelect = new System.Windows.Forms.ComboBox();
             this.dt2 = new System.Windows.Forms.DateTimePicker();
             this.dt1 = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
@@ -79,13 +74,13 @@ namespace FinalPOS
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnSalesPrint = new System.Windows.Forms.Button();
             this.btnSalesLoad = new System.Windows.Forms.Button();
             this.linkLabel9 = new System.Windows.Forms.LinkLabel();
-            this.btnSalesPrint = new System.Windows.Forms.Button();
             this.date2 = new System.Windows.Forms.DateTimePicker();
             this.date1 = new System.Windows.Forms.DateTimePicker();
-            this.lblTotal = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.lblTotal = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -127,8 +122,8 @@ namespace FinalPOS
             this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.btnCancelledLoad = new System.Windows.Forms.Button();
             this.btnCancelledPrint = new System.Windows.Forms.Button();
+            this.btnCancelledLoad = new System.Windows.Forms.Button();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
@@ -145,8 +140,8 @@ namespace FinalPOS
             this.dataGridViewTextBoxColumn32 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.btnStockLoad = new System.Windows.Forms.Button();
             this.btnStockPrint = new System.Windows.Forms.Button();
+            this.btnStockLoad = new System.Windows.Forms.Button();
             this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
@@ -221,7 +216,7 @@ namespace FinalPOS
             this.metroTabControl1.Controls.Add(this.tabPage6);
             this.metroTabControl1.Location = new System.Drawing.Point(1, 55);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 4;
+            this.metroTabControl1.SelectedIndex = 1;
             this.metroTabControl1.Size = new System.Drawing.Size(913, 616);
             this.metroTabControl1.TabIndex = 2;
             this.metroTabControl1.UseCustomForeColor = true;
@@ -351,18 +346,21 @@ namespace FinalPOS
             this.panel2.TabIndex = 0;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             //
-            // cboTopSelect
+            // btnTopPrint
             //
-            this.cboTopSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTopSelect.FormattingEnabled = true;
-            this.cboTopSelect.Items.AddRange(new object[] {
-            "SORT BY QTY",
-            "SORT BY TOTAL AMOUNT"});
-            this.cboTopSelect.Location = new System.Drawing.Point(335, 12);
-            this.cboTopSelect.Name = "cboTopSelect";
-            this.cboTopSelect.Size = new System.Drawing.Size(196, 25);
-            this.cboTopSelect.TabIndex = 7;
-            this.cboTopSelect.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cboTopSelect_KeyPress);
+            this.btnTopPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTopPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.btnTopPrint.FlatAppearance.BorderSize = 0;
+            this.btnTopPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTopPrint.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnTopPrint.ForeColor = System.Drawing.Color.White;
+            this.btnTopPrint.Location = new System.Drawing.Point(715, 9);
+            this.btnTopPrint.Name = "btnTopPrint";
+            this.btnTopPrint.Size = new System.Drawing.Size(170, 32);
+            this.btnTopPrint.TabIndex = 9;
+            this.btnTopPrint.Text = "Print Preview";
+            this.btnTopPrint.UseVisualStyleBackColor = false;
+            this.btnTopPrint.Click += new System.EventHandler(this.btnTopPrint_Click);
             //
             // btnTopLoad
             //
@@ -380,21 +378,18 @@ namespace FinalPOS
             this.btnTopLoad.UseVisualStyleBackColor = false;
             this.btnTopLoad.Click += new System.EventHandler(this.btnTopLoad_Click);
             //
-            // btnTopPrint
+            // cboTopSelect
             //
-            this.btnTopPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTopPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
-            this.btnTopPrint.FlatAppearance.BorderSize = 0;
-            this.btnTopPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTopPrint.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnTopPrint.ForeColor = System.Drawing.Color.White;
-            this.btnTopPrint.Location = new System.Drawing.Point(715, 9);
-            this.btnTopPrint.Name = "btnTopPrint";
-            this.btnTopPrint.Size = new System.Drawing.Size(170, 32);
-            this.btnTopPrint.TabIndex = 9;
-            this.btnTopPrint.Text = "Print Preview";
-            this.btnTopPrint.UseVisualStyleBackColor = false;
-            this.btnTopPrint.Click += new System.EventHandler(this.btnTopPrint_Click);
+            this.cboTopSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTopSelect.FormattingEnabled = true;
+            this.cboTopSelect.Items.AddRange(new object[] {
+            "SORT BY QTY",
+            "SORT BY TOTAL AMOUNT"});
+            this.cboTopSelect.Location = new System.Drawing.Point(335, 12);
+            this.cboTopSelect.Name = "cboTopSelect";
+            this.cboTopSelect.Size = new System.Drawing.Size(196, 25);
+            this.cboTopSelect.TabIndex = 7;
+            this.cboTopSelect.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cboTopSelect_KeyPress);
             //
             // dt2
             //
@@ -530,18 +525,34 @@ namespace FinalPOS
             // panel4
             //
             this.panel4.BackColor = System.Drawing.Color.White;
+            this.panel4.Controls.Add(this.lblTotal);
             this.panel4.Controls.Add(this.btnSalesPrint);
             this.panel4.Controls.Add(this.btnSalesLoad);
             this.panel4.Controls.Add(this.linkLabel9);
             this.panel4.Controls.Add(this.date2);
             this.panel4.Controls.Add(this.date1);
-            this.panel4.Controls.Add(this.lblTotal);
             this.panel4.Controls.Add(this.label3);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(905, 50);
             this.panel4.TabIndex = 1;
+            //
+            // btnSalesPrint
+            //
+            this.btnSalesPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSalesPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.btnSalesPrint.FlatAppearance.BorderSize = 0;
+            this.btnSalesPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalesPrint.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnSalesPrint.ForeColor = System.Drawing.Color.White;
+            this.btnSalesPrint.Location = new System.Drawing.Point(508, 11);
+            this.btnSalesPrint.Name = "btnSalesPrint";
+            this.btnSalesPrint.Size = new System.Drawing.Size(170, 32);
+            this.btnSalesPrint.TabIndex = 8;
+            this.btnSalesPrint.Text = "Print Preview";
+            this.btnSalesPrint.UseVisualStyleBackColor = false;
+            this.btnSalesPrint.Click += new System.EventHandler(this.btnSalesPrint_Click);
             //
             // btnSalesLoad
             //
@@ -562,35 +573,19 @@ namespace FinalPOS
             //
             this.linkLabel9.AutoSize = true;
             this.linkLabel9.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel9.Font = new System.Drawing.Font("Agency FB", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel9.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel9.Image = global::FinalPOS.Properties.Resources.pie_chart;
             this.linkLabel9.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel9.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.linkLabel9.LinkColor = System.Drawing.SystemColors.GrayText;
-            this.linkLabel9.Location = new System.Drawing.Point(543, 14);
+            this.linkLabel9.Location = new System.Drawing.Point(719, 13);
             this.linkLabel9.Name = "linkLabel9";
-            this.linkLabel9.Size = new System.Drawing.Size(109, 25);
+            this.linkLabel9.Size = new System.Drawing.Size(177, 25);
             this.linkLabel9.TabIndex = 6;
             this.linkLabel9.TabStop = true;
             this.linkLabel9.Text = "     LOAD CHART";
             this.linkLabel9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel9.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel9_LinkClicked);
-            //
-            // btnSalesPrint
-            //
-            this.btnSalesPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSalesPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
-            this.btnSalesPrint.FlatAppearance.BorderSize = 0;
-            this.btnSalesPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSalesPrint.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnSalesPrint.ForeColor = System.Drawing.Color.White;
-            this.btnSalesPrint.Location = new System.Drawing.Point(713, 9);
-            this.btnSalesPrint.Name = "btnSalesPrint";
-            this.btnSalesPrint.Size = new System.Drawing.Size(170, 32);
-            this.btnSalesPrint.TabIndex = 8;
-            this.btnSalesPrint.Text = "Print Preview";
-            this.btnSalesPrint.UseVisualStyleBackColor = false;
-            this.btnSalesPrint.Click += new System.EventHandler(this.btnSalesPrint_Click);
             //
             // date2
             //
@@ -610,18 +605,6 @@ namespace FinalPOS
             this.date1.Size = new System.Drawing.Size(123, 25);
             this.date1.TabIndex = 1;
             //
-            // lblTotal
-            //
-            this.lblTotal.BackColor = System.Drawing.Color.Black;
-            this.lblTotal.Font = new System.Drawing.Font("Consolas", 22F, System.Drawing.FontStyle.Bold);
-            this.lblTotal.ForeColor = System.Drawing.Color.Lime;
-            this.lblTotal.Location = new System.Drawing.Point(658, 6);
-            this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(244, 41);
-            this.lblTotal.TabIndex = 0;
-            this.lblTotal.Text = "0.00";
-            this.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
             // label3
             //
             this.label3.AutoSize = true;
@@ -631,6 +614,19 @@ namespace FinalPOS
             this.label3.Size = new System.Drawing.Size(58, 19);
             this.label3.TabIndex = 0;
             this.label3.Text = "Filter By";
+            //
+            // lblTotal
+            //
+            this.lblTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTotal.BackColor = System.Drawing.Color.Black;
+            this.lblTotal.Font = new System.Drawing.Font("Consolas", 20F, System.Drawing.FontStyle.Bold);
+            this.lblTotal.ForeColor = System.Drawing.Color.Lime;
+            this.lblTotal.Location = new System.Drawing.Point(694, 8);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(199, 34);
+            this.lblTotal.TabIndex = 8;
+            this.lblTotal.Text = "0.00";
+            this.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             //
             // tabPage3
             //
@@ -1066,21 +1062,6 @@ namespace FinalPOS
             this.panel7.TabIndex = 1;
             this.panel7.Paint += new System.Windows.Forms.PaintEventHandler(this.panel7_Paint);
             //
-            // btnCancelledLoad
-            //
-            this.btnCancelledLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.btnCancelledLoad.FlatAppearance.BorderSize = 0;
-            this.btnCancelledLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancelledLoad.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnCancelledLoad.ForeColor = System.Drawing.Color.White;
-            this.btnCancelledLoad.Location = new System.Drawing.Point(335, 9);
-            this.btnCancelledLoad.Name = "btnCancelledLoad";
-            this.btnCancelledLoad.Size = new System.Drawing.Size(140, 32);
-            this.btnCancelledLoad.TabIndex = 9;
-            this.btnCancelledLoad.Text = "Load Data";
-            this.btnCancelledLoad.UseVisualStyleBackColor = false;
-            this.btnCancelledLoad.Click += new System.EventHandler(this.btnCancelledLoad_Click);
-            //
             // btnCancelledPrint
             //
             this.btnCancelledPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1096,6 +1077,21 @@ namespace FinalPOS
             this.btnCancelledPrint.Text = "Print Preview";
             this.btnCancelledPrint.UseVisualStyleBackColor = false;
             this.btnCancelledPrint.Click += new System.EventHandler(this.btnCancelledPrint_Click);
+            //
+            // btnCancelledLoad
+            //
+            this.btnCancelledLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.btnCancelledLoad.FlatAppearance.BorderSize = 0;
+            this.btnCancelledLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelledLoad.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCancelledLoad.ForeColor = System.Drawing.Color.White;
+            this.btnCancelledLoad.Location = new System.Drawing.Point(335, 9);
+            this.btnCancelledLoad.Name = "btnCancelledLoad";
+            this.btnCancelledLoad.Size = new System.Drawing.Size(140, 32);
+            this.btnCancelledLoad.TabIndex = 9;
+            this.btnCancelledLoad.Text = "Load Data";
+            this.btnCancelledLoad.UseVisualStyleBackColor = false;
+            this.btnCancelledLoad.Click += new System.EventHandler(this.btnCancelledLoad_Click);
             //
             // dateTimePicker2
             //
@@ -1263,21 +1259,6 @@ namespace FinalPOS
             this.panel8.Size = new System.Drawing.Size(905, 50);
             this.panel8.TabIndex = 2;
             //
-            // btnStockLoad
-            //
-            this.btnStockLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.btnStockLoad.FlatAppearance.BorderSize = 0;
-            this.btnStockLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStockLoad.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnStockLoad.ForeColor = System.Drawing.Color.White;
-            this.btnStockLoad.Location = new System.Drawing.Point(335, 9);
-            this.btnStockLoad.Name = "btnStockLoad";
-            this.btnStockLoad.Size = new System.Drawing.Size(140, 32);
-            this.btnStockLoad.TabIndex = 8;
-            this.btnStockLoad.Text = "Load Data";
-            this.btnStockLoad.UseVisualStyleBackColor = false;
-            this.btnStockLoad.Click += new System.EventHandler(this.btnStockLoad_Click);
-            //
             // btnStockPrint
             //
             this.btnStockPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1293,6 +1274,21 @@ namespace FinalPOS
             this.btnStockPrint.Text = "Print Preview";
             this.btnStockPrint.UseVisualStyleBackColor = false;
             this.btnStockPrint.Click += new System.EventHandler(this.btnStockPrint_Click);
+            //
+            // btnStockLoad
+            //
+            this.btnStockLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.btnStockLoad.FlatAppearance.BorderSize = 0;
+            this.btnStockLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStockLoad.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnStockLoad.ForeColor = System.Drawing.Color.White;
+            this.btnStockLoad.Location = new System.Drawing.Point(335, 9);
+            this.btnStockLoad.Name = "btnStockLoad";
+            this.btnStockLoad.Size = new System.Drawing.Size(140, 32);
+            this.btnStockLoad.TabIndex = 8;
+            this.btnStockLoad.Text = "Load Data";
+            this.btnStockLoad.UseVisualStyleBackColor = false;
+            this.btnStockLoad.Click += new System.EventHandler(this.btnStockLoad_Click);
             //
             // dateTimePicker3
             //
@@ -1361,11 +1357,9 @@ namespace FinalPOS
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
             this.panel7.ResumeLayout(false);
@@ -1397,6 +1391,7 @@ namespace FinalPOS
         private System.Windows.Forms.DateTimePicker date2;
         private System.Windows.Forms.DateTimePicker date1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
@@ -1404,7 +1399,6 @@ namespace FinalPOS
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.DataGridView dataGridView3;
