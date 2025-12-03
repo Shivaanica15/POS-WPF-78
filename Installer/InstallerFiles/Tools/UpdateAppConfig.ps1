@@ -8,7 +8,9 @@ param(
     [string]$AppConfigPath,
     
     [Parameter(Mandatory=$true)]
-    [string]$PortFile
+    [string]$PortFile,
+    
+    [string]$PasswordFile = ""
 )
 
 Write-Host "Updating App.config..." -ForegroundColor Cyan
@@ -21,6 +23,15 @@ if (-not (Test-Path $PortFile)) {
 
 $port = Get-Content $PortFile -ErrorAction Stop
 Write-Host "Updating connection string with port: $port" -ForegroundColor Green
+
+# Read password if provided
+$password = ""
+if (-not [string]::IsNullOrWhiteSpace($PasswordFile) -and (Test-Path $PasswordFile)) {
+    $password = Get-Content $PasswordFile -ErrorAction SilentlyContinue
+    if ($password) {
+        Write-Host "Updating connection string with password" -ForegroundColor Green
+    }
+}
 
 if (-not (Test-Path $AppConfigPath)) {
     Write-Host "ERROR: App.config not found at: $AppConfigPath" -ForegroundColor Red
@@ -48,6 +59,7 @@ try {
     $newParts = @()
     $hasPort = $false
     
+    $hasPassword = $false
     foreach ($part in $parts) {
         $part = $part.Trim()
         if ([string]::IsNullOrWhiteSpace($part)) {
@@ -58,6 +70,11 @@ try {
             # Replace existing port
             $newParts += "Port=$port"
             $hasPort = $true
+        }
+        elseif ($part -match '^Pwd\s*=', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) {
+            # Always replace password (even if empty)
+            $newParts += "Pwd=$password"
+            $hasPassword = $true
         }
         elseif ($part -match '^Server\s*=') {
             # Keep server, add port after it
@@ -70,6 +87,11 @@ try {
         else {
             $newParts += $part
         }
+    }
+    
+    # Add password if not found (even if empty)
+    if (-not $hasPassword) {
+        $newParts += "Pwd=$password"
     }
     
     # Add port if not found
