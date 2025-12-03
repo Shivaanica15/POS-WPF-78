@@ -350,27 +350,79 @@ namespace FinalPOS
                     var tableExists = Convert.ToInt64(checkTable.ExecuteScalar()) > 0;
                     if (tableExists)
                     {
-                        // Check if is_active column exists in tbl_users
-                        using (var checkColumn = new MySqlCommand(@"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
+                        // Check for old isactive column (without underscore) and migrate to is_active
+                        bool hasIsactive = false;
+                        bool hasIsActive = false;
+                        
+                        using (var checkIsactive = new MySqlCommand(@"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
+                            WHERE TABLE_SCHEMA = DATABASE() 
+                            AND TABLE_NAME = 'tbl_users' 
+                            AND COLUMN_NAME = 'isactive'", connection))
+                        {
+                            hasIsactive = Convert.ToInt64(checkIsactive.ExecuteScalar()) > 0;
+                        }
+                        
+                        using (var checkIsActive = new MySqlCommand(@"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 
                             WHERE TABLE_SCHEMA = DATABASE() 
                             AND TABLE_NAME = 'tbl_users' 
                             AND COLUMN_NAME = 'is_active'", connection))
                         {
-                            var columnExists = Convert.ToInt64(checkColumn.ExecuteScalar()) > 0;
-                            if (!columnExists)
+                            hasIsActive = Convert.ToInt64(checkIsActive.ExecuteScalar()) > 0;
+                        }
+                        
+                        // Handle migration from isactive to is_active
+                        if (hasIsactive && !hasIsActive)
+                        {
+                            // Migrate: Add is_active column and copy data from isactive
+                            using (var addColumn = new MySqlCommand(@"ALTER TABLE `tbl_users` 
+                                ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 1 AFTER `name`", connection))
                             {
-                                // Add is_active column to existing tbl_users table
-                                using (var addColumn = new MySqlCommand(@"ALTER TABLE `tbl_users` 
-                                    ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 1 AFTER `name`", connection))
-                                {
-                                    addColumn.ExecuteNonQuery();
-                                }
-                                
-                                // Update existing records to be active by default
-                                using (var updateExisting = new MySqlCommand("UPDATE `tbl_users` SET `is_active` = 1 WHERE `is_active` IS NULL OR `is_active` = 0", connection))
-                                {
-                                    updateExisting.ExecuteNonQuery();
-                                }
+                                addColumn.ExecuteNonQuery();
+                            }
+                            
+                            // Copy data from isactive to is_active
+                            using (var migrateData = new MySqlCommand(@"UPDATE `tbl_users` 
+                                SET `is_active` = `isactive`", connection))
+                            {
+                                migrateData.ExecuteNonQuery();
+                            }
+                            
+                            // Drop old isactive column
+                            using (var dropColumn = new MySqlCommand(@"ALTER TABLE `tbl_users` 
+                                DROP COLUMN `isactive`", connection))
+                            {
+                                dropColumn.ExecuteNonQuery();
+                            }
+                        }
+                        else if (hasIsactive && hasIsActive)
+                        {
+                            // Both columns exist - migrate data and drop old column
+                            using (var migrateData = new MySqlCommand(@"UPDATE `tbl_users` 
+                                SET `is_active` = COALESCE(`isactive`, `is_active`, 1)", connection))
+                            {
+                                migrateData.ExecuteNonQuery();
+                            }
+                            
+                            // Drop old isactive column
+                            using (var dropColumn = new MySqlCommand(@"ALTER TABLE `tbl_users` 
+                                DROP COLUMN `isactive`", connection))
+                            {
+                                dropColumn.ExecuteNonQuery();
+                            }
+                        }
+                        else if (!hasIsActive)
+                        {
+                            // Neither column exists - add is_active
+                            using (var addColumn = new MySqlCommand(@"ALTER TABLE `tbl_users` 
+                                ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 1 AFTER `name`", connection))
+                            {
+                                addColumn.ExecuteNonQuery();
+                            }
+                            
+                            // Set all existing records to active
+                            using (var updateExisting = new MySqlCommand("UPDATE `tbl_users` SET `is_active` = 1", connection))
+                            {
+                                updateExisting.ExecuteNonQuery();
                             }
                         }
 
