@@ -196,6 +196,16 @@ namespace FinalPOS
 
         public void LoadReport()
         {
+            LoadInventoryData("SELECT p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.qty, p.reorder FROM tbl_products AS p INNER JOIN tbl_brand AS b ON p.bid = b.id INNER JOIN tbl_category AS c ON p.cid = c.id");
+        }
+
+        public void LoadCriticalStocks()
+        {
+            LoadInventoryData("SELECT pcode, barcode, pdesc, brand, category, price, qty, reorder FROM viewcriticalitems");
+        }
+
+        private void LoadInventoryData(string query)
+        {
             ReportDataSource rptDS;
             try
             {
@@ -207,7 +217,7 @@ namespace FinalPOS
                 MySqlDataAdapter da = new MySqlDataAdapter();
 
                 cn.Open();
-                cm = new MySqlCommand("SELECT p.pcode, p.barcode, p.pdesc, b.brand, c.category, p.price, p.qty, p.reorder FROM tbl_products AS p INNER JOIN tbl_brand AS b ON p.bid = b.id INNER JOIN tbl_category AS c ON p.cid = c.id", cn);
+                cm = new MySqlCommand(query, cn);
                 da.SelectCommand = cm;
                 da.Fill(ds.Tables["dtInventory"]);
                 cn.Close();

@@ -347,7 +347,14 @@ namespace FinalPOS
 
         private void btnCriticalPrint_Click(object sender, EventArgs e)
         {
-            // Critical stocks print preview workflow was not implemented previously.
+            ShowCriticalStocksReport();
+        }
+
+        private void ShowCriticalStocksReport()
+        {
+            frmInventoryReport frm = new frmInventoryReport();
+            frm.LoadCriticalStocks();
+            frm.ShowDialog();
         }
     }
 }
