@@ -160,7 +160,7 @@ namespace FinalPOS
 
 
 
-        public void LoadSoldItems(string sql, string param)
+        public void LoadSoldItems(string sql, string param, DateTime dateFrom, DateTime dateTo)
         {
             try
             {
@@ -174,6 +174,8 @@ namespace FinalPOS
 
                 cn.Open();
                 cm = new MySqlCommand(sql, cn);
+                cm.Parameters.AddWithValue("@date1", dateFrom.Date);
+                cm.Parameters.AddWithValue("@date2", dateTo.Date);
                 da.SelectCommand = cm;
                 da.Fill(ds.Tables["dtSoldItems"]);
                 cn.Close();

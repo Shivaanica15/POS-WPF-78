@@ -185,7 +185,7 @@ namespace FinalPOS
         private void btnSalesPrint_Click(object sender, EventArgs e)
         {
             frmInventoryReport f = new frmInventoryReport();
-            f.LoadSoldItems("SELECT c.pcode, p.pdesc, c.price, SUM(c.qty) AS tot_qty, SUM(c.disc) AS tot_disc, SUM(c.total) AS total FROM tbl_cart AS c INNER JOIN tbl_products AS p ON c.pcode = p.pcode WHERE status = 'Sold' AND DATE(sdate) BETWEEN @date1 AND @date2 GROUP BY c.pcode, p.pdesc, c.price", "From : " + date1.Value.ToString() + "To : " + date2.Value.ToString());
+            f.LoadSoldItems("SELECT c.pcode, p.pdesc, c.price, SUM(c.qty) AS tot_qty, SUM(c.disc) AS tot_disc, SUM(c.total) AS total FROM tbl_cart AS c INNER JOIN tbl_products AS p ON c.pcode = p.pcode WHERE status = 'Sold' AND DATE(sdate) BETWEEN @date1 AND @date2 GROUP BY c.pcode, p.pdesc, c.price", "From : " + date1.Value.ToString() + "To : " + date2.Value.ToString(), date1.Value, date2.Value);
             f.ShowDialog();
         }
 
