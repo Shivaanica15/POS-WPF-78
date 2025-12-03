@@ -169,12 +169,12 @@ namespace FinalPOS
             frmInventoryReport f = new frmInventoryReport();
             if (cboTopSelect.Text == "SORT BY QTY")
             {
-                f.LoadTopSelling("SELECT pcode, pdesc, SUM(qty) AS qty FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY qty DESC LIMIT 10", "From : " + dt1.Value.ToString() + "To : " + dt2.Value.ToString(), "SORT BY QUANTITY");
+                f.LoadTopSelling("SELECT pcode, pdesc, SUM(qty) AS qty FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY qty DESC LIMIT 10", "From : " + dt1.Value.ToString() + "To : " + dt2.Value.ToString(), "SORT BY QUANTITY", dt1.Value, dt2.Value);
             }
             else if (cboTopSelect.Text == "SORT BY TOTAL AMOUNT")
             {
 
-                f.LoadTopSelling("SELECT pcode, pdesc, IFNULL(SUM(qty), 0) AS qty, IFNULL(SUM(total), 0) AS total FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY total DESC LIMIT 10", "From: " + dt1.Value.ToString() + "To: " + dt2.Value.ToString(), "SORT BY TOTAL SALES");
+                f.LoadTopSelling("SELECT pcode, pdesc, IFNULL(SUM(qty), 0) AS qty, IFNULL(SUM(total), 0) AS total FROM viewsolditems WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Sold' GROUP BY pcode, pdesc ORDER BY total DESC LIMIT 10", "From: " + dt1.Value.ToString() + "To: " + dt2.Value.ToString(), "SORT BY TOTAL SALES", dt1.Value, dt2.Value);
             }
 
 
