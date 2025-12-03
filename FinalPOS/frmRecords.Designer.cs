@@ -98,7 +98,7 @@ namespace FinalPOS
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+            this.btnCriticalPrint = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dataGridView4 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -111,7 +111,7 @@ namespace FinalPOS
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.btnInventoryPrint = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.dataGridView5 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -749,29 +749,28 @@ namespace FinalPOS
             // panel5
             //
             this.panel5.BackColor = System.Drawing.Color.White;
-            this.panel5.Controls.Add(this.linkLabel4);
+            this.panel5.Controls.Add(this.btnCriticalPrint);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(905, 50);
             this.panel5.TabIndex = 1;
             //
-            // linkLabel4
+            // btnCriticalPrint
             //
-            this.linkLabel4.AutoSize = true;
-            this.linkLabel4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel4.Font = new System.Drawing.Font("Soccer Team", 18F);
-            this.linkLabel4.Image = global::FinalPOS.Properties.Resources.printer__1_;
-            this.linkLabel4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel4.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel4.LinkColor = System.Drawing.SystemColors.GrayText;
-            this.linkLabel4.Location = new System.Drawing.Point(731, 13);
-            this.linkLabel4.Name = "linkLabel4";
-            this.linkLabel4.Size = new System.Drawing.Size(165, 25);
-            this.linkLabel4.TabIndex = 5;
-            this.linkLabel4.TabStop = true;
-            this.linkLabel4.Text = "    Print Preivew";
-            this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnCriticalPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCriticalPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.btnCriticalPrint.FlatAppearance.BorderSize = 0;
+            this.btnCriticalPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCriticalPrint.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCriticalPrint.ForeColor = System.Drawing.Color.White;
+            this.btnCriticalPrint.Location = new System.Drawing.Point(713, 9);
+            this.btnCriticalPrint.Name = "btnCriticalPrint";
+            this.btnCriticalPrint.Size = new System.Drawing.Size(170, 32);
+            this.btnCriticalPrint.TabIndex = 6;
+            this.btnCriticalPrint.Text = "Print Preview";
+            this.btnCriticalPrint.UseVisualStyleBackColor = false;
+            this.btnCriticalPrint.Click += new System.EventHandler(this.btnCriticalPrint_Click);
             //
             // tabPage4
             //
@@ -890,30 +889,28 @@ namespace FinalPOS
             // panel6
             //
             this.panel6.BackColor = System.Drawing.Color.White;
-            this.panel6.Controls.Add(this.linkLabel1);
+            this.panel6.Controls.Add(this.btnInventoryPrint);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(905, 50);
             this.panel6.TabIndex = 2;
             //
-            // linkLabel1
+            // btnInventoryPrint
             //
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel1.Font = new System.Drawing.Font("Soccer Team", 18F);
-            this.linkLabel1.Image = global::FinalPOS.Properties.Resources.printer__1_;
-            this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel1.LinkColor = System.Drawing.SystemColors.GrayText;
-            this.linkLabel1.Location = new System.Drawing.Point(713, 12);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(165, 25);
-            this.linkLabel1.TabIndex = 4;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "    Print Preivew";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.btnInventoryPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnInventoryPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.btnInventoryPrint.FlatAppearance.BorderSize = 0;
+            this.btnInventoryPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInventoryPrint.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnInventoryPrint.ForeColor = System.Drawing.Color.White;
+            this.btnInventoryPrint.Location = new System.Drawing.Point(713, 9);
+            this.btnInventoryPrint.Name = "btnInventoryPrint";
+            this.btnInventoryPrint.Size = new System.Drawing.Size(170, 32);
+            this.btnInventoryPrint.TabIndex = 4;
+            this.btnInventoryPrint.Text = "Print Preview";
+            this.btnInventoryPrint.UseVisualStyleBackColor = false;
+            this.btnInventoryPrint.Click += new System.EventHandler(this.btnInventoryPrint_Click);
             //
             // tabPage5
             //
@@ -1432,7 +1429,7 @@ namespace FinalPOS
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Button btnInventoryPrint;
         private System.Windows.Forms.TabPage tabPage5;
         public System.Windows.Forms.DataGridView dataGridView5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn21;
@@ -1470,9 +1467,10 @@ namespace FinalPOS
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.Button btnTopPrint;
         private System.Windows.Forms.Button btnSalesPrint;
-        private System.Windows.Forms.LinkLabel linkLabel4;
+        private System.Windows.Forms.LinkLabel linkLabel9;
         private System.Windows.Forms.Button btnCancelledPrint;
         private System.Windows.Forms.Button btnStockPrint;
+        private System.Windows.Forms.Button btnCriticalPrint;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
@@ -1483,7 +1481,6 @@ namespace FinalPOS
         private System.Windows.Forms.Button btnTopLoad;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Button btnSalesLoad;
-        private System.Windows.Forms.LinkLabel linkLabel9;
         private System.Windows.Forms.Button btnStockLoad;
         private System.Windows.Forms.Button btnCancelledLoad;
     }

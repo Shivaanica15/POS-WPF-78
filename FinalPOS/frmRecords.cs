@@ -132,9 +132,7 @@ namespace FinalPOS
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            frmInventoryReport frm = new frmInventoryReport();
-            frm.LoadReport();
-            frm.ShowDialog();
+            ShowInventoryReport();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -308,8 +306,10 @@ namespace FinalPOS
         private void btnStockPrint_Click(object sender, EventArgs e)
         {
             frmInventoryReport frm = new frmInventoryReport();
-            string param = "Date Covered : " + dateTimePicker4.Value.ToShortDateString() + " - " + dateTimePicker3.Value.ToShortDateString();
-            frm.LoadStocksInReports("SELECT * FROM viewstocks WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Done'", param);
+            DateTime dateFrom = dateTimePicker4.Value;
+            DateTime dateTo = dateTimePicker3.Value;
+            string param = "Date Covered : " + dateFrom.ToShortDateString() + " - " + dateTo.ToShortDateString();
+            frm.LoadStocksInReports("SELECT * FROM viewstocks WHERE DATE(sdate) BETWEEN @date1 AND @date2 AND status = 'Done'", param, dateFrom, dateTo);
             frm.ShowDialog();
         }
 
@@ -326,9 +326,28 @@ namespace FinalPOS
         private void btnCancelledPrint_Click(object sender, EventArgs e)
         {
             frmInventoryReport f = new frmInventoryReport();
-            string param = "Date Covered: " + dateTimePicker4.Value.ToShortDateString() + " - " + dateTimePicker3.Value.ToShortDateString();
-            f.LoadCancelledOrders("SELECT * FROM cancelledorder WHERE DATE(sdate) BETWEEN @date1 AND @date2", param);
+            DateTime dateFrom = dateTimePicker1.Value;
+            DateTime dateTo = dateTimePicker2.Value;
+            string param = "Date Covered: " + dateFrom.ToShortDateString() + " - " + dateTo.ToShortDateString();
+            f.LoadCancelledOrders("SELECT * FROM cancelledorder WHERE DATE(sdate) BETWEEN @date1 AND @date2", param, dateFrom, dateTo);
             f.ShowDialog();
+        }
+
+        private void btnInventoryPrint_Click(object sender, EventArgs e)
+        {
+            ShowInventoryReport();
+        }
+
+        private void ShowInventoryReport()
+        {
+            frmInventoryReport frm = new frmInventoryReport();
+            frm.LoadReport();
+            frm.ShowDialog();
+        }
+
+        private void btnCriticalPrint_Click(object sender, EventArgs e)
+        {
+            // Critical stocks print preview workflow was not implemented previously.
         }
     }
 }

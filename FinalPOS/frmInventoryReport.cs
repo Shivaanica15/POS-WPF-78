@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -73,7 +73,7 @@ namespace FinalPOS
 
 
 
-        public void LoadStocksInReports(string psql, string param)
+        public void LoadStocksInReports(string psql, string param, DateTime dateFrom, DateTime dateTo)
         {
             ReportDataSource rptDS;
             try
@@ -86,12 +86,14 @@ namespace FinalPOS
                 MySqlDataAdapter da = new MySqlDataAdapter();
 
                 ReportParameter pDate = new ReportParameter("pDate", param);
-               
-                
+
+
                 reportViewer1.LocalReport.SetParameters(pDate);
 
                 cn.Open();
                 cm = new MySqlCommand(psql, cn);
+                cm.Parameters.AddWithValue("@date1", dateFrom.Date);
+                cm.Parameters.AddWithValue("@date2", dateTo.Date);
                 da.SelectCommand = cm;
                 da.Fill(ds.Tables["dtStocksIn"]);
                 cn.Close();
@@ -110,7 +112,7 @@ namespace FinalPOS
         }
 
 
-        public void LoadCancelledOrders(string psql, string param)
+        public void LoadCancelledOrders(string psql, string param, DateTime dateFrom, DateTime dateTo)
         {
             ReportDataSource rptDS;
             try
@@ -129,6 +131,8 @@ namespace FinalPOS
 
                 cn.Open();
                 cm = new MySqlCommand(psql, cn);
+                cm.Parameters.AddWithValue("@date1", dateFrom.Date);
+                cm.Parameters.AddWithValue("@date2", dateTo.Date);
                 da.SelectCommand = cm;
                 da.Fill(ds.Tables["dbCancelled"]);
                 cn.Close();
@@ -172,10 +176,10 @@ namespace FinalPOS
                 da.Fill(ds.Tables["dtSoldItems"]);
                 cn.Close();
                 ReportParameter pDate = new ReportParameter("pDate", param);
-                
+
 
                 reportViewer1.LocalReport.SetParameters(pDate);
-                
+
 
                 rptDs = new ReportDataSource("DataSet1", ds.Tables["dtSoldItems"]);
                 reportViewer1.LocalReport.DataSources.Add(rptDs);
@@ -214,10 +218,10 @@ namespace FinalPOS
                 reportViewer1.ZoomMode = ZoomMode.Percent;
                 reportViewer1.ZoomPercent = 50;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 cn.Close();
-                MessageBox.Show(ex.Message,"Warning" ,MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }
