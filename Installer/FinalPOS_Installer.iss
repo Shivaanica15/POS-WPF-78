@@ -52,6 +52,9 @@ Source: "{#BasePath}\\Tools\\StartMySQL.ps1"; DestDir: "{tmp}"; Flags: deleteaft
 Source: "{#BasePath}\\Tools\\DetectXAMPP.ps1"; DestDir: "{tmp}"; Flags: deleteafterinstall
 Source: "{#BasePath}\\Tools\\TestMySQLConnection.ps1"; DestDir: "{tmp}"; Flags: deleteafterinstall
 Source: "{#BasePath}\\Tools\\ResolvePortConflict.ps1"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "{#BasePath}\\Tools\\DetectMySQLPort.ps1"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "{#BasePath}\\Tools\\ValidateMySQLPassword.ps1"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "{#BasePath}\\Tools\\SetMySQLPassword.ps1"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -59,68 +62,33 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
 
 [Run]
-; Step 1: Detect available MySQL port (for bundled XAMPP) or check/resolve port conflict (for existing XAMPP)
+; Step 1: Detect available MySQL port (for bundled XAMPP) or auto-detect port (for existing XAMPP)
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\FindAvailablePort.ps1"" -OutputFile ""{{tmp}}\mysql_port.txt"""; StatusMsg: "Detecting available MySQL port..."; Flags: runhidden waituntilterminated; Check: ShouldInstallXAMPP
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\ResolvePortConflict.ps1"" -RequestedPortFile ""{{tmp}}\requested_port.txt"" -OutputFile ""{{tmp}}\mysql_port.txt"""; StatusMsg: "Resolving MySQL port conflicts..."; Flags: runhidden waituntilterminated; Check: ShouldUseExistingXAMPP
-; Step 2: Configure MySQL my.ini with detected port (only for bundled XAMPP)
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\DetectMySQLPort.ps1"" -OutputFile ""{{tmp}}\mysql_port.txt"""; StatusMsg: "Auto-detecting MySQL port..."; Flags: runhidden waituntilterminated; Check: ShouldUseExistingXAMPP
+; Step 1b: Validate MySQL password (for existing XAMPP only)
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\ValidateMySQLPassword.ps1"" -PortFile ""{{tmp}}\mysql_port.txt"" -PasswordFile ""{{tmp}}\mysql_password.txt"""; StatusMsg: "Validating MySQL password..."; Flags: runhidden waituntilterminated; Check: ShouldUseExistingXAMPP
+; Step 2: Configure MySQL my.ini with detected port and set password to 'admin' (only for bundled XAMPP)
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\ConfigureMySQL.ps1"" -XamppPath ""C:\FinalPOS-XAMPP"" -PortFile ""{{tmp}}\mysql_port.txt"""; StatusMsg: "Configuring MySQL server..."; Flags: runhidden waituntilterminated; Check: ShouldInstallXAMPP
-; Step 3: Update App.config connection string with port and password
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\UpdateAppConfig.ps1"" -AppConfigPath ""{{app}}\App.config"" -PortFile ""{{tmp}}\mysql_port.txt"" -PasswordFile ""{{tmp}}\mysql_password.txt"""; StatusMsg: "Updating application configuration..."; Flags: runhidden waituntilterminated
-; Step 4: Start MySQL server with configured port (only for bundled XAMPP)
+; Step 3: Start MySQL server with configured port (only for bundled XAMPP)
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\StartMySQL.ps1"" -XamppPath ""C:\FinalPOS-XAMPP"" -PortFile ""{{tmp}}\mysql_port.txt"""; StatusMsg: "Starting MySQL server..."; Flags: runhidden waituntilterminated; Check: ShouldInstallXAMPP
-; Step 5: Save port to App folder for reference
+; Step 4: Set MySQL root password to 'admin' (only for bundled XAMPP)
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\SetMySQLPassword.ps1"" -XamppPath ""C:\FinalPOS-XAMPP"" -Password ""admin"""; StatusMsg: "Setting MySQL root password..."; Flags: runhidden waituntilterminated; Check: ShouldInstallXAMPP
+; Step 5: Update App.config connection string with port and password
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\UpdateAppConfig.ps1"" -AppConfigPath ""{{app}}\App.config"" -PortFile ""{{tmp}}\mysql_port.txt"" -PasswordFile ""{{tmp}}\mysql_password.txt"""; StatusMsg: "Updating application configuration..."; Flags: runhidden waituntilterminated
+; Step 6: Save port to App folder for reference
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -Command ""if (Test-Path '{{tmp}}\mysql_port.txt') {{ $port = Get-Content '{{tmp}}\mysql_port.txt' -ErrorAction SilentlyContinue; if ($port) {{ Set-Content -Path '{{app}}\mysql_port.txt' -Value $port -ErrorAction Stop }} }}"""; StatusMsg: "Saving port configuration..."; Flags: runhidden waituntilterminated
-; Step 6: Launch FinalPOS application
+; Step 7: Launch FinalPOS application
 Filename: "{app}\{#MyAppExeName}"; Description: "Launch FinalPOS"; Flags: nowait postinstall skipifsilent
 
 [Code]
 var
   MySQLPage: TInputQueryWizardPage;
   UseExistingXAMPP: Boolean;
-  XAMPPPath: String;
-  MySQLPort: String;
   MySQLPassword: String;
-  MySQLUsername: String;
-
-function DetectXAMPPInstallation(): String;
-var
-  CommonPaths: TArrayOfString;
-  Path: String;
-  MySQLPath: String;
-  I: Integer;
-begin
-  Result := '';
-  
-  // Common XAMPP installation paths
-  SetArrayLength(CommonPaths, 5);
-  CommonPaths[0] := 'C:\xampp';
-  CommonPaths[1] := ExpandConstant('{pf}\xampp');
-  CommonPaths[2] := ExpandConstant('{pf32}\xampp');
-  CommonPaths[3] := ExpandConstant('{userdesktop}\xampp');
-  CommonPaths[4] := ExpandConstant('{userdocs}\xampp');
-  
-  // Check each path
-  for I := 0 to GetArrayLength(CommonPaths) - 1 do
-  begin
-    Path := CommonPaths[I];
-    if DirExists(Path) then
-    begin
-      MySQLPath := Path + '\mysql\bin\mysqld.exe';
-      if FileExists(MySQLPath) then
-      begin
-        Result := Path;
-        Break;
-      end;
-    end;
-  end;
-end;
 
 function InitializeSetup(): Boolean;
 begin
   Result := True;
-  
-  // Detect existing XAMPP installations
-  XAMPPPath := DetectXAMPPInstallation();
 end;
 
 function InitializeUninstall(): Boolean;
@@ -132,29 +100,15 @@ procedure InitializeWizard;
 begin
   // Create custom page for MySQL configuration
   MySQLPage := CreateInputQueryPage(wpSelectTasks,
-    'MySQL Database Configuration', 'Configure MySQL database connection',
-    'Please specify your MySQL database settings. If you have XAMPP installed, you can use your existing installation.');
-
-  MySQLPage.Add('Use existing XAMPP? (Yes/No):', False);
-  MySQLPage.Add('XAMPP Installation Path:', False);
-  MySQLPage.Add('MySQL Port (default: 3306):', False);
-  MySQLPage.Add('MySQL Username (default: root):', False);
-  MySQLPage.Add('MySQL Password (leave empty if no password):', True);
+    'MySQL Database Configuration', 'Choose your MySQL setup option',
+    'Select whether you have existing XAMPP/MySQL installed or want to install bundled MySQL.');
   
-  // Set default values
-  if XAMPPPath <> '' then
-  begin
-    MySQLPage.Values[0] := 'Yes';
-    MySQLPage.Values[1] := XAMPPPath;
-  end
-  else
-  begin
-    MySQLPage.Values[0] := 'No';
-    MySQLPage.Values[1] := 'C:\xampp';
-  end;
-  MySQLPage.Values[2] := '3306';
-  MySQLPage.Values[3] := 'root';
-  MySQLPage.Values[4] := '';
+  MySQLPage.Add('I have existing XAMPP/MySQL installed (Yes/No):', False);
+  MySQLPage.Add('MySQL Root Password (required if Yes above):', True);
+  
+  // Set default to "No" (install bundled)
+  MySQLPage.Values[0] := 'No';
+  MySQLPage.Values[1] := '';
 end;
 
 function ShouldInstallXAMPP(): Boolean;
@@ -170,8 +124,8 @@ end;
 function NextButtonClick(CurPageID: Integer): Boolean;
 var
   ResultCode: Integer;
-  TestScript: String;
   UseExisting: String;
+  DetectedPort: String;
 begin
   Result := True;
   
@@ -182,51 +136,40 @@ begin
     if (UseExisting = 'yes') or (UseExisting = 'y') then
     begin
       UseExistingXAMPP := True;
-      XAMPPPath := Trim(MySQLPage.Values[1]);
-      MySQLPort := Trim(MySQLPage.Values[2]);
-      MySQLUsername := Trim(MySQLPage.Values[3]);
-      MySQLPassword := Trim(MySQLPage.Values[4]);
+      MySQLPassword := Trim(MySQLPage.Values[1]);
       
-      // Validate XAMPP path
-      if XAMPPPath = '' then
+      // Validate password is provided
+      if MySQLPassword = '' then
       begin
-        MsgBox('Please specify the XAMPP installation path.', mbError, MB_OK);
+        MsgBox('Please enter your MySQL root password.', mbError, MB_OK);
         Result := False;
         Exit;
       end;
       
-      if not DirExists(XAMPPPath) then
+      // Auto-detect MySQL port using inline PowerShell
+      DetectedPort := '3306';
+      if Exec('powershell.exe', '-ExecutionPolicy Bypass -Command "$port = 3306; $services = Get-Service -Name ''MySQL*'' -ErrorAction SilentlyContinue; if ($services) { foreach ($svc in $services) { $path = (Get-WmiObject Win32_Service -Filter \"Name=''$($svc.Name)''\").PathName; if ($path) { $mysqlDir = Split-Path (Split-Path $path.Replace(''\"'', ''''))); $ini = Join-Path $mysqlDir ''my.ini''; if (Test-Path $ini) { $content = Get-Content $ini -Raw; if ($content -match ''\[mysqld\]\s*port\s*=\s*(\d+)'') { $port = $matches[1]; break } } } } }; $port"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
       begin
-        if MsgBox('The specified XAMPP path does not exist. Continue anyway?', mbConfirmation, MB_YESNO) = IDNO then
-        begin
-          Result := False;
-          Exit;
-        end;
+        // Port detection attempted, use default 3306
       end;
       
-      // Validate port
-      if MySQLPort = '' then
+      // Try to validate password using inline PowerShell (simplified check)
+      // Note: Full validation will happen during installation phase
+      if MsgBox('Password will be validated during installation. Continue?', mbConfirmation, MB_YESNO) = IDNO then
       begin
-        MySQLPort := '3306';
+        Result := False;
+        Exit;
       end;
       
-      // Validate username
-      if MySQLUsername = '' then
-      begin
-        MySQLUsername := 'root';
-      end;
-      
-      // Save port and password to temp files
-      SaveStringToFile(ExpandConstant('{tmp}\requested_port.txt'), MySQLPort, False);
+      // Save password to temp file
       SaveStringToFile(ExpandConstant('{tmp}\mysql_password.txt'), MySQLPassword, False);
     end
     else
     begin
       UseExistingXAMPP := False;
-      MySQLPort := '3306'; // Will be detected by FindAvailablePort.ps1
-      MySQLUsername := 'root';
-      MySQLPassword := ''; // No password for bundled XAMPP
-      SaveStringToFile(ExpandConstant('{tmp}\mysql_password.txt'), '', False);
+      // For bundled XAMPP, password will be set to 'admin' automatically
+      MySQLPassword := 'admin';
+      SaveStringToFile(ExpandConstant('{tmp}\mysql_password.txt'), MySQLPassword, False);
     end;
   end;
 end;
