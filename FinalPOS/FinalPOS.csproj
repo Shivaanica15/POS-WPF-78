@@ -138,6 +138,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseInitializer.cs" />
     <Compile Include="DbConnection.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

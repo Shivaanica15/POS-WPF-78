@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,7 +24,7 @@ namespace FinalPOS
         {
             InitializeComponent();
             cn = new MySqlConnection(dbcon.MyConnection());
-                      
+
 
 
             this.f = f;
@@ -142,7 +142,7 @@ namespace FinalPOS
                 dr.Read();
                 if (dr.HasRows)
                 {
-                    checkBox1.Checked = bool.Parse(dr["isactive"].ToString());
+                    checkBox1.Checked = ConvertToBoolean(dr["is_active"]);
                 }
                 else
                 {
@@ -189,8 +189,8 @@ namespace FinalPOS
                 if (found == true)
                 {
                     cn.Open();
-                    cm = new MySqlCommand("UPDATE tbl_users SET isactive = @isactive WHERE username = @username", cn);
-                    cm.Parameters.AddWithValue("@isactive", checkBox1.Checked);
+                    cm = new MySqlCommand("UPDATE tbl_users SET is_active = @isActive WHERE username = @username", cn);
+                    cm.Parameters.AddWithValue("@isActive", checkBox1.Checked ? 1 : 0);
                     cm.Parameters.AddWithValue("@username", textBox1.Text);
                     cm.ExecuteNonQuery();
                     cn.Close();
@@ -385,7 +385,7 @@ namespace FinalPOS
                 string mysqldumpPath = FindMySqlDumpPath();
                 if (string.IsNullOrEmpty(mysqldumpPath))
                 {
-                    MessageBox.Show("MySQL dump utility (mysqldump.exe) not found.\n\nPlease ensure MySQL is installed and mysqldump.exe is accessible.\n\nYou can also add MySQL bin folder to your system PATH.", 
+                    MessageBox.Show("MySQL dump utility (mysqldump.exe) not found.\n\nPlease ensure MySQL is installed and mysqldump.exe is accessible.\n\nYou can also add MySQL bin folder to your system PATH.",
                         "MySQL Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
@@ -396,7 +396,7 @@ namespace FinalPOS
                 StringBuilder args = new StringBuilder();
                 args.Append($"-h{server} ");
                 args.Append($"-u{username} ");
-                
+
                 if (!string.IsNullOrEmpty(password))
                 {
                     args.Append($"-p{password} ");
@@ -431,15 +431,15 @@ namespace FinalPOS
                     // Read output and write to file
                     string output = proc.StandardOutput.ReadToEnd();
                     string errorOutput = proc.StandardError.ReadToEnd();
-                    
+
                     // Write output to backup file
                     File.WriteAllText(backupFilePath, output, Encoding.UTF8);
-                    
+
                     proc.WaitForExit();
 
                     if (proc.ExitCode != 0)
                     {
-                        MessageBox.Show($"Backup failed!\n\nError: {errorOutput}", 
+                        MessageBox.Show($"Backup failed!\n\nError: {errorOutput}",
                             "Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         if (File.Exists(backupFilePath))
                         {
@@ -454,7 +454,7 @@ namespace FinalPOS
                     }
                     else
                     {
-                        MessageBox.Show("Backup file was not created or is empty.", 
+                        MessageBox.Show("Backup file was not created or is empty.",
                             "Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
@@ -462,7 +462,7 @@ namespace FinalPOS
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error during backup:\n\n{ex.Message}", 
+                MessageBox.Show($"Error during backup:\n\n{ex.Message}",
                     "Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -479,7 +479,7 @@ namespace FinalPOS
             {
                 if (!File.Exists(restoreFilePath))
                 {
-                    MessageBox.Show("Backup file not found!", 
+                    MessageBox.Show("Backup file not found!",
                         "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
@@ -487,7 +487,7 @@ namespace FinalPOS
                 string mysqlPath = FindMySqlPath();
                 if (string.IsNullOrEmpty(mysqlPath))
                 {
-                    MessageBox.Show("MySQL utility (mysql.exe) not found.\n\nPlease ensure MySQL is installed and mysql.exe is accessible.\n\nYou can also add MySQL bin folder to your system PATH.", 
+                    MessageBox.Show("MySQL utility (mysql.exe) not found.\n\nPlease ensure MySQL is installed and mysql.exe is accessible.\n\nYou can also add MySQL bin folder to your system PATH.",
                         "MySQL Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
@@ -498,7 +498,7 @@ namespace FinalPOS
                 string sqlContent = File.ReadAllText(restoreFilePath, Encoding.UTF8);
                 if (string.IsNullOrWhiteSpace(sqlContent))
                 {
-                    MessageBox.Show("Backup file is empty!", 
+                    MessageBox.Show("Backup file is empty!",
                         "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
@@ -507,7 +507,7 @@ namespace FinalPOS
                 StringBuilder args = new StringBuilder();
                 args.Append($"-h{server} ");
                 args.Append($"-u{username} ");
-                
+
                 if (!string.IsNullOrEmpty(password))
                 {
                     args.Append($"-p{password} ");
@@ -540,14 +540,14 @@ namespace FinalPOS
                     // Write SQL content to process input
                     proc.StandardInput.Write(sqlContent);
                     proc.StandardInput.Close();
-                    
+
                     string errorOutput = proc.StandardError.ReadToEnd();
                     string standardOutput = proc.StandardOutput.ReadToEnd();
                     proc.WaitForExit();
 
                     if (proc.ExitCode != 0)
                     {
-                        MessageBox.Show($"Restore failed!\n\nError: {errorOutput}\n\nOutput: {standardOutput}", 
+                        MessageBox.Show($"Restore failed!\n\nError: {errorOutput}\n\nOutput: {standardOutput}",
                             "Restore Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
@@ -557,7 +557,7 @@ namespace FinalPOS
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error during restore:\n\n{ex.Message}", 
+                MessageBox.Show($"Error during restore:\n\n{ex.Message}",
                     "Restore Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -578,7 +578,7 @@ namespace FinalPOS
                 saveFileDialog1.Filter = "SQL Files|*.sql|All Files|*.*";
                 saveFileDialog1.DefaultExt = "sql";
                 saveFileDialog1.Title = "Save Backup File";
-                
+
                 // Set initial directory if backup browse folder was selected
                 if (!string.IsNullOrWhiteSpace(txtbackupbrowse.Text) && Directory.Exists(txtbackupbrowse.Text))
                 {
@@ -602,7 +602,7 @@ namespace FinalPOS
                     // Check if file exists
                     if (File.Exists(backupFilePath))
                     {
-                        DialogResult result = MessageBox.Show("File already exists. Do you want to overwrite it?", 
+                        DialogResult result = MessageBox.Show("File already exists. Do you want to overwrite it?",
                             "File Exists", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result != DialogResult.Yes)
                         {
@@ -614,7 +614,7 @@ namespace FinalPOS
                     // Execute backup
                     if (RunMySqlDump(backupFilePath))
                     {
-                        MessageBox.Show($"Backup completed successfully!\n\nFile saved to:\n{backupFilePath}", 
+                        MessageBox.Show($"Backup completed successfully!\n\nFile saved to:\n{backupFilePath}",
                             "Backup Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         txtbackupbrowse.Clear();
                         backupbutton.Enabled = false;
@@ -623,7 +623,7 @@ namespace FinalPOS
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", 
+                MessageBox.Show($"Error: {ex.Message}",
                     "Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -634,14 +634,14 @@ namespace FinalPOS
             {
                 if (string.IsNullOrWhiteSpace(txtrestorebrowse.Text))
                 {
-                    MessageBox.Show("Please select a backup file to restore.", 
+                    MessageBox.Show("Please select a backup file to restore.",
                         "No File Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 if (!File.Exists(txtrestorebrowse.Text))
                 {
-                    MessageBox.Show("Backup file not found!", 
+                    MessageBox.Show("Backup file not found!",
                         "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -663,7 +663,7 @@ namespace FinalPOS
                 // Execute restore
                 if (RunMySqlRestore(txtrestorebrowse.Text))
                 {
-                    MessageBox.Show("Database restored successfully!\n\nPlease restart the application to see the changes.", 
+                    MessageBox.Show("Database restored successfully!\n\nPlease restart the application to see the changes.",
                         "Restore Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtrestorebrowse.Clear();
                     restorebutton.Enabled = false;
@@ -671,10 +671,51 @@ namespace FinalPOS
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", 
+                MessageBox.Show($"Error: {ex.Message}",
                     "Restore Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private bool ConvertToBoolean(object value)
+        {
+            if (value == null || value == DBNull.Value)
+            {
+                return false;
+            }
+
+            if (value is bool boolValue)
+            {
+                return boolValue;
+            }
+
+            string stringValue = value.ToString().Trim();
+            if (string.IsNullOrEmpty(stringValue))
+            {
+                return false;
+            }
+
+            if (stringValue == "1")
+            {
+                return true;
+            }
+
+            if (stringValue == "0")
+            {
+                return false;
+            }
+
+            if (bool.TryParse(stringValue, out bool parsedBool))
+            {
+                return parsedBool;
+            }
+
+            if (int.TryParse(stringValue, out int numericValue))
+            {
+                return numericValue != 0;
+            }
+
+            return false;
+        }
     }
 
-}      
+}

@@ -7,10 +7,12 @@ namespace FinalPOS
     public class DBConnection
     {
         private MySqlConnection cn;
+        private readonly string _connectionString;
 
         public DBConnection()
         {
-            cn = new MySqlConnection("Server=localhost;Database=newone;Uid=root;Pwd=;");
+            _connectionString = DatabaseInitializer.ConnectionString;
+            cn = new MySqlConnection(_connectionString);
         }
 
         public MySqlConnection Connection => cn;
@@ -29,7 +31,7 @@ namespace FinalPOS
 
         public string MyConnection()
         {
-            return "Server=localhost;Database=newone;Uid=root;Pwd=;";
+            return _connectionString;
         }
 
         public MySqlConnection OpenConnection()
