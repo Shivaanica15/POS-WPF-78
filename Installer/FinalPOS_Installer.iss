@@ -65,8 +65,8 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Fil
 ; Step 1: Detect available MySQL port (for bundled XAMPP) or auto-detect port (for existing XAMPP)
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\FindAvailablePort.ps1"" -OutputFile ""{{tmp}}\mysql_port.txt"""; StatusMsg: "Detecting available MySQL port..."; Flags: runhidden waituntilterminated; Check: ShouldInstallXAMPP
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\DetectMySQLPort.ps1"" -OutputFile ""{{tmp}}\mysql_port.txt"""; StatusMsg: "Auto-detecting MySQL port..."; Flags: runhidden waituntilterminated; Check: ShouldUseExistingXAMPP
-; Step 1b: Validate MySQL password (for existing XAMPP only)
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\ValidateMySQLPassword.ps1"" -PortFile ""{{tmp}}\mysql_port.txt"" -PasswordFile ""{{tmp}}\mysql_password.txt"""; StatusMsg: "Validating MySQL password..."; Flags: runhidden waituntilterminated; Check: ShouldUseExistingXAMPP
+; Step 1b: Validate MySQL password (for existing XAMPP only, skip if empty password)
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\ValidateMySQLPassword.ps1"" -PortFile ""{{tmp}}\mysql_port.txt"" -PasswordFile ""{{tmp}}\mysql_password.txt"""; StatusMsg: "Validating MySQL password..."; Flags: runhidden waituntilterminated; Check: ShouldValidatePassword
 ; Step 2: Configure MySQL my.ini with detected port and set password to 'admin' (only for bundled XAMPP)
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{{tmp}}\ConfigureMySQL.ps1"" -XamppPath ""C:\FinalPOS-XAMPP"" -PortFile ""{{tmp}}\mysql_port.txt"""; StatusMsg: "Configuring MySQL server..."; Flags: runhidden waituntilterminated; Check: ShouldInstallXAMPP
 ; Step 3: Start MySQL server with configured port (only for bundled XAMPP)
@@ -104,7 +104,7 @@ begin
     'Select whether you have existing XAMPP/MySQL installed or want to install bundled MySQL.');
   
   MySQLPage.Add('I have existing XAMPP/MySQL installed (Yes/No):', False);
-  MySQLPage.Add('MySQL Root Password (required if Yes above):', True);
+  MySQLPage.Add('MySQL Root Password (leave empty if no password):', True);
   
   // Set default to "No" (install bundled)
   MySQLPage.Values[0] := 'No';
@@ -119,6 +119,12 @@ end;
 function ShouldUseExistingXAMPP(): Boolean;
 begin
   Result := UseExistingXAMPP;
+end;
+
+function ShouldValidatePassword(): Boolean;
+begin
+  // Only validate password if using existing XAMPP and password is not empty
+  Result := UseExistingXAMPP and (MySQLPassword <> '');
 end;
 
 function NextButtonClick(CurPageID: Integer): Boolean;
@@ -138,13 +144,7 @@ begin
       UseExistingXAMPP := True;
       MySQLPassword := Trim(MySQLPage.Values[1]);
       
-      // Validate password is provided
-      if MySQLPassword = '' then
-      begin
-        MsgBox('Please enter your MySQL root password.', mbError, MB_OK);
-        Result := False;
-        Exit;
-      end;
+      // Password is optional - empty password is allowed
       
       // Auto-detect MySQL port using inline PowerShell
       DetectedPort := '3306';
