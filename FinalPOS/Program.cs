@@ -8,16 +8,18 @@ namespace FinalPOS
 {
     static class Program
     {
-
         [STAThread]
         static void Main()
         {
             try
             {
+                // Initialize database schema
                 DatabaseInitializer.EnsureDatabaseSetup();
             }
-            catch
+            catch (Exception ex)
             {
+                MessageBox.Show($"Database initialization failed: {ex.Message}\n\nPlease ensure MySQL Server is running on port 3308.", 
+                    "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
