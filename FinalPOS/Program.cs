@@ -19,7 +19,7 @@ namespace FinalPOS
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Database initialization failed: {ex.Message}\n\nPlease ensure MySQL Server is running on port 3306.", 
+                MessageBox.Show($"Database initialization failed: {ex.Message}\n\nPlease ensure MySQL Server is running on port 3307.", 
                     "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -30,3 +30,4 @@ namespace FinalPOS
         }
     }
 }
+

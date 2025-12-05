@@ -25,7 +25,8 @@ namespace FinalPOS
             }
 
             // Test the connection with provided password
-            string testConnectionString = $"Server=localhost;Port=3306;Uid=root;Pwd={txtPassword.Text.Trim()};AllowPublicKeyRetrieval=True;";
+            // Use 127.0.0.1 instead of localhost to avoid DNS resolution issues
+            string testConnectionString = $"Server=127.0.0.1;Port=3307;Uid=root;Pwd={txtPassword.Text.Trim()};AllowPublicKeyRetrieval=True;";
             
             try
             {
@@ -42,6 +43,32 @@ namespace FinalPOS
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
+            }
+            catch (MySqlException mysqlEx)
+            {
+                string errorMsg = "";
+                if (mysqlEx.Number == 0 || mysqlEx.Message.Contains("Unable to connect") || mysqlEx.Message.Contains("specified MySQL hosts"))
+                {
+                    errorMsg = "Cannot connect to MySQL server on port 3307.\n\n";
+                    errorMsg += "MySQL is not running or not accessible.\n\n";
+                    errorMsg += "Please:\n";
+                    errorMsg += "1. Start MySQL service\n";
+                    errorMsg += "2. Verify MySQL is running on port 3307\n";
+                    errorMsg += "3. Check MySQL configuration";
+                }
+                else if (mysqlEx.Number == 1045 || mysqlEx.Message.Contains("Access denied"))
+                {
+                    errorMsg = $"Authentication failed: {mysqlEx.Message}\n\n";
+                    errorMsg += "Please check your password and try again.";
+                }
+                else
+                {
+                    errorMsg = $"Connection failed: {mysqlEx.Message}\n\nPlease check your password and try again.";
+                }
+                
+                MessageBox.Show(errorMsg, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtPassword.Clear();
+                txtPassword.Focus();
             }
             catch (Exception ex)
             {
@@ -68,7 +95,8 @@ namespace FinalPOS
                 if (connectionStringsSection != null)
                 {
                     // Update or add the connection string
-                    var connectionString = $"Server=localhost;Port=3306;Database=POS_NEXA_ERP;Uid=root;Pwd={password};AllowPublicKeyRetrieval=True;";
+                    // Use 127.0.0.1 instead of localhost to avoid DNS resolution issues
+                    var connectionString = $"Server=127.0.0.1;Port=3307;Database=POS_NEXA_ERP;Uid=root;Pwd={password};AllowPublicKeyRetrieval=True;";
                     
                     if (connectionStringsSection.ConnectionStrings["FinalPOS.Properties.Settings.NewOneConnectionString"] != null)
                     {
