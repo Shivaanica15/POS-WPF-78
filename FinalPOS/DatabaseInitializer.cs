@@ -61,7 +61,7 @@ namespace FinalPOS
             }
             
             // Default connection string (uses system-installed MySQL Server on port 3308)
-            return "Server=localhost;Port=3308;Uid=root;Pwd=Rishi123@;";
+            return "Server=localhost;Port=3306;Uid=root;Pwd=;AllowPublicKeyRetrieval=True;";
         }
         
         private static string ServerConnectionString => GetServerConnectionString();
@@ -508,3 +508,4 @@ namespace FinalPOS
         }
     }
 }
+
