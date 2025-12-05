@@ -45,13 +45,16 @@ namespace FinalPOS
                     }
                     
                     // Build connection string with port if specified
+                    // For MySQL 8.0+, explicitly set Pwd= (empty) if no password, and add compatibility parameters
+                    string pwdPart = string.IsNullOrEmpty(pwd) ? "Pwd=;" : $"Pwd={pwd};";
+                    string additionalParams = "AllowPublicKeyRetrieval=True;";
                     if (!string.IsNullOrEmpty(port))
                     {
-                        return $"Server={server};Port={port};Uid={uid};Pwd={pwd};";
+                        return $"Server={server};Port={port};Uid={uid};{pwdPart}{additionalParams}";
                     }
                     else
                     {
-                        return $"Server={server};Uid={uid};Pwd={pwd};";
+                        return $"Server={server};Uid={uid};{pwdPart}{additionalParams}";
                     }
                 }
             }
@@ -60,11 +63,28 @@ namespace FinalPOS
                 // Fall back to default if reading config fails
             }
             
-            // Default connection string (uses system-installed MySQL Server on port 3308)
+            // Default connection string (uses system-installed MySQL Server on port 3306, no password)
             return "Server=localhost;Port=3306;Uid=root;Pwd=;AllowPublicKeyRetrieval=True;";
         }
         
-        private static string ServerConnectionString => GetServerConnectionString();
+        private static string _cachedServerConnectionString = null;
+        
+        private static string ServerConnectionString 
+        { 
+            get 
+            {
+                if (_cachedServerConnectionString == null)
+                {
+                    _cachedServerConnectionString = GetServerConnectionString();
+                }
+                return _cachedServerConnectionString;
+            }
+        }
+        
+        public static void RefreshConnectionString()
+        {
+            _cachedServerConnectionString = null;
+        }
 
         private static readonly string[] TableStatements = new[]
         {
@@ -348,23 +368,119 @@ namespace FinalPOS
 
         public static void EnsureDatabaseSetup()
         {
-            try
+            int maxRetries = 3;
+            int retryCount = 0;
+            string savedPassword = "";
+
+            while (retryCount < maxRetries)
             {
-                CreateDatabaseIfMissing();
-                using (var connection = new MySqlConnection(ConnectionString))
+                try
                 {
-                    connection.Open();
-                    ExecuteStatements(connection, TableStatements);
-                    ExecuteStatements(connection, ViewStatements);
-                    ExecuteStatements(connection, TriggerStatements);
-                    EnsureMissingColumns(connection);
-                    EnsureSeedData(connection);
+                    // Try to create database and setup
+                    CreateDatabaseIfMissing();
+                    using (var connection = new MySqlConnection(ConnectionString))
+                    {
+                        connection.Open();
+                        ExecuteStatements(connection, TableStatements);
+                        ExecuteStatements(connection, ViewStatements);
+                        ExecuteStatements(connection, TriggerStatements);
+                        EnsureMissingColumns(connection);
+                        EnsureSeedData(connection);
+                    }
+                    // Success - exit the retry loop
+                    return;
+                }
+                catch (MySqlException mysqlEx)
+                {
+                    // Check if it's an authentication error
+                    if (mysqlEx.Number == 1045 || mysqlEx.Message.Contains("Access denied") || mysqlEx.Message.Contains("using password"))
+                    {
+                        // Authentication failed - prompt for password
+                        if (retryCount == 0)
+                        {
+                            // First attempt - show password prompt
+                            var passwordForm = new frmDatabasePassword();
+                            if (passwordForm.ShowDialog() == DialogResult.OK && passwordForm.PasswordProvided)
+                            {
+                                savedPassword = passwordForm.DatabasePassword;
+                                // Update connection string with new password
+                                UpdateConnectionStringWithPassword(savedPassword);
+                                RefreshConnectionString(); // Refresh cached connection string
+                                retryCount++;
+                                continue;
+                            }
+                            else
+                            {
+                                // User cancelled or didn't provide password
+                                throw new Exception("Database connection cancelled. MySQL password is required.");
+                            }
+                        }
+                        else
+                        {
+                            // Password was wrong, try again
+                            var passwordForm = new frmDatabasePassword();
+                            if (passwordForm.ShowDialog() == DialogResult.OK && passwordForm.PasswordProvided)
+                            {
+                                savedPassword = passwordForm.DatabasePassword;
+                                UpdateConnectionStringWithPassword(savedPassword);
+                                RefreshConnectionString(); // Refresh cached connection string
+                                retryCount++;
+                                continue;
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid MySQL password. Please check your password and try again.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Other MySQL errors
+                        throw;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Non-authentication errors
+                    if (retryCount == 0)
+                    {
+                        MessageBox.Show($"Database initialization failed: {ex.Message}", "FinalPOS", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    throw;
                 }
             }
-            catch (Exception ex)
+
+            throw new Exception("Failed to connect to database after multiple attempts.");
+        }
+
+        private static void UpdateConnectionStringWithPassword(string password)
+        {
+            try
             {
-                MessageBox.Show($"Database initialization failed: {ex.Message}", "FinalPOS", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
+                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var connectionStringsSection = (ConnectionStringsSection)config.GetSection("connectionStrings");
+                
+                if (connectionStringsSection != null)
+                {
+                    var connectionString = $"Server=localhost;Port=3306;Database=POS_NEXA_ERP;Uid=root;Pwd={password};AllowPublicKeyRetrieval=True;";
+                    
+                    if (connectionStringsSection.ConnectionStrings["FinalPOS.Properties.Settings.NewOneConnectionString"] != null)
+                    {
+                        connectionStringsSection.ConnectionStrings["FinalPOS.Properties.Settings.NewOneConnectionString"].ConnectionString = connectionString;
+                    }
+                    else
+                    {
+                        connectionStringsSection.ConnectionStrings.Add(
+                            new ConnectionStringSettings("FinalPOS.Properties.Settings.NewOneConnectionString", connectionString, "MySql.Data.MySqlClient"));
+                    }
+                    
+                    config.Save(ConfigurationSaveMode.Modified);
+                    ConfigurationManager.RefreshSection("connectionStrings");
+                }
+            }
+            catch
+            {
+                // If we can't save to config, continue with in-memory password
             }
         }
 
@@ -508,4 +624,3 @@ namespace FinalPOS
         }
     }
 }
-

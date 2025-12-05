@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -266,6 +266,12 @@
     <Compile Include="frmSearchProduct_StocksIn.Designer.cs">
       <DependentUpon>frmSearchProduct_StocksIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmDatabasePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDatabasePassword.Designer.cs">
+      <DependentUpon>frmDatabasePassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSecurity.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -390,6 +396,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSearchProduct_StocksIn.resx">
       <DependentUpon>frmSearchProduct_StocksIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDatabasePassword.resx">
+      <DependentUpon>frmDatabasePassword.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSecurity.resx">
       <DependentUpon>frmSecurity.cs</DependentUpon>
