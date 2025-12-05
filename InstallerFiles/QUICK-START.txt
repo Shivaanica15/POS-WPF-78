@@ -1,0 +1,199 @@
+═══════════════════════════════════════════════════════════════
+  FinalPOS - Quick Start Guide
+═══════════════════════════════════════════════════════════════
+
+📦 BEFORE BUILDING THE INSTALLER
+═══════════════════════════════════════════════════════════════
+
+1. Download MySQL 8.0.44 (ZIP version)
+   → https://dev.mysql.com/downloads/mysql/
+   → Extract to: InstallerFiles/mysql/
+
+2. Build FinalPOS in Release mode
+   → Copy ALL files from FinalPOS/bin/Release/ to InstallerFiles/app/
+
+3. Place your schema.sql file
+   → Copy your schema.sql to InstallerFiles/scripts/schema.sql
+
+4. Install Inno Setup Compiler
+   → https://jrsoftware.org/isdl.php
+
+═══════════════════════════════════════════════════════════════
+🔨 BUILDING THE INSTALLER
+═══════════════════════════════════════════════════════════════
+
+1. Open InnoSetupScript.iss in Inno Setup Compiler
+
+2. Click Build → Compile (or press F9)
+
+3. FinalPOS-Setup.exe will be created
+
+═══════════════════════════════════════════════════════════════
+🚀 INSTALLATION PROCESS
+═══════════════════════════════════════════════════════════════
+
+The installer will automatically:
+
+✓ Install MySQL to C:\FinalPOS-MySQL
+✓ Configure MySQL (Port 3307, Password: Shivaanica)
+✓ Initialize database POS_NEXA_ERP
+✓ Import schema.sql
+✓ Install FinalPOS to C:\Program Files\FinalPOS
+✓ Create Start Menu shortcuts
+✓ Create desktop shortcut (optional)
+
+═══════════════════════════════════════════════════════════════
+▶️ STARTING THE APPLICATION
+═══════════════════════════════════════════════════════════════
+
+IMPORTANT: MySQL must be running before starting FinalPOS!
+
+Option 1: Use Start Menu shortcuts
+  → Start Menu → FinalPOS → Start MySQL Server
+  → Wait 5 seconds
+  → Start Menu → FinalPOS → FinalPOS
+
+Option 2: Manual start
+  1. Run: C:\FinalPOS-MySQL\scripts\Start-MySQL.bat
+  2. Wait for "MySQL server started successfully"
+  3. Run: C:\Program Files\FinalPOS\FinalPOS.exe
+
+═══════════════════════════════════════════════════════════════
+🛑 STOPPING THE APPLICATION
+═══════════════════════════════════════════════════════════════
+
+1. Close FinalPOS application
+
+2. Stop MySQL:
+   → Start Menu → FinalPOS → Stop MySQL Server
+   OR
+   → Run: C:\FinalPOS-MySQL\scripts\Stop-MySQL.bat
+
+═══════════════════════════════════════════════════════════════
+🔍 CHECKING MYSQL STATUS
+═══════════════════════════════════════════════════════════════
+
+Run: C:\FinalPOS-MySQL\scripts\Check-MySQL.bat
+
+This will show:
+  ✓ MySQL process status
+  ✓ Port 3307 listening status
+  ✓ Database connection test
+  ✓ MySQL version and databases
+
+═══════════════════════════════════════════════════════════════
+⚙️ MYSQL CONFIGURATION
+═══════════════════════════════════════════════════════════════
+
+Location: C:\FinalPOS-MySQL\my.ini
+
+Key Settings:
+  • Port: 3307
+  • Root Password: Shivaanica
+  • Database: POS_NEXA_ERP
+  • Data Directory: C:\FinalPOS-MySQL\data
+
+═══════════════════════════════════════════════════════════════
+🗑️ UNINSTALLATION
+═══════════════════════════════════════════════════════════════
+
+1. Control Panel → Programs → FinalPOS → Uninstall
+
+   OR
+
+2. Start Menu → FinalPOS → Uninstall FinalPOS
+
+The uninstaller will:
+  ✓ Stop FinalPOS application
+  ✓ Stop MySQL server
+  ✓ Remove application files
+  ✓ Remove MySQL directory
+  ✓ Remove all shortcuts
+
+═══════════════════════════════════════════════════════════════
+❌ TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════
+
+Problem: "MySQL won't start"
+Solution:
+  1. Run Check-MySQL.bat to diagnose
+  2. Check if port 3307 is in use:
+     → netstat -an | findstr ":3307"
+  3. Check MySQL error log:
+     → C:\FinalPOS-MySQL\data\*.err
+
+Problem: "Database connection error"
+Solution:
+  1. Ensure MySQL is running (Check-MySQL.bat)
+  2. Verify password: Shivaanica
+  3. Check database exists:
+     → C:\FinalPOS-MySQL\bin\mysql.exe -u root -pShivaanica --port=3307 -e "SHOW DATABASES;"
+
+Problem: "Port 3307 already in use"
+Solution:
+  1. Find process using port:
+     → netstat -ano | findstr ":3307"
+  2. Stop the conflicting service
+  3. Or change port in my.ini (requires app config update)
+
+Problem: "Installation fails"
+Solution:
+  1. Run installer as Administrator
+  2. Disable antivirus temporarily
+  3. Check disk space (need 500MB+)
+  4. Review log: %TEMP%\FinalPOS-Install.log
+
+═══════════════════════════════════════════════════════════════
+📁 DIRECTORY STRUCTURE
+═══════════════════════════════════════════════════════════════
+
+C:\FinalPOS-MySQL\
+  ├── bin\              MySQL executables
+  ├── data\             Database files
+  ├── lib\              MySQL libraries
+  ├── scripts\          Management scripts
+  └── my.ini            MySQL configuration
+
+C:\Program Files\FinalPOS\
+  ├── FinalPOS.exe      Main application
+  ├── *.dll             Required DLLs
+  └── ...               Application files
+
+═══════════════════════════════════════════════════════════════
+🔐 SECURITY NOTES
+═══════════════════════════════════════════════════════════════
+
+⚠️ Default root password: Shivaanica
+   → Change this in production environments!
+
+⚠️ MySQL listens on localhost only (127.0.0.1)
+   → Safe for single-machine use
+
+⚠️ Regular backups recommended
+   → Backup: C:\FinalPOS-MySQL\data\POS_NEXA_ERP\
+
+═══════════════════════════════════════════════════════════════
+📞 QUICK COMMANDS
+═══════════════════════════════════════════════════════════════
+
+Start MySQL:
+  C:\FinalPOS-MySQL\scripts\Start-MySQL.bat
+
+Stop MySQL:
+  C:\FinalPOS-MySQL\scripts\Stop-MySQL.bat
+
+Check Status:
+  C:\FinalPOS-MySQL\scripts\Check-MySQL.bat
+
+Connect to MySQL:
+  C:\FinalPOS-MySQL\bin\mysql.exe -u root -pShivaanica --port=3307
+
+Show Databases:
+  C:\FinalPOS-MySQL\bin\mysql.exe -u root -pShivaanica --port=3307 -e "SHOW DATABASES;"
+
+═══════════════════════════════════════════════════════════════
+
+For detailed documentation, see README.md
+
+═══════════════════════════════════════════════════════════════
+
