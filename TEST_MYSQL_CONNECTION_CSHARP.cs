@@ -6,7 +6,7 @@ class TestConnection
     static void Main()
     {
         // Test connection string exactly as used in FinalPOS
-        string connectionString = "Server=localhost;Port=3307;Database=POS_NEXA_ERP;Uid=root;Pwd=Shivaanica;AllowPublicKeyRetrieval=True;";
+        string connectionString = "Server=localhost;Port=3310;Database=POS_NEXA_ERP;Uid=root;Pwd=Shivaanica;AllowPublicKeyRetrieval=True;";
         
         Console.WriteLine("Testing MySQL Connection...");
         Console.WriteLine($"Connection String: {connectionString}");
@@ -49,4 +49,5 @@ class TestConnection
         Console.ReadKey();
     }
 }
+
 

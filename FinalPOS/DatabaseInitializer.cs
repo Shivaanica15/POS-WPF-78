@@ -21,7 +21,7 @@ namespace FinalPOS
                     // Extract port if present, otherwise use default
                     var parts = connectionString.Split(';');
                     string server = "localhost";
-                    string port = "3307";
+                    string port = "3310";
                     string uid = "root";
                     string pwd = "Shivaanica";
                     
@@ -63,8 +63,8 @@ namespace FinalPOS
                 // Fall back to default if reading config fails
             }
             
-            // Default connection string (uses system-installed MySQL Server on port 3307, no password)
-            return "Server=localhost;Port=3307;Uid=root;Pwd=;AllowPublicKeyRetrieval=True;";
+            // Default connection string (uses portable MySQL Server on port 3310, no password)
+            return "Server=localhost;Port=3310;Uid=root;Pwd=;AllowPublicKeyRetrieval=True;";
         }
         
         private static string _cachedServerConnectionString = null;
@@ -462,7 +462,7 @@ namespace FinalPOS
                 
                 if (connectionStringsSection != null)
                 {
-                    var connectionString = $"Server=localhost;Port=3307;Database=POS_NEXA_ERP;Uid=root;Pwd={password};AllowPublicKeyRetrieval=True;";
+                    var connectionString = $"Server=localhost;Port=3310;Database=POS_NEXA_ERP;Uid=root;Pwd={password};AllowPublicKeyRetrieval=True;";
                     
                     if (connectionStringsSection.ConnectionStrings["FinalPOS.Properties.Settings.NewOneConnectionString"] != null)
                     {

@@ -4,7 +4,7 @@
 -- ========================================
 
 -- Step 1: Connect to MySQL (run this command in terminal first)
--- mysql -h localhost -P 3307 -u root -p
+-- mysql -h localhost -P 3310 -u root -p
 -- (Enter your current password)
 
 -- Step 2: Run these SQL commands:
@@ -34,4 +34,5 @@ SELECT 'Connection successful!' AS Status;
 -- Host: localhost
 -- Plugin: mysql_native_password (or caching_sha2_password)
 -- ========================================
+
 

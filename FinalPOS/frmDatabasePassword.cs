@@ -26,7 +26,7 @@ namespace FinalPOS
 
             // Test the connection with provided password
             // Use 127.0.0.1 instead of localhost to avoid DNS resolution issues
-            string testConnectionString = $"Server=127.0.0.1;Port=3307;Uid=root;Pwd={txtPassword.Text.Trim()};AllowPublicKeyRetrieval=True;";
+            string testConnectionString = $"Server=127.0.0.1;Port=3310;Uid=root;Pwd={txtPassword.Text.Trim()};AllowPublicKeyRetrieval=True;";
             
             try
             {
@@ -49,11 +49,11 @@ namespace FinalPOS
                 string errorMsg = "";
                 if (mysqlEx.Number == 0 || mysqlEx.Message.Contains("Unable to connect") || mysqlEx.Message.Contains("specified MySQL hosts"))
                 {
-                    errorMsg = "Cannot connect to MySQL server on port 3307.\n\n";
+                    errorMsg = "Cannot connect to MySQL server on port 3310.\n\n";
                     errorMsg += "MySQL is not running or not accessible.\n\n";
                     errorMsg += "Please:\n";
                     errorMsg += "1. Start MySQL service\n";
-                    errorMsg += "2. Verify MySQL is running on port 3307\n";
+                    errorMsg += "2. Verify MySQL is running on port 3310\n";
                     errorMsg += "3. Check MySQL configuration";
                 }
                 else if (mysqlEx.Number == 1045 || mysqlEx.Message.Contains("Access denied"))
@@ -96,7 +96,7 @@ namespace FinalPOS
                 {
                     // Update or add the connection string
                     // Use 127.0.0.1 instead of localhost to avoid DNS resolution issues
-                    var connectionString = $"Server=127.0.0.1;Port=3307;Database=POS_NEXA_ERP;Uid=root;Pwd={password};AllowPublicKeyRetrieval=True;";
+                    var connectionString = $"Server=127.0.0.1;Port=3310;Database=POS_NEXA_ERP;Uid=root;Pwd={password};AllowPublicKeyRetrieval=True;";
                     
                     if (connectionStringsSection.ConnectionStrings["FinalPOS.Properties.Settings.NewOneConnectionString"] != null)
                     {

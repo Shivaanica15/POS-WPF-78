@@ -1,0 +1,7 @@
+2025-12-08T03:45:51.548632Z 0 [System] [MY-010116] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\mysql3307\bin\mysqld.exe (mysqld 8.0.44) starting as process 9580
+2025-12-08T03:45:51.548730Z 0 [ERROR] [MY-010338] [Server] Can't find error-message file 'C:\Users\shiva\Documents\GitHub\POS-WPF-78\mysql3307\share\errmsg.sys'. Check error-message file location and 'lc-messages-dir' configuration directive.
+2025-12-08T03:45:51.581483Z 0 [Warning] [MY-010075] [Server] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 6438ebd8-d3e8-11f0-b610-9883897f612a.
+2025-12-08T03:45:51.594303Z 1 [ERROR] [MY-011011] [Server] Failed to find valid data directory.
+2025-12-08T03:45:51.595507Z 0 [ERROR] [MY-010020] [Server] Data Dictionary initialization failed.
+2025-12-08T03:45:51.596265Z 0 [ERROR] [MY-010119] [Server] Aborting
+2025-12-08T03:45:51.597248Z 0 [System] [MY-010910] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\mysql3307\bin\mysqld.exe: Shutdown complete (mysqld 8.0.44)  MySQL Community Server - GPL.

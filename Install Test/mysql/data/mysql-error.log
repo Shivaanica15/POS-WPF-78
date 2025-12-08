@@ -1,0 +1,32 @@
+2025-12-08T05:11:06.970945Z 0 [System] [MY-013169] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\mysql\bin\mysqld.exe (mysqld 8.0.44) initializing of server in progress as process 12356
+2025-12-08T05:11:06.971286Z 0 [ERROR] [MY-010338] [Server] Can't find error-message file 'C:\Users\shiva\Documents\GitHub\POS-WPF-78\mysql\share\errmsg.sys'. Check error-message file location and 'lc-messages-dir' configuration directive.
+2025-12-08T05:11:07.042041Z 0 [Warning] [MY-013907] [InnoDB] Deprecated configuration parameters innodb_log_file_size and/or innodb_log_files_in_group have been used to compute innodb_redo_log_capacity=100663296. Please use innodb_redo_log_capacity instead.
+2025-12-08T05:11:07.068665Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-12-08T05:11:08.415808Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-12-08T05:11:11.129172Z 0 [Warning] [MY-013829] [Server] Missing data directory for ICU regular expressions: C:\Users\shiva\Documents\GitHub\POS-WPF-78\mysql\lib\private\.
+2025-12-08T05:11:13.362941Z 6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+2025-12-08T05:11:19.800172Z 0 [System] [MY-010116] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\mysql\bin\mysqld.exe (mysqld 8.0.44) starting as process 8924
+2025-12-08T05:11:19.800461Z 0 [ERROR] [MY-010338] [Server] Can't find error-message file 'C:\Users\shiva\Documents\GitHub\POS-WPF-78\mysql\share\errmsg.sys'. Check error-message file location and 'lc-messages-dir' configuration directive.
+2025-12-08T05:11:19.936663Z 0 [Warning] [MY-013907] [InnoDB] Deprecated configuration parameters innodb_log_file_size and/or innodb_log_files_in_group have been used to compute innodb_redo_log_capacity=100663296. Please use innodb_redo_log_capacity instead.
+2025-12-08T05:11:20.007720Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-12-08T05:11:22.031982Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-12-08T05:11:23.760010Z 0 [Warning] [MY-013829] [Server] Missing data directory for ICU regular expressions: C:\Users\shiva\Documents\GitHub\POS-WPF-78\mysql\lib\private\.
+2025-12-08T05:11:23.805010Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-12-08T05:11:23.810128Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-12-08T05:11:23.985984Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-12-08T05:11:23.986250Z 0 [System] [MY-010931] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\mysql\bin\mysqld.exe: ready for connections. Version: '8.0.44'  socket: ''  port: 3310  MySQL Community Server - GPL.
+2025-12-08T05:40:27.267998Z 0 [System] [MY-010116] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\Install Test\mysql\bin\mysqld.exe (mysqld 8.0.44) starting as process 16368
+2025-12-08T05:40:27.268265Z 0 [ERROR] [MY-010338] [Server] Can't find error-message file 'C:\Users\shiva\Documents\GitHub\POS-WPF-78\Install Test\mysql\share\errmsg.sys'. Check error-message file location and 'lc-messages-dir' configuration directive.
+2025-12-08T05:40:27.318496Z 0 [Warning] [MY-013907] [InnoDB] Deprecated configuration parameters innodb_log_file_size and/or innodb_log_files_in_group have been used to compute innodb_redo_log_capacity=100663296. Please use innodb_redo_log_capacity instead.
+2025-12-08T05:40:27.337325Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-12-08T05:40:28.860191Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-12-08T05:40:29.536585Z 0 [Warning] [MY-013829] [Server] Missing data directory for ICU regular expressions: C:\Users\shiva\Documents\GitHub\POS-WPF-78\Install Test\mysql\lib\private\.
+2025-12-08T05:40:29.557942Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-12-08T05:40:29.562019Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-12-08T05:40:29.654005Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-12-08T05:40:29.654183Z 0 [System] [MY-010931] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\Install Test\mysql\bin\mysqld.exe: ready for connections. Version: '8.0.44'  socket: ''  port: 3310  MySQL Community Server - GPL.
+2025-12-08T05:48:21.095988Z 12 [System] [MY-013172] [Server] Received SHUTDOWN from user root. Shutting down mysqld (Version: 8.0.44).
+2025-12-08T05:48:21.097360Z 0 [System] [MY-013105] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\Install Test\mysql\bin\mysqld.exe: Normal shutdown.
+2025-12-08T05:48:23.113081Z 0 [Warning] [MY-010909] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\Install Test\mysql\bin\mysqld.exe: Forcing close of thread 10  user: 'root'.
+2025-12-08T05:48:23.119330Z 0 [Warning] [MY-010909] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\Install Test\mysql\bin\mysqld.exe: Forcing close of thread 11  user: 'root'.
+2025-12-08T05:48:24.399144Z 0 [System] [MY-010910] [Server] C:\Users\shiva\Documents\GitHub\POS-WPF-78\Install Test\mysql\bin\mysqld.exe: Shutdown complete (mysqld 8.0.44)  MySQL Community Server - GPL.

@@ -2,7 +2,7 @@
 -- Run this in MySQL to fix the root user password
 
 -- Connect to MySQL first (you may need to use current working password)
--- mysql -h 127.0.0.1 -P 3307 -u root -p
+-- mysql -h 127.0.0.1 -P 3310 -u root -p
 
 -- Then run these commands:
 
@@ -21,4 +21,5 @@ FLUSH PRIVILEGES;
 
 -- Verify
 SELECT user, host, plugin FROM mysql.user WHERE user='root';
+
 

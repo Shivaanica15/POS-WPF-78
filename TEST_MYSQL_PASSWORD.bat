@@ -11,7 +11,7 @@ echo.
 
 :: Try to connect with password
 echo Attempting connection...
-mysql -h 127.0.0.1 -P 3307 -u root -pShivaanica -e "SELECT 'Connection OK!' AS Status, USER() AS CurrentUser;" 2>&1
+mysql -h 127.0.0.1 -P 3310 -u root -pShivaanica -e "SELECT 'Connection OK!' AS Status, USER() AS CurrentUser;" 2>&1
 
 if %errorlevel% equ 0 (
     echo.
@@ -28,4 +28,5 @@ if %errorlevel% equ 0 (
 
 echo.
 pause
+
 
